@@ -9,7 +9,7 @@ Before proceeding, here are the base assumptions:
 ### Directories:
 * workshop-exercises - A number of user and dba exercises covering important topics
 * workshop-setup - Bash scripts to automate (as much as possible) setting up the workshop environment. See the README.md file in the directory for more information.
-* Slides - These are presentations available through reveal.js
+* Slides - PDFs of the overview material.
 
 ### Things to note:
 * By default, the Greenplum marketplace offerings turn off password authentication. We have turned it back on so that the gpuser account can login without requiring an SSH key. It is easier to share a password with participants in a training situation. You should strongly consider turning it off and using SSH key authentication if you are installing this for personal use.
