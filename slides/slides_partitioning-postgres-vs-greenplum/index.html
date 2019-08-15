@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Partitioning Postgres vs. Greenplum</title>
+
+		<meta name="description" content="Partitioning Postgres vs. Greenplum">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+
+
+	</head>
+	<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="partitioning-postgres-vs-greenplum/83fccc19c7f6cb2f848a6e32b37a8357.png" data-background-size="contain" data-id="6f8c7e8a72da50517a94b2712634aab1"></section><section data-background-image="partitioning-postgres-vs-greenplum/7eb46958eaafcfef2114ce6c4161e2d8.png" data-background-size="contain" data-id="5d48ea10f967d85bf580c9256dc9de8a"></section><section data-background-image="partitioning-postgres-vs-greenplum/c9c6db18336dc985e1a4d5b04ec13aff.png" data-background-size="contain" data-id="5a7e45b1dea0aa27c2e67ae20b5270d7"></section><section data-background-image="partitioning-postgres-vs-greenplum/34d7d6b442a6471c6ded5d32c6abcc6b.png" data-background-size="contain" data-id="60f109caf36d62f1c781918ea5624dc4"></section><section data-background-image="partitioning-postgres-vs-greenplum/90b9481ee44b0245797180933e848031.png" data-background-size="contain" data-id="a8b8e07c3be47c23c459c075738ba46c"></section><section data-background-image="partitioning-postgres-vs-greenplum/5d27a25191da52dd0f7d0f687bd7578d.png" data-background-size="contain" data-id="4e2b3169e9a32ac243cea24b35297f75"></section><section data-background-image="partitioning-postgres-vs-greenplum/64aaab58647a84b70d48d5faeff6f4f9.png" data-background-size="contain" data-id="7afe76c2d57ac315df25c34e0db26b97"></section><section data-background-image="partitioning-postgres-vs-greenplum/74a25d51243095bd66ddb5547015b964.png" data-background-size="contain" data-id="fe7b73f508d0e2b1076b8796fe230980"></section><section data-background-image="partitioning-postgres-vs-greenplum/8e73a44cacd4ef8cf9479c0736e8ca0d.png" data-background-size="contain" data-id="1abe8eb003ea7688138d965ae30d0953"></section><section data-background-image="partitioning-postgres-vs-greenplum/6cd50f33a2a20676516da5ea01c5a921.png" data-background-size="contain" data-id="a3914f53d233daf91c0bf4245b79eee7"></section><section data-background-image="partitioning-postgres-vs-greenplum/452c69cf65f8ae52cee350f74caa60e1.png" data-background-size="contain" data-id="26d1bea8dff82b700ffc7add8e36c98b"></section><section data-background-image="partitioning-postgres-vs-greenplum/d2b6b7d4c1c8c88eaad118bba08d9d2f.png" data-background-size="contain" data-id="5bc38f2115ea40e32efd7b233c38a819"></section><section data-background-image="partitioning-postgres-vs-greenplum/7875d638f7faf60ad740956965852bda.png" data-background-size="contain" data-id="6314a9ff87c2ffae43e328db9ce86397"></section><section data-background-image="partitioning-postgres-vs-greenplum/f2af22ebc7a0ea2c08c6ab6b10b54008.png" data-background-size="contain" data-id="c3384a478830f792bc7aac024de2ff3b"></section>
+			</div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":1578801,"slug":"partitioning-postgres-vs-greenplum","title":"Partitioning Postgres vs. Greenplum","description":"Partitioning Postgres vs. Greenplum","width":960,"height":700,"visibility":"self","published_at":null,"sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/94812c9480a186fae98f4a9c8b2d1ee6/thumb.jpg?1565805158","view_count":0,"user":{"id":1047136,"username":"lwalstad-pivotal","name":null,"description":null,"thumbnail_url":"https://www.gravatar.com/avatar/8e257aa94b14c5462bb5651052f8e1c3?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png","paid":true,"pro":false,"lite":true,"team_id":null,"settings":{"id":3098317,"present_controls":true,"present_upsizing":true,"present_pointer":false,"present_notes":true,"default_deck_tag_id":null}},"background_transition":"none","transition":"slide","theme_id":null,"theme_font":"montserrat","theme_color":"white-blue","auto_slide_interval":0,"comments_enabled":true,"forking_enabled":false,"rolling_links":false,"center":false,"shuffle":false,"should_loop":false,"share_notes":false,"slide_number":true,"slide_count":14,"rtl":false,"version":2,"collaborative":null,"deck_user_editor_limit":1,"data_updated_at":1565805158159,"font_typekit":null,"font_google":null,"time_limit":null,"upsizing_enabled":true,"notes":{}}};
+
+
+			// Use local fonts
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+
+		<!-- Initialize the presentation -->
+		<script>
+			Reveal.initialize({
+				width: 960,
+				height: 700,
+				margin: 0.05,
+				
+
+				hash: true,
+				controls: true,
+				progress: true,
+				mouseWheel: false,
+				showNotes: false,
+				slideNumber: true,
+
+				autoSlide: 0,
+				autoSlideStoppable: true,
+
+				center: false,
+				shuffle: false,
+				loop: false,
+				rtl: false,
+
+				transition: "slide",
+				backgroundTransition: "none",
+
+				highlight: {
+					escapeHTML: false
+				},
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js' },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'lib/reveal-plugins/zoom/zoom.js', async: true }
+				]
+			});
+		</script>
+
+		
+
+	</body>
+</html>

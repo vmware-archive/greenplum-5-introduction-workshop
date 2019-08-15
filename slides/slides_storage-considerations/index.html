@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+	<html class="sl-root decks export offline loaded">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Storage Considerations</title>
+
+		<meta name="description" content="Storage Considerations">
+
+		<link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+
+
+	</head>
+	<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="storage-considerations/c2072a7a48937122dd6de8e65e42a7dd.png" data-background-size="contain" data-id="dede82beceeb45fed9dc75bd09eeb0c4"></section><section data-background-image="storage-considerations/843e3dde84cbc03161e7f5bdcd144f17.png" data-background-size="contain" data-id="d7ae619731d415dc37b070349ecaa5e3"></section><section data-background-image="storage-considerations/e9b9541a3ab40a8200d317d05ac9f8dd.png" data-background-size="contain" data-id="4338f189a31046ddd55aad24e5294ec1"></section><section data-background-image="storage-considerations/644a6e7ac914ab31f5c1b68a2a54fdab.png" data-background-size="contain" data-id="55122edf21fae4bb5b6211245271844c"></section><section data-background-image="storage-considerations/eb18c4dcab49276e1351cbcd14260213.png" data-background-size="contain" data-id="b48fdb4b72a688d6df1f0271cbcf8504"></section><section data-background-image="storage-considerations/db4f98b834e11284f6115db1b9c48396.png" data-background-size="contain" data-id="9d92ea512cc89cd6f3459246f759d0e4"></section><section data-background-image="storage-considerations/a15c617511cfef36e365963d19da68cb.png" data-background-size="contain" data-id="ff20bc99641e1b577d8d56688f04eae1"></section><section data-background-image="storage-considerations/9701851779f12bf1993909e54b179277.png" data-background-size="contain" data-id="a8d81a312d0808fd64e01ef1e3999d06"></section><section data-background-image="storage-considerations/65d3d94359b08847a3a3d1cf117e0654.png" data-background-size="contain" data-id="84f0c84a8d35fe185ba2f6559c47648b"></section><section data-background-image="storage-considerations/d70e75d1efcb337dc700e027b459aa14.png" data-background-size="contain" data-id="27282b5a46b93543daedf54d278c9a56"></section><section data-background-image="storage-considerations/d17742e11f0877df53cdae3fd3d6dffc.png" data-background-size="contain" data-id="5810fd2de3b0162cc64baa7627084137"></section>
+			</div>
+		</div>
+
+		<script>
+			var SLConfig = {"deck": {"id":1578808,"slug":"storage-considerations","title":"Storage Considerations","description":"Storage Considerations","width":960,"height":700,"visibility":"self","published_at":null,"sanitize_messages":null,"thumbnail_url":"https://s3.amazonaws.com/media-p.slid.es/thumbnails/d9c51bcc2437367af3b6f12e82a6b05a/thumb.jpg?1565805693","view_count":0,"user":{"id":1047136,"username":"lwalstad-pivotal","name":null,"description":null,"thumbnail_url":"https://www.gravatar.com/avatar/8e257aa94b14c5462bb5651052f8e1c3?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png","paid":true,"pro":false,"lite":true,"team_id":null,"settings":{"id":3098317,"present_controls":true,"present_upsizing":true,"present_pointer":false,"present_notes":true,"default_deck_tag_id":null}},"background_transition":"none","transition":"slide","theme_id":null,"theme_font":"montserrat","theme_color":"white-blue","auto_slide_interval":0,"comments_enabled":true,"forking_enabled":false,"rolling_links":false,"center":false,"shuffle":false,"should_loop":false,"share_notes":false,"slide_number":true,"slide_count":11,"rtl":false,"version":2,"collaborative":null,"deck_user_editor_limit":1,"data_updated_at":1565805692948,"font_typekit":null,"font_google":null,"time_limit":null,"upsizing_enabled":true,"notes":{}}};
+
+
+			// Use local fonts
+			SLConfig.fonts_url = 'lib/fonts/';
+		</script>
+
+		<script src="lib/reveal.min.js"></script>
+		<script src="lib/offline.js"></script>
+
+		<!-- Initialize the presentation -->
+		<script>
+			Reveal.initialize({
+				width: 960,
+				height: 700,
+				margin: 0.05,
+				
+
+				hash: true,
+				controls: true,
+				progress: true,
+				mouseWheel: false,
+				showNotes: false,
+				slideNumber: true,
+
+				autoSlide: 0,
+				autoSlideStoppable: true,
+
+				center: false,
+				shuffle: false,
+				loop: false,
+				rtl: false,
+
+				transition: "slide",
+				backgroundTransition: "none",
+
+				highlight: {
+					escapeHTML: false
+				},
+
+				dependencies: [
+					{ src: 'lib/reveal-plugins/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'lib/reveal-plugins/highlight/highlight.js' },
+					{ src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'lib/reveal-plugins/zoom/zoom.js', async: true }
+				]
+			});
+		</script>
+
+		
+
+	</body>
+</html>
