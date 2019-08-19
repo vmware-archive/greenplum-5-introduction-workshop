@@ -1,5 +1,10 @@
 # Greenplum 5 Workshop
 
+The slides for this workshop can be presented from this web site:  
+    https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/
+<-- This material is located in the docs folder.
+
+
 This is a set of scripts and utilities to quickly install and configure a workshop/demo environment for the Pivotal Greenplum Analytic database. To highlight a few of Greenplum's strengths as an analytical platform, this setup provides an environment for performing advanced text analytics (GPText), machine learning and statistical analysis (Madlib), running advanced Python analytics with the database (PLContainers for Python), and soon geospatial processing (PostGIS).
 
 Before proceeding, here are the base assumptions:
