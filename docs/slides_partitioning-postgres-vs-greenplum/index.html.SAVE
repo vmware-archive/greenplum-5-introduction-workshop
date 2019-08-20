@@ -43,7 +43,7 @@
 				controls: true,
 				progress: true,
 				mouseWheel: false,
-				showNotes: false,
+				showNotes: true,
 				slideNumber: true,
 
 				autoSlide: 0,
