@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html class="sl-root decks export offline loaded">
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Data Partititioning - Postgres vs Greenplum</title>
+
+    <link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+    <!-- User CSS -->
+    <style id="user-css-output" type="text/css">
+        .reveal .controls button {
+            color: #f27062
+        }
+
+        .reveal .backgrounds .agenda-slide {
+            background: linear-gradient(90deg, #008774 40%, white 40%);
+        }
+
+        .reveal .slides h2 {
+            color: #008774;
+            font-size: 1.7em;
+        }
+
+        .reveal .slides h3 {
+            color: black;
+            font-size: 1em;
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+<div class="reveal">
+    <div class="slides">
+        <section data-background-image="images/bg-green-pivotal-labs.png"
+                 data-background-position="0% 0%"
+                 data-id="partitioning-pg_vs_gp-title-slide">
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 216px; height: auto;"
+                 data-block-id="ab3104e9b1e6bc4e8f0a6bd88df1dd65">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text"
+                     style="z-index: 10;">
+                    <h1>Petabyte Scale Data Warehousing with Greenplum</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 172px; top: 553px;"
+                 data-block-id="a259dfc26e26dd5009de6de7b5158e17">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 11; font-size: 150%;">
+                    <p>Partitioning - Postgres vs Greenplum</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 163px; top: 522px;"
+                 data-block-id="ce9537a5b9c5f2c35b49fd70e58e41f3">
+                <div class="sl-block-content" data-line-x1="-220" data-line-y1="170" data-line-x2="420"
+                     data-line-y2="170" data-line-color="#ffff00" data-line-start-type="none" data-line-end-type="none"
+                     style="z-index: 12;" data-line-width="10px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="640"
+                         height="1" viewbox="-220 170 640 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" y1="170" x2="420" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" y1="170" x2="420" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="width: 300px; height: 124px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
+                 data-block-id="c943609a1b7f52e1a5d8968927288efd">
+                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="1814"
+                                                                        data-natural-height="751" data-lazy-loaded=""
+                                                                        data-src="images/logos/logo-pivotal-on-dark.png">
+                </div>
+            </div>
+        </section>
+        <section class="agenda-slide" data-id="partitioning-pg_vs_gp-slide-2">
+            <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
+                 data-block-id="7e2719aa089f4c3b21056aab57483e43">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: center; color: white;">
+                    <h1>Agenda</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; width: 560px; left: 400px; top: 180px;"
+                 data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left; line-height: 1.8;font-size:1.3em" dir="ui" data-has-line-height="">
+                    <ul>
+                        <span style="line-height: 1.1">
+                        <li>Overview of Partitioning in Greenplum and PostgreSQL</li>
+                        </span>
+                        <li>Greenplum Partition Types</li>
+                        <li>PostgreSQL Partition Types</li>
+                        <li>Greenplum Limitations</li>
+                        <li>PostgreSQL Limitations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-3">
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="3e1770cd69658ee8a6c5031c7a0c2387">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Partitioning in Greenplum - Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="012917792791e794c96cb5c27d814bba">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; font-size:0.8em;">
+                    <ul>
+                        <li>Available since the beginning</li>
+                        <li>Partition by:</li>
+                        <ul>
+                            <li>Date/Numeric Range</li>
+                            <li>List</li>
+                            <li>Multi-level (i.e. sub-partitions)</li>
+                        </ul>
+                        <li>Uses "INHERIT" functionality under the hood</li>
+                        <li>Uses "CHECK" constraints</li>
+                        <li>Works on top of data distribution</li>
+                        <ul>
+                            <li><em>Never use the same partition and distribution key</em></li>
+                        </ul>
+                        <li>Query planner can prune partitions at planning time and <strong>at run-time</strong></li>
+                        <li>Greenplum supports:</li>
+                        <ul>
+                            <li>Default partitions</li>
+                            <li>Subpartition templates</li>
+                            <li>Splitting partitions</li>
+                            <li>Exchanging partitions</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-4">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="91521d190da564b72af8eba80eeb66a5">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Partitioning in PostgreSQL - Overview</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="6d04273d37791fd3ad14095c3b99409c">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left;font-size:0.8em">
+                    <ul>
+                        <li>Partition support started in version 10</li>
+                        <ul>
+                            <li>Before that partitioning was only "inherited tables" with handwritten code</li>
+                        </ul>
+                        <li>Partition by:</li>
+                        <ul>
+                            <li>Date/Numeric Range</li>
+                            <li>List</li>
+                            <li>Hash (version 11)</li>
+                        </ul>
+                        <li>Uses "INHERIT" functionality under the hood</li>
+                        <li>Uses "CHECK" constraints</li>
+                        <li>Sub-paritions need to be created separately</li>
+                        <li>Query planner can prune partitions at planning time and <strong>at run-time</strong></li>
+                        <li>PostgreSQL supports:</li>
+                        <ul>
+                            <li>Default partitions</li>
+                            <li>Exchanging partitions (two steps: attach, detach)</li>
+                        </ul>
+                        <li><em>pg_partman</em> handles rolling partitions (and can work together with <em>pg_jobmon</em>)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-5">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="0d3cf417baa1e5174f28fb1b41730744">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Greenplum: Partition by DATE</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 960px; height: 504px; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
+                        data-line-numbers="3,7-13">CREATE TABLE logdata(
+id INT, 
+ts DATE, 
+logtext TEXT
+)
+DISTRIBUTED BY (id)
+PARTITION BY RANGE (ts)
+( START ('2019-01-01'::date) INCLUSIVE
+  END   ('2020-01-01'::date) EXCLUSIVE
+  EVERY ('1 day'::INTERVAL),
+);</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-6">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="c860059544677c1adef8ec161ba5e16c">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 17; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Greenplum: Partition by NUMERIC</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 960px; height: 504px; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
+                        data-line-numbers="4,9-12">CREATE TABLE logdata(
+id INT, 
+rank INT, 
+year INT,
+gender CHAR(1),
+count INT
+)
+DISTRIBUTED BY (id)
+PARTITION BY RANGE (year)
+( START (2016) END (2026) EVERY (1),
+  DEFAULT PARTITION extra
+);</code></pre>
+                </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-7">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="3251b5b1eb6101ef37b529b8437f8fcb">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 15; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Greenplum: Partition by LIST</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 960px; height: 510px; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
+                        data-line-numbers="5,9-13">CREATE TABLE rank(
+id INT, 
+rank INT, 
+year INT,
+gender CHAR(1),
+count INT
+)
+DISTRIBUTED BY (id)
+PARTITION BY LIST (gender)
+( PARTITION girls VALUES ('F', 'f'),
+  PARTITION boys  VALUES ('M', 'm'),
+  DEFAULT PARTITION unknown
+);</code></pre>
+                </div>
+
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-8">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="35099cdaf3e7eaa1260a073bebf2e148">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>PostgreSQL: Partition by RANGE</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 800px; height: 450px; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 10; font-size: 130%; border-style: solid; border-width: 1px;">
+                    <pre><code data-line-numbers="">CREATE TABLE measurement(
+    city_id INT NOT NULL, 
+    logdate DATE NOT NULL,
+    peaktemp INT,
+    unitsales INT
+) PARTITION BY RANGE (logdate);
+
+CREATE TABLE measurement_y2019m02
+    PARTITION OF measurement
+    FOR VALUES FROM ('2019-02-01') TO ('2019-03-01');
+CREATE TABLE measurement_y2019m03
+    PARTITION OF measurement
+    FOR VALUES FROM ('2019-03-01') TO ('2019-04-01');
+CREATE TABLE measurement_y2019m04
+    PARTITION OF measurement
+    FOR VALUES FROM ('2019-04-01') TO ('2019-05-01')
+PARTITION BY RANGE (peaktemp);</code></pre>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="cb4b5458778d3e05ef22c1ee8244e89e"
+                style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 440px; top: 440px;">
+                <div class="sl-block-content" data-line-x1="0" data-line-y1="200" data-line-x2="137" data-line-y2="256"
+                    data-line-color="#000000" data-line-start-type="line-arrow" data-line-end-type="none"
+                    style="z-index: 13;" data-line-width="3px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="137"
+                        height="56" viewBox="0 200 137 56">
+                        <line stroke="#000000" stroke-width="3"  x1="2.5" y1="201.5" x2="137.5" y2="256.5"></line>
+                        <polygon fill="#000000" transform="translate(4,202) rotate(112.233)"
+                           points="0,4.5 6.5,-6.5 -6.5,-6.5"></polygon>
+
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="77049383b1d4f077c52b8102f500fdc8"
+                style="height: auto; min-width: 30px; min-height: 30px; width: 235px; left: 585px; top: 480px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                    style="z-index: 13; text-align: left;">
+                    <p>Subpartitions</p>
+                </div>
+            </div>
+        </section>
+        <section class="stack" data-id="data-partitioning-9-and-10">
+            <section data-id="partitioning-pg_vs_gp-slide-9">
+                <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                     style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                    <div class="sl-block-content" style="z-index: 12;">
+                        <img data-src="images/gp-workshop-vertical-on-light.png">
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                     data-block-id="389bd0abc41407872ffb81c1c599985c">
+                    <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                         style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
+                        <h2>PostgreSQL: pg_partman</h2>
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
+                     data-block-id="c847c09465f175177dd681b57980abb7">
+                    <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                         style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
+                        <h3><span style="color:#000000">PostgreSQL Extension</span></h3>
+                    </div>
+                </div>
+
+                <div class="sl-block" data-block-type="text"
+                     style="height: auto; width: auto; left: 0px; top: 134px;"
+                     data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
+                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                         style="z-index: 13; text-align: left; line-height: 1.0;font-size:1.0em" dir="ui"
+                        <ul>
+                            <li>Extension consists of:</li>
+                            <ul>
+                                <li>Stored procedures</li>
+                                <li>State tables</li>
+                                <li>Cron jobs</li>
+                            </ul>
+                            <li>https://github.com/pgpartman/pg_partman</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="code" data-block-id="8c89ada186797993afd0d1844fe3f29d"
+                     style="min-width: 30px; min-height: 30px; width: auto; height: auto; left: 26px; top: 400px;">
+                    <div class="sl-block-content notranslate" data-highlight-theme="monokai"
+                         data-code-frame="none"
+                         style="z-index: 12; font-size: 150%;">
+                        <pre class="none"><code>postgresql.conf:
+    shared_preload_libraries = 'pg_partman_bgw'
+    pg_partman_bgw.interval = 3600
+    pg_partman_bgw.role = 'partitions'
+    pg_partman_bgw.dbname = 'partitions'</code></pre>
+                    </div>
+                </div>
+            </section>
+            <section data-id="data-paritioning-slide-10" data-transition="concave">
+                <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                     style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                    <div class="sl-block-content" style="z-index: 12;">
+                        <img data-src="images/gp-workshop-vertical-on-light.png">
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                     data-block-id="5b1e1d0594ed9b8326ff762aacf324e8">
+                    <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                         style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
+                        <h2>PostgreSQL: pg_partman</h2>
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
+                     data-block-id="c847c09465f175177dd681b57980abb7">
+                    <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                         style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
+                        <h3><span style="color:#000000">Example</span></h3>
+                    </div>
+                </div>
+                <div class="sl-block" data-block-type="code" style="width: auto; height: auto; left: 0px; top: 144px;"
+                     data-block-id="588749109722a5dc0a51318b8302c81d">
+                    <div class="sl-block-content notranslate" data-highlight-theme="monokai"
+                         data-code-frame="none"
+                         style="z-index: 12; font-size: 140%;">
+                        <pre><code language="sql">CREATE SCHEMA test;
+CREATE TABLE test.part_test
+    (col1 SERIAL, col2 TEXT, col3 TIMESTAMPTZ NOT NULL DEFAULT now());
+
+-- For PostgreSQL 11+
+SELECT partman.create_parent('test.part_test',
+                             'col3',
+                             'native',
+                             'daily');
+
+-- For PostgreSQL 9 or 10
+SELECT partman.create_parent('test.part_test',
+                             'col1',
+                             'partman',
+                             '100000');
+
+SELECT run_maintenance();</code></pre>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-11">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="8b8e889145906d0aecdc7ea0c48ad3d7">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
+                    <h2>Limitations in Greenplum</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="012917792791e794c96cb5c27d814bba">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; font-size:0.8em;">
+                    <ul>
+                        <li>32767 partition per table</li>
+                        <li>Primary key (or Unique Constraint) must contain all partitioned columns</li>
+                        <li>GPORCA only supports uniform partitioned tables</li>
+                        <ul>
+                            <li>Otherwise fallback to the legacy planner (soon: Postgres Planner)</li>
+                        </ul>
+                        <li>Queries against EXTERNAL TABLE partitions use the legacy planner</li>
+                        <li>Limited subset of ALTER PARTITION functionality if EXTERNAL tables are involved</li>
+                        <li>No good tool around for automatically managing rolling partitions</li>
+                        <li>Multi-level partitions create a large number of entries in <em>pg_class</em> and <em>pg_attributes</em></li>
+                        <li>Multi-level partitions with column-based storage can lead to a large number of open file descriptors</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-12">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="a0d417ffe8ede17e9d8efbb659933b1b">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
+                    <h2>Limitations in PostgreSQL</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="012917792791e794c96cb5c27d814bba">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; font-size:0.8em;">
+                    <ul>
+                        <li>No split partition support</li>
+                        <li>Multiple steps necessary for creating partitions</li>
+                        <li>During partition assignment the table is scanned for CHECK constraint violations</li>
+                        <li>The default partition is scanned for CHECK constraint violations every time partitions are changed</li>
+                        <li>Indexes are NOT automatically created on new partitions</li>
+                        <li>UPDATE cannot move rows between partitions</li>
+                        <li>Partition bounds:</li>
+                        <ul>
+                            <li>MINVALUE is always INCLUSIVE</li>
+                            <li>MAXVALUE is always EXCLUSIVE</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-13">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="d63456c50aeb7f30e5bffab2625dd3b5">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Maintaining Partitions</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
+                 data-block-id="15c9cf3f6208d8c0d981ace899c1df1f">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>PostgreSQL</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" data-block-id="b525fbf774468ca4edc632b6f4e278f2"
+                style="min-width: 30px; min-height: 30px; width: auto; height: auto; left: 0px; top: 178px;">
+                <div class="sl-block-content notranslate"
+                    data-highlight-theme="xcode" data-code-frame="none"
+                    style="z-index: 10; font-size: 120%">
+                    <pre class="sql"><code>/* Create a new partition */
+CREATE TABLE "partition" PARTITION of "parent table";
+
+/* Drop a partition */
+DROP TABLE "partition";
+
+/* Detach a partition */
+ALTER TABLE "parent table" DETACH PARTITION "partition";
+
+/* Truncate a partition */
+TRUNCATE TABLE "partition";
+
+/* Exchange a partition */
+ALTER TABLE "parent table" DETACH PARTITION "partition"
+                         + ATTACH PARTITION "partition";</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="8008085932b1160dc8eb0c4a61884fec"
+                style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 625px; top: 358px;">
+                <div class="sl-block-content" data-line-x1="196" data-line-y1="28" data-line-x2="260" data-line-y2="28"
+                    data-line-color="#000000" data-line-start-type="arrow" data-line-end-type="none"
+                    style="z-index: 11;" data-line-width="4px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        preserveAspectRatio="xMidYMid" width="64" height="1" viewBox="196 28 64 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="202" y1="28" x2="260" y2="28"></line>
+                        <line stroke="#000000" stroke-width="4" x1="245" y1="28" x2="260" y2="28"></line>
+                        <polygon fill="#000000" transform="translate(245,28) rotate(90)" points="0,6 6,-6 -6,-6"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="fa576fdd2d853b07e5cd60d199bcc415"
+                style="height: auto; min-width: 30px; min-height: 30px; width: 300px; left: 700px; top: 341px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                    style="z-index: 13; text-align: left; font-size: 75%;">
+                    <p>Standalone table afterwards</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="3c3acef19ef9df9a373e59033362a0a7"
+                style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 344px; top: 423px;">
+                <div class="sl-block-content" data-line-x1="-86" data-line-y1="28" data-line-x2="260" data-line-y2="28"
+                    data-line-color="#000000" data-line-start-type="arrow" data-line-end-type="none"
+                    style="z-index: 15;" data-line-width="4px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        preserveAspectRatio="xMidYMid" width="346" height="1" viewBox="-86 28 346 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-80" y1="28" x2="260" y2="28"></line>
+                        <line stroke="#000000" stroke-width="4" x1="-80" y1="28" x2="260" y2="28"></line>
+                        <polygon fill="#000000" transform="translate(-80,28) rotate(90)" points="0,6 6,-6 -6,-6"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="7beb54490cd8b08ac43387a15a60ae74"
+                style="height: auto; min-width: 30px; min-height: 30px; width: 300px; left: 700px; top: 406px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                    style="z-index: 16; text-align: left; font-size: 75%;">
+                    <p>Need to know</p>
+                </div>
+            </div>
+        </section>
+        <section data-id="partitioning-pg_vs_gp-slide-14">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="d63456c50aeb7f30e5bffab2625dd3b5">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Maintaining Partitions</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
+                 data-block-id="15c9cf3f6208d8c0d981ace899c1df1f">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>Greenplum</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" data-block-id="b525fbf774468ca4edc632b6f4e278f2"
+                style="min-width: 30px; min-height: 30px; width: auto; height: auto; left: 0px; top: 178px;">
+                <div class="sl-block-content notranslate"
+                    data-highlight-theme="xcode" data-code-frame="none"
+                    style="z-index: 10; font-size: 120%">
+                    <pre class="sql"><code>/* Create a new partition */
+ALTER TABLE "parent table" ADD PARTITION "partition";
+
+/* Drop a partition */
+ALTER TABLE "parent table" DROP PARTITION "definition or partition name";
+
+/* Detach a partition */
+ALTER TABLE "parent table" EXCHANGE PARTITION "new partition";
+
+/* Truncate a partition */
+ALTER TABLE "parent table" TRUNCATE PARTITION "definition or partition name";
+
+/* Exchange a partition */
+ALTER TABLE "parent table" EXCHANGE PARTITION "new partition";</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="8008085932b1160dc8eb0c4a61884fec"
+                style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 705px; top: 358px;">
+                <div class="sl-block-content" data-line-x1="196" data-line-y1="28" data-line-x2="260" data-line-y2="28"
+                    data-line-color="#000000" data-line-start-type="arrow" data-line-end-type="none"
+                    style="z-index: 11;" data-line-width="4px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                        preserveAspectRatio="xMidYMid" width="64" height="1" viewBox="196 28 64 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="202" y1="28" x2="260" y2="28"></line>
+                        <line stroke="#000000" stroke-width="4" x1="245" y1="28" x2="260" y2="28"></line>
+                        <polygon fill="#000000" transform="translate(245,28) rotate(90)" points="0,6 6,-6 -6,-6"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="fa576fdd2d853b07e5cd60d199bcc415"
+                style="height: auto; min-width: 30px; min-height: 30px; width: 300px; left: 780px; top: 341px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                    style="z-index: 13; text-align: left; font-size: 75%;">
+                    <p>Not really "detach"</p>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774"
+                 data-background-position="0% 0%" data-id="data-partitioning-closing-slide"
+                 data-menu-title="Ending Slide">
+            <div class="sl-block" data-block-type="image"
+                 style="width: 100%; height: auto; left: 10px; top: 250px;"
+                 data-block-id="footer-logo">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img style=max-width:auto height:auto data-lazy-loaded=""
+                         data-src="images/logos/gp-ondark-horizontal.png">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    var SLConfig = {
+        "deck": {
+            "id": 1624473,
+            "slug": "partitioning-greenplum-vs-postgresql",
+            "title": "Partitioning in PostgreSQL and Greenplum",
+            "description": "",
+            "width": 960,
+            "height": 720,
+            "visibility": "self",
+            "published_at": null,
+            "sanitize_messages": null,
+            "thumbnail_url": "https://s3.amazonaws.com/media-p.slid.es/thumbnails/5c38dbb3bbba2e31c3c1b928cb6830d7/thumb.jpg?1571164864",
+            "view_count": 0,
+            "user": {
+                "id": 1134143,
+                "username": "csylvester",
+                "name": "Craig Sylvester",
+                "description": "Pivotal Data Engineer - Federal Division",
+                "thumbnail_url": "https://www.gravatar.com/avatar/d2436491e8c9292c895eebad673e3837?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png",
+                "paid": true,
+                "pro": true,
+                "lite": false,
+                "team_id": null,
+                "settings": {
+                    "id": 3868303,
+                    "present_controls": true,
+                    "present_upsizing": true,
+                    "present_pointer": false,
+                    "present_notes": true,
+                    "default_deck_tag_id": null
+                }
+            },
+            "background_transition": "slide",
+            "transition": "slide",
+            "theme_id": null,
+            "theme_font": "montserrat",
+            "theme_color": "white-blue",
+            "auto_slide_interval": 0,
+            "comments_enabled": true,
+            "forking_enabled": false,
+            "rolling_links": false,
+            "center": false,
+            "shuffle": false,
+            "should_loop": false,
+            "share_notes": false,
+            "slide_number": false,
+            "slide_count": 19,
+            "rtl": false,
+            "version": 2,
+            "collaborative": false,
+            "deck_user_editor_limit": 3,
+            "data_updated_at": 1571338814509,
+            "font_typekit": null,
+            "font_google": null,
+            "time_limit": null,
+            "upsizing_enabled": true,
+            "notes": {
+                "partitioning-pg_vs_gp-slide-2": "Notes for slide 2",
+                "partitioning-pg_vs_gp-slide-4": "Notes for slide 4"
+            }
+        }
+    };
+
+
+    // Use local fonts
+    SLConfig.fonts_url = 'lib/fonts/';
+</script>
+
+<script src="lib/reveal.min.js"></script>
+<script src="lib/offline.js"></script>
+
+<!-- Initialize the presentation -->
+<script>
+    Reveal.initialize({
+        width: 960,
+        height: 720,
+        margin: 0.05,
+
+
+        hash: true,
+        controls: true,
+        progress: true,
+        mouseWheel: false,
+        showNotes: false,
+        slideNumber: false,
+
+        autoSlide: 0,
+        autoSlideStoppable: true,
+
+        center: false,
+        shuffle: false,
+        loop: false,
+        rtl: false,
+
+        transition: "slide",
+        backgroundTransition: "slide",
+
+        highlight: {
+            escapeHTML: false
+        },
+        /* Added menu plugin from https://github.com/denehyg/reveal.js-menu: CJS, 11oct2019 */
+        /* For a description of the 'menu' options, see the gp-intro-overview.html presentation */
+        menu: {
+            side: 'left',
+            width: 'wide',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            useTextContentForMissingTitles: false,
+            hideMissingTitles: false,
+            markers: true,
+            custom: false,
+            themes: false,
+            themesPath: 'css/theme/',
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true,
+            sticky: false,
+            autoOpen: true,
+            delayInit: false,
+            openOnInit: false,
+            loadIcons: true
+        },
+
+        dependencies: [
+            {
+                src: 'lib/reveal-plugins/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {
+                src: 'lib/reveal-plugins/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {src: 'lib/reveal-plugins/highlight/highlight.js'},
+            {
+                src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                }
+            },
+            {src: 'lib/reveal-plugins/zoom/zoom.js', async: true},
+            {src: 'lib/reveal-plugins/menu/menu.js', async: false}
+        ]
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="sl-root decks export offline loaded">
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>External Tables and Foreign Data Wrappers</title>
+
+    <link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+    <!-- User CSS -->
+    <style id="user-css-output" type="text/css">
+        .reveal .controls button {
+            color: #f27062
+        }
+
+        .reveal .backgrounds .agenda-slide {
+            background: linear-gradient(90deg, #008774 40%, white 40%);
+        }
+
+        .reveal .slides h2 {
+            color: #008774;
+            font-size: 1.7em;
+        }
+
+        .reveal .slides h3 {
+            color: black;
+            font-size: 1em;
+            text-align: left;
+        }
+    </style>
+
+</head>
+<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+<div class="reveal">
+    <div class="slides">
+        <section data-background-image="images/bg-green-pivotal-labs.png"
+                 data-background-position="0% 0%"
+                 data-id="external_tables-and-fdw-title-slide">
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 216px; height: auto;"
+                 data-block-id="ab3104e9b1e6bc4e8f0a6bd88df1dd65">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text"
+                     style="z-index: 10;">
+                    <h1>Petabyte Scale Data Warehousing with Greenplum</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 172px; top: 553px;"
+                 data-block-id="a259dfc26e26dd5009de6de7b5158e17">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 11; font-size: 150%;">
+                    <p>External Tables and Foreign Data Wrappers</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 163px; top: 522px;"
+                 data-block-id="ce9537a5b9c5f2c35b49fd70e58e41f3">
+                <div class="sl-block-content" data-line-x1="-220" data-line-y1="170" data-line-x2="420"
+                     data-line-y2="170" data-line-color="#ffff00" data-line-start-type="none" data-line-end-type="none"
+                     style="z-index: 12;" data-line-width="10px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="640"
+                         height="1" viewbox="-220 170 640 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" y1="170" x2="420" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" y1="170" x2="420" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="width: 300px; height: 124px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
+                 data-block-id="c943609a1b7f52e1a5d8968927288efd">
+                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="1814"
+                                                                        data-natural-height="751" data-lazy-loaded=""
+                                                                        data-src="images/logos/logo-pivotal-on-dark.png">
+                </div>
+            </div>
+        </section>
+        <section class="agenda-slide" data-id="external_tables-and-fdw-slide-2">
+            <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
+                 data-block-id="7e2719aa089f4c3b21056aab57483e43">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: center; color: white;">
+                    <h1>Agenda</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; width: 560px; left: 400px; top: 180px;"
+                 data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left; line-height: 1.8;font-size:1.3em" dir="ui" data-has-line-height="">
+                    <ul>
+                        <span style="line-height: 1.1">
+                        <li>External Tables in Greenplum and Foreign Data Wrappers in PostgreSQL</li>
+                        </span>
+                        <li>A bit of detail</li>
+                        <li>Simple Examples</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="external_tables-and-fdw-slide-3">
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="3e1770cd69658ee8a6c5031c7a0c2387">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Foreign Data Wrappers and External Tables</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="012917792791e794c96cb5c27d814bba">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; font-size:0.8em;">
+                    <ul>
+                        <li>Foreign Data Wrappers</li>
+                        <ul>
+                            <li>PostgreSQL implements the SQL/MED standard - defined in 2003</li>
+                            <li>PG implemented read-only FDWs in 2001, read-write in 2003</li>
+                            <li>By now many different FDWs are available:</li>
+                            <ul>
+                                <li>PostgreSQL, Oracle, Informix, Firebird, MySQL, SQLite, Sybase</li>
+                                <li>BigTable, Cassandra, CouchDB, influxDB, MongoDB, Neo4j, Redis</li>
+                                <li>CSV, JSON, tar files, XML files, zip files, GDAL, OpenStreetMap, LDAP</li>
+                                <li>Git, ICAL, IMAP, RSS, www, Facebook, Google, S3</li>
+                                <li>Telegram, Twitter, Elastic Search, Hive, HDFS, Impala, DynamoDB</li>
+                                <li>and many more</li>
+                            </ul>
+                        </ul>
+                        <li>External Tables</li>
+                        <ul>
+                            <li>Greenplum implemented is own solution</li>
+                            <li>The location specifies the type and where the data lives</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="external_tables-and-fdw-slide-4">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="91521d190da564b72af8eba80eeb66a5">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>A Little More Detail</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
+                 data-block-id="6d04273d37791fd3ad14095c3b99409c">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left;font-size:0.8em">
+                    <ul>
+                        <li>FDWs</li>
+                        <ul>
+                            <li>Tables can be read and write</li>
+                            <li>Predicates and joins can be pushed down (if target and driver support it)</li>
+                            <li>Supported types can be loaded on-the-fly</li>
+                            <li>Foreign tables and servers can be altered</li>
+                        </ul>
+                        <li>External Tables</li>
+                        <ul>
+                            <li>Tables can be read OR write</li>
+                            <li>Transformations are supported</li>
+                            <li>Supported types must be compiled in</li>
+                            <li>Directly supports execution of scripts and web tables</li>
+                            <li>Location cannot be changed</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="note-1"
+                style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 0px; top: 600px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                    style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255);">
+                    <p style="text-align:center"><span style="font-size:0.9em">
+                        Good news: Greenplum now supports FDWs! (as of version 6)</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section data-id="external_tables-and-fdw-slide-5">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="0d3cf417baa1e5174f28fb1b41730744">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Greenplum: External Table Example</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 860px; height: auto; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;">
+                    <pre><code data-line-numbers="1,6-8">CREATE EXTERNAL TABLE data (
+    id INT,
+    name TEXT,
+    time TIMESTAMPTZ
+)
+LOCATION ( 'gpfdist://etl:8081/*.txt'  )
+FORMAT 'TEXT' ( DELIMITER '|' NULL ' ' )
+LOG ERRORS SEGMENT REJECT LIMIT 5;</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="external_tables-and-fdw-slide-6">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="c860059544677c1adef8ec161ba5e16c">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 17; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>PostgreSQL: FDW Example</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 900px; height: auto; left: 0px; top: 144px;"
+                 data-block-id="588749109722a5dc0a51318b8302c81d">
+                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                     data-code-frame="none"
+                     style="z-index: 12; font-size: 160%; border-style: solid; border-width: 1px;">
+                    <pre><code>CREATE EXTENSION postgres_fdw;
+GRANT USAGE ON FOREIGN DATA WRAPPER
+    postgres_fdw TO etl_user;
+
+CREATE SERVER mainframe
+    FOREIGN DATA WRAPPER postgres_fdw
+    OPTIONS (dbname 'hr', host 'ibm270', port '6001');
+
+CREATE USER MAPPING FOR etl_user
+    SERVER mainframe
+    OPTIONS (user 'etl_read', password 'topsecret');
+
+CREATE FOREIGN TABLE accounts
+    (id INT, data TEXT)
+    SERVER mainframe
+    OPTIONS (schema_name 'public', table_name 'accounts');</code></pre>
+                </div>
+        </section>
+        <section data-background-color="#008774"
+                 data-background-position="0% 0%" data-id="data-partitioning-closing-slide"
+                 data-menu-title="Ending Slide">
+            <div class="sl-block" data-block-type="image"
+                 style="width: 100%; height: auto; left: 10px; top: 250px;"
+                 data-block-id="footer-logo">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img style=max-width:auto height:auto data-lazy-loaded=""
+                         data-src="images/logos/gp-ondark-horizontal.png">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    var SLConfig = {
+        "deck": {
+            "id": 1624473,
+            "slug": "partitioning-greenplum-vs-postgresql",
+            "title": "Partitioning in PostgreSQL and Greenplum",
+            "description": "",
+            "width": 960,
+            "height": 720,
+            "visibility": "self",
+            "published_at": null,
+            "sanitize_messages": null,
+            "thumbnail_url": "https://s3.amazonaws.com/media-p.slid.es/thumbnails/5c38dbb3bbba2e31c3c1b928cb6830d7/thumb.jpg?1571164864",
+            "view_count": 0,
+            "user": {
+                "id": 1134143,
+                "username": "csylvester",
+                "name": "Craig Sylvester",
+                "description": "Pivotal Data Engineer - Federal Division",
+                "thumbnail_url": "https://www.gravatar.com/avatar/d2436491e8c9292c895eebad673e3837?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png",
+                "paid": true,
+                "pro": true,
+                "lite": false,
+                "team_id": null,
+                "settings": {
+                    "id": 3868303,
+                    "present_controls": true,
+                    "present_upsizing": true,
+                    "present_pointer": false,
+                    "present_notes": true,
+                    "default_deck_tag_id": null
+                }
+            },
+            "background_transition": "slide",
+            "transition": "slide",
+            "theme_id": null,
+            "theme_font": "montserrat",
+            "theme_color": "white-blue",
+            "auto_slide_interval": 0,
+            "comments_enabled": true,
+            "forking_enabled": false,
+            "rolling_links": false,
+            "center": false,
+            "shuffle": false,
+            "should_loop": false,
+            "share_notes": false,
+            "slide_number": false,
+            "slide_count": 19,
+            "rtl": false,
+            "version": 2,
+            "collaborative": false,
+            "deck_user_editor_limit": 3,
+            "data_updated_at": 1571338814509,
+            "font_typekit": null,
+            "font_google": null,
+            "time_limit": null,
+            "upsizing_enabled": true,
+            "notes": {
+                "external_tables-and-fdw-slide-2": "Notes for slide 2",
+                "external_tables-and-fdw-slide-4": "Notes for slide 4"
+            }
+        }
+    };
+
+
+    // Use local fonts
+    SLConfig.fonts_url = 'lib/fonts/';
+</script>
+
+<script src="lib/reveal.min.js"></script>
+<script src="lib/offline.js"></script>
+
+<!-- Initialize the presentation -->
+<script>
+    Reveal.initialize({
+        width: 960,
+        height: 720,
+        margin: 0.05,
+
+
+        hash: true,
+        controls: true,
+        progress: true,
+        mouseWheel: false,
+        showNotes: false,
+        slideNumber: false,
+
+        autoSlide: 0,
+        autoSlideStoppable: true,
+
+        center: false,
+        shuffle: false,
+        loop: false,
+        rtl: false,
+
+        transition: "slide",
+        backgroundTransition: "slide",
+
+        highlight: {
+            escapeHTML: false
+        },
+        /* Added menu plugin from https://github.com/denehyg/reveal.js-menu: CJS, 11oct2019 */
+        /* For a description of the 'menu' options, see the gp-intro-overview.html presentation */
+        menu: {
+            side: 'left',
+            width: 'wide',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            useTextContentForMissingTitles: false,
+            hideMissingTitles: false,
+            markers: true,
+            custom: false,
+            themes: false,
+            themesPath: 'css/theme/',
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true,
+            sticky: false,
+            autoOpen: true,
+            delayInit: false,
+            openOnInit: false,
+            loadIcons: true
+        },
+
+        dependencies: [
+            {
+                src: 'lib/reveal-plugins/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {
+                src: 'lib/reveal-plugins/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {src: 'lib/reveal-plugins/highlight/highlight.js'},
+            {
+                src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                }
+            },
+            {src: 'lib/reveal-plugins/zoom/zoom.js', async: true},
+            {src: 'lib/reveal-plugins/menu/menu.js', async: false}
+        ]
+    });
+</script>
+
+
+</body>
+</html>
