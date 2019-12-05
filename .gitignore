@@ -5,6 +5,4 @@ refresh-s3.sh
 *-testing-harness
 .git.SAVE
 presentations/.idea/
-<<<<<<< HEAD
 presentations.iml
->>>>>>> updated gitignore
