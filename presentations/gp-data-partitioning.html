@@ -1,3 +1,13 @@
+<!--
+Copyright (C) 2019-Present Pivotal Software, Inc. All rights reserved.
+This program and the accompanying materials are made available under the terms of the under the Apache License, Version 2.0 (the "License”);
+you may not use this file except in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <!DOCTYPE html>
 <html class="sl-root decks export offline loaded">
 <head>
@@ -714,8 +724,8 @@
                          data-code-frame="none"
                          style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
                             data-line-numbers="7-13">CREATE TABLE sales(
-    id int, 
-    sales_date date, 
+    id int,
+    sales_date date,
     amt decimal(10,2)
 )
 DISTRIBUTED BY (id)
@@ -756,8 +766,8 @@ PARTITION BY RANGE (sales_date)
                          data-code-frame="none"
                          style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
                             data-line-numbers="7-13">CREATE TABLE sales(
-    id int, 
-    sales_date date, 
+    id int,
+    sales_date date,
     amt decimal(10,2)
 )
 DISTRIBUTED BY (id)
@@ -799,8 +809,8 @@ PARTITION BY RANGE (sales_date)
                 <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
                      style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
                         data-line-numbers="9-11|12" data-fragment-index="1">CREATE TABLE ranking(
-    id     int, 
-    rank   int, 
+    id     int,
+    rank   int,
     yr     int,
     gender char(1)
 )
@@ -858,9 +868,9 @@ PARTITION BY RANGE (yr)
                 <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
                      style="z-index: 13; font-size: 150%; border-style: solid; border-width: 1px;"><pre><code
                         data-fragment-index="0" data-line-numbers="8-13">CREATE TABLE widgits_staging (
-    id int, 
-    w_name varchar, 
-    ..., 
+    id int,
+    w_name varchar,
+    ...,
     state char(2)
 )
 DISTRIBUTED BY (id)
@@ -1071,7 +1081,7 @@ Partition by: (gender)</code></pre>
                         data-line-numbers="3,7-9,12,15">select partitiontablename as "Table", partitionboundary as "Boundaries",
        partitiontype as "PartType", partitionlistvalues as "PartValues"
 from pg_partitions where tablename = 'rankings';
-       
+
         Table         |         Boundaries          | PartType |    PartValues
 ----------------------+-----------------------------+----------+-------------------
  rankings_1_prt_boys  | PARTITION boys VALUES('M')  | list     | 'M'::character(1)
@@ -1202,13 +1212,12 @@ select * from pg_partition_columns where tablename = 'rankings';
         </section>
         <section data-background-color="#008774"
                  data-background-position="0% 0%" data-id="data-partitioning-closing-slide"
-                 data-menu-title="Ending Slide">
+                 data-menu-title="End">
             <div class="sl-block" data-block-type="image"
                  style="width: 100%; height: auto; left: 10px; top: 250px;"
                  data-block-id="footer-logo">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img style=max-width:auto height:auto data-lazy-loaded=""
-                         data-src="images/logos/gp-ondark-horizontal.png">
+                    <img data-src="images/logos/gp-ondark-horizontal.png">
                 </div>
             </div>
         </section>
