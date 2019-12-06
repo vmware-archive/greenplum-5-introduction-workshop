@@ -1,11 +1,19 @@
 # Greenplum Workshop Presentations
 
-[Greenplum Introduction](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/gp-intro-overview.html)
+[Introduction](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-introduction.html)
 
-[Greenplum Data Distribution](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/gp-data-distribution.html)
+[Data Distribution](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-distribution.html)
 
-[Greenplum Data Loading](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/gp-data-loading.html)
+[Data Loading](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-data-loading.html)
 
-[Greenplum vs PostgreSQL](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/gp-postgresql-vs-gp.html)
+[Data Partitioning](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-partitioning.html)
 
-[Greenplum Data Partitioning](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/gp-data-partitioning.html)
+[Apache Madlib Introduction](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-madlib.html)
+
+[Pl/Container](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-plcontainer.html)
+
+[PostgreSQL Differences](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-postgresql-differences.html)
+
+[PostgreSQL Partitioning Differences](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-postgresql-partitioning.html)
+
+[External Tables and FDWs Differences](https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/presentations/greenplum-external-table-vs-fdw.html)
