@@ -26,6 +26,7 @@ limitations under the License.
         .reveal .controls button {
             color: #f27062
         }
+
         .reveal .backgrounds .agenda-slide {
             background: linear-gradient(90deg, #008774 40%, white 40%);
         }
@@ -84,7 +85,7 @@ limitations under the License.
         </section>
         <section data-id="data-distribution-slide-2">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -135,7 +136,7 @@ limitations under the License.
         </section>
         <section data-id="data-distribution-slide-3">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -209,7 +210,7 @@ DISTRIBUTED BY (id);</code></pre>
         </section>
         <section data-id="data-distribution-slide-4">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -245,7 +246,7 @@ DISTRIBUTED BY (id);</code></pre>
         </section>
         <section data-id="data-distribution-slide-5">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -300,7 +301,7 @@ DISTRIBUTED RANDOMLY);</code></pre>
         </section>
         <section data-id="data-distribution-slide-6">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -362,7 +363,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
         </section>
         <section data-id="data-distribution-slide-7">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -380,22 +381,20 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                      style="z-index: 11; text-align: left;">
                     <ul>
                         <li>
-                            <span><span style="color:rgb(77, 77, 77)">Select a distribution key with unique values and high cardinality that will not result in data skew</span></span>
+                            Select a distribution key with unique values and high cardinality that will not result in data skew
                             <ul>
                                 <li>
-                                    <span><span style="color:rgb(77, 77, 77)">Do not distribute on boolean keys and keys with low cardinality</span></span>
-                                    <ul>
-                                        <li><span><span style="color:rgb(77, 77, 77)">​</span><span
-                                                style="color:rgb(0, 37, 62)">The system distributes rows with the same hash value to the same segment instance therefore resulting in the data being located on only a few segments</span></span>
-                                        </li>
-                                    </ul>
+                                    Do not distribute on boolean keys and keys with low cardinality<br><i><span style="color:rgb(99,99,99)">(
+                                    The system distributes rows with the same hash value to the same segment instance
+                                    therefore resulting in the data being located on only a few segments.)</span></i>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <span><span style="color:rgb(77, 77, 77)">Select a distribution key that will not result in computational skew (in flight when a query is executing)</span></span>
+                            Select a distribution key that will not result in computational skew (in flight when a query is executing)
                             <ul>
-                                <li><span><span style="color:rgb(77, 77, 77)">​Operations on columns that have low cardinality or non-uniform distribution</span></span>
+                                <li>
+                                    Operations on columns that have low cardinality or non-uniform distribution
                                 </li>
                             </ul>
                         </li>
@@ -411,7 +410,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
         </section>
         <section data-id="data-distribution-slide-8">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -423,21 +422,104 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                     <h2>Co-Located Joins</h2>
                 </div>
             </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 339px; height: 213px; left: 80px; top: 140px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 13;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="https://s3.amazonaws.com/media-p.slid.es/uploads/1134143/images/6879117/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 203px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 266px;"
+                 data-block-id="269f84d882d8e84a1f14219af4801ea2">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; text-align: center; color: rgb(0, 0, 255);" data-fragment-index="0">
+                    <p><strong>freq_shopper (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="b198601c1caefb104d26015eb0d52fc5"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 96px; left: 192px; top: 232px;">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; color: rgb(0, 0, 255);" data-fragment-index="1">
+                    <p><span style="font-size:1.4em"><strong>=</strong></span></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 366px; left: 64px; top: 89px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
 
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 70px;"
-                 data-block-id="cd8f56ee2f0b68c807d2e987df2743d6">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
-                    <h3>Data Distribution</h3>
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
                 </div>
             </div>
             <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 388px; height: 480px; left: 0px; top: 192px;"
-                 data-block-id="b36708079835e6418272367bca0b8cd8">
-                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="427"
-                                                                        data-natural-height="570" data-lazy-loaded=""
-                                                                        data-src="images/join-colocated.png">
+                 style="min-width: 4px; min-height: 4px; width: 339px; height: 213px; left: 80px; top: 452px;"
+                 data-block-id="e63ddd175185ba9557bece1dbc101e77">
+                <div class="sl-block-content" style="z-index: 22;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="https://s3.amazonaws.com/media-p.slid.es/uploads/1134143/images/6879117/disks-green.png">
                 </div>
             </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 515px;"
+                 data-block-id="1dcccbb2ece95499aaf72f0d786a3db1">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 23; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 578px;"
+                 data-block-id="6aaad26a53bd6cb6a2fc1afb0f8fce87">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 24; text-align: center; color: rgb(0, 0, 255);" data-fragment-index="0">
+                    <p><strong>freq_shopper (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 96px; left: 192px; top: 544px;"
+                 data-block-id="b5db6fc12191d817d6f2d9998b9727cc">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 25; color: rgb(0, 0, 255);" data-fragment-index="1">
+                    <p><span style="font-size:1.4em"><strong>=</strong></span></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 366px; left: 64px; top: 401px;"
+                 data-block-id="a6d7037f55cc1bb8428459317467bccc">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 21; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1B</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+                </div>
+            </div>
+
             <div class="sl-block" data-block-type="text" data-block-id="7106cea008a908d8f0704d898ec293ec"
                  style="height: auto; min-width: 30px; min-height: 30px; width: 461px; left: 499px; top: 310px;">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
@@ -449,7 +531,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
         </section>
         <section data-id="data-distribution-slide-9">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -468,30 +550,114 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                     <h3>Data Distribution</h3>
                 </div>
             </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 939px; left: 11px; top: 519px;"
+            <div class="sl-block" data-block-type="text" style="height: auto; width: auto; left: 30px; top: 560px; min-width: 100px; "
                  data-block-id="e1d8259bac264c8e89e066afae8a15fa">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13;">
-                    <pre><span style="font-size:0.9em"><span style="color:#EE82EE">WHERE</span> customer.c_customer_id = freq_shopper.f_customer_id</span></pre>
-
-                    <p> </p>
-
-                    <p><span style="font-size:0.9em"><span style="color:#696969">freq_shopper table is dynamically redistributed on f_customer_id</span></span>
-                    </p>
+                     style="z-index: 13; text-align: left; font-size: 0.9em">
+                        <pre><span style="color:#EE82EE">WHERE</span> customer.cust_id = freq_shopper.cust_id</pre>
+                    <span style="color:#696969">freq_shopper table is dynamically redistributed on f_customer_id</span>
                 </div>
             </div>
             <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 893px; height: 283px; left: 40px; top: 185px;"
-                 data-block-id="dd61b8febe0cd9a722b21e321b5335dc">
-                <div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="1404"
-                                                                        data-natural-height="445" data-lazy-loaded=""
-                                                                        data-src="images/join-redistribute.png">
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 16px; top: 224px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 12;" data-maintain-ar="false">
+                    <img data-natural-width="340" data-natural-height="320" style="" data-lazy-loaded=""
+                         alt="disks-green" src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 16px; top: 228px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br>cust_id = 102<br><br>freq_shopper (trans_n)</strong></p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 0px; top: 173px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 373px; top: 224px;"
+                 data-block-id="760bd9a3b121b07a809e2b1edb6c1595">
+                <div class="sl-block-content" style="z-index: 15;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 373px; top: 228px;"
+                 data-block-id="0a0ac24b373198f05eadb2079a8f001b">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 16; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br>cust_id = 745<br><br>freq_shopper (tran_num)<br>cust_id = 102</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 357px; top: 173px;"
+                 data-block-id="59f036ecc61c42e0667200e18d94281a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 2E</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 729px; top: 224px;"
+                 data-block-id="fe1567809a9c79f9cfabec43494df856">
+                <div class="sl-block-content" style="z-index: 18;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 729px; top: 228px;"
+                 data-block-id="1d5e957317f57eee8bdcc62a55def542">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>freq_shopper (trans_num)<br>cust_id = 745</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 713px; top: 173px;"
+                 data-block-id="1fe98f565bda456e635e8ba199b41924">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 3C</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="56ab728084a8ce8cf62883a44ae01721"
+                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 258px; top: 335px;">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 20;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 615px; top: 337px;"
+                 data-block-id="d4145f977879ef7bcc13d95a29e6b9d5">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 22;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
                 </div>
             </div>
         </section>
         <section data-id="data-distribution-slide-10">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -510,30 +676,116 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                     <h3>Data Distribution</h3>
                 </div>
             </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 845px; left: 64px; top: 519px;"
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 845px; left: 64px; top: 520px;"
                  data-block-id="1eb9d69da19de7a4bd6e377ca72ad55a">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
                      style="z-index: 13;">
-                    <pre><span style="font-size:0.9em"><span style="color:#EE82EE">WHERE</span> customer.c_statekey = freq_shopper.f_statekey</span></pre>
-
+                    <pre><span style="font-size:0.9em"><span style="color:#EE82EE">WHERE</span> customer.c_statekey = state.s_key</span></pre>
                     <p> </p>
-
-                    <p><span style="font-size:0.9em"><span style="color:#696969">state table is dynamically broadcast to all segments</span></span>
+                    <p><span style="font-size:0.9em; color:#696969">state table is dynamically broadcast to all segments</span>
                     </p>
                 </div>
             </div>
             <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 893px; height: 287px; left: 40px; top: 182px;"
-                 data-block-id="03d3f1aa14174aa5d47403398f3a8c33">
-                <div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="1397"
-                                                                        data-natural-height="449" data-lazy-loaded=""
-                                                                        data-src="images/join-broadcast.png">
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 16px; top: 224px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 12;" data-maintain-ar="false">
+                    <img data-natural-width="340" data-natural-height="320" style="" data-lazy-loaded=""
+                         alt="disks-green" src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 16px; top: 228px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ... WY</strong></p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 0px; top: 173px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 373px; top: 224px;"
+                 data-block-id="760bd9a3b121b07a809e2b1edb6c1595">
+                <div class="sl-block-content" style="z-index: 15;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 373px; top: 228px;"
+                 data-block-id="0a0ac24b373198f05eadb2079a8f001b">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 16; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ...WY</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 357px; top: 173px;"
+                 data-block-id="59f036ecc61c42e0667200e18d94281a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1B</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 729px; top: 224px;"
+                 data-block-id="fe1567809a9c79f9cfabec43494df856">
+                <div class="sl-block-content" style="z-index: 18;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 729px; top: 228px;"
+                 data-block-id="1d5e957317f57eee8bdcc62a55def542">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ...WY</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 713px; top: 173px;"
+                 data-block-id="1fe98f565bda456e635e8ba199b41924">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1C</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="56ab728084a8ce8cf62883a44ae01721"
+                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 258px; top: 335px;">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 20;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 615px; top: 337px;"
+                 data-block-id="d4145f977879ef7bcc13d95a29e6b9d5">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 22;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
                 </div>
             </div>
         </section>
         <section data-id="data-distribution-slide-11">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -587,13 +839,14 @@ freq_shopper (f_customer_id)    745::varchar(10)</code></pre>
                  data-block-id="9bfc5b6b4e1fb56686cf59af3598cd44">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
                      style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255); padding-left:10px; text-align:left; font-size:28px">
-                    Best Practice: For distribution (join) keys, use the same data type.<br>This is important particularly for large tables that are joined.
+                    Best Practice: For distribution (join) keys, use the same data type.<br>This is important particularly for large tables that are
+                    joined.
                 </div>
             </div>
         </section>
         <section data-id="data-distribution-slide-12">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -616,7 +869,7 @@ freq_shopper (f_customer_id)    745::varchar(10)</code></pre>
                  style="height: auto; min-width: 30px; min-height: 30px; width: 870px; left: 0px; top: 600px">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
                      style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255); padding-left:10px; text-align:left; font-size:0.9em">
-                        Best Practice:<br>Check for data skew after initial load and subsequent loads
+                    Best Practice:<br>Check for data skew after initial load and subsequent loads
                 </div>
             </div>
             <div class="sl-block" data-block-type="code" data-block-id="6f6eb8a2b8bbcbf5f66184b8f9d8f3b3"
@@ -644,7 +897,7 @@ FROM (SELECT count(*) c, gp_segment_id
         </section>
         <section data-id="data-distribution-slide-13">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
@@ -714,7 +967,7 @@ FROM (SELECT count(*) c, gp_segment_id
         </section>
         <section data-id="data-distribution-slide-14">
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
                 <div class="sl-block-content" style="z-index: 12;">
                     <img data-src="images/gp-workshop-vertical-on-light.png">
                 </div>
