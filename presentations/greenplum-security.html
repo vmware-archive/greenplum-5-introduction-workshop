@@ -1,0 +1,1428 @@
+<!--
+Copyright (C) 2019-Present Pivotal Software, Inc. All rights reserved.
+This program and the accompanying materials are made available under the terms of the under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!DOCTYPE html>
+
+<html class="sl-root decks export offline loaded">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" name="viewport"/>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <title>Greenplum Security</title>
+    <meta content="Overview of Greenplum user authentication and security" name="description"/>
+    <link href="lib/offline-v2.css" rel="stylesheet" type="text/css"/>
+    <!-- User CSS -->
+    <style id="user-css-output" type="text/css">
+        .reveal .controls button {
+            color: #f27062
+        }
+
+        .reveal .backgrounds .agenda-slide {
+            background: linear-gradient(90deg, #008774 40%, white 40%);
+        }
+
+        .reveal .slides h2 {
+            color: #008774;
+            font-size: 1.7em;
+        }
+
+        .reveal .slides h3 {
+            color: black;
+            font-size: 1em;
+            text-align: left;
+        }
+
+        .reveal th {
+            background: #57B6A5;
+            color: #FFF;
+        }
+
+        .reveal tr:nth-child(even) {
+            background: #C8EBE4;
+        }
+
+        .reveal tr:nth-child(odd) {
+            background: #D9FFF7;
+        }
+
+    </style>
+</head>
+<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+<div class="reveal">
+    <div class="slides">
+        <section data-background-image="images/bg-green-pivotal-labs.png" data-background-position="0% 0%"
+                 data-id="eeb7ffa9df77208cf1bb0818428deb3a">
+            <div class="sl-block" data-block-id="db813b73dfa24c6edc5458110c64740a" data-block-type="text"
+                 style="width: 806px; left: 80px; top: 216px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
+                    <h1>Petabyte Scale Data Warehousing - Greenplum</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="db0a9ce0b2ebd89058de30572dd1ac70" data-block-type="text"
+                 style="height: auto; width: 600px; left: 172px; top: 553px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; font-size: 150%;">
+                    <p>Security</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9402125ee9920a7d438bae6957c683b2" data-block-type="line"
+                 style="width: auto; height: auto; left: 163px; top: 522px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 12;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="54ad971696e9c4711ee55cd33de97194" data-block-type="image"
+                 style="width: 300px; height: 124px; left: 0px; top: 0px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;"><img alt="logo-pivotal-on-dark" data-lazy-loaded="" data-natural-height="751"
+                                                                        data-natural-width="1814" data-src="images/logos/logo-pivotal-on-dark.png"
+                                                                        style=""/></div>
+            </div>
+        </section>
+        <section class="agenda-slide" data-id="security-slide-2">
+            <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
+                 data-block-id="7e2719aa089f4c3b21056aab57483e43">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: center; color: white;">
+                    <h1>Agenda</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;" >
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; width: 600px; left: 400px; top: 160px;"
+                 data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left; line-height: 1.625;" dir="ui" data-has-line-height="">
+                    <ul style="font-size:1.4em">
+                        <li>Security Overview</li>
+                        <li>Users, Roles, and Groups</li>
+                        <li>Database Object Privileges</li>
+                        <li>Host Based Authentication - pg_hba.conf</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="fcac435a77a2c64d6d71397647fdd3ad">
+            <div class="sl-block" data-block-id="cf6b4b244797f22ef7e9877a292ca2e0" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Security</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="617ab249350bc226e666e0ec90964e81" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b252c0802212c0ddf21c18315ee5385b" data-block-type="image"
+                 style="width: 561px; height: 561px; left: 199.5px; top: 124px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;"><img alt="pie-chart-blank" data-lazy-loaded="" data-natural-height="1031"
+                                                                        data-natural-width="1031" data-src="images/pie-chart-blank.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6f0a210faae3b741d50271c2a2fc20b9" data-block-type="text"
+                 style="height: auto; width: 175.227px; left: 316.646px; top: 397.462px;">
+                <div class="sl-block-style" style="z-index: 13; transform: rotate(45deg);">
+                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                         style="z-index: 13; color: rgb(255, 255, 255);">
+                        <p>Encryption</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="2d5e60e0f37e36a692be9b2a7d7b4f13" data-block-type="text"
+                 style="height: auto; width: 255.983px; left: 350.25px; top: 292.277px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14; color: rgb(255, 255, 255);">
+                    <p>Authentication</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="db524648847ad62e62118ac372efc3ee" data-block-type="text"
+                 style="height: auto; width: 190.982px; left: 468.191px; top: 397.462px;">
+                <div class="sl-block-style" style="z-index: 15; transform: rotate(310deg);">
+                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                         style="z-index: 15; color: rgb(255, 255, 255);">
+                        <p>Traceability</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="db5758184ab5fa5d467e768944aff353" data-block-type="text"
+                 style="height: auto; width: 144.983px; left: 405.75px; top: 357.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 17; color: rgb(255, 255, 255);">
+                    <p>Security</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="8d9dc4c19ed3a1afa8cea986aff9c8dd" data-block-type="shape"
+                 style="width: 225px; height: 110.559px; left: 367.5px; top: 341.221px;">
+                <div class="sl-block-content" data-shape-fill-color="#000000" data-shape-stretch="true" data-shape-type="triangle-down"
+                     style="z-index: 16;">
+                    <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 225 111" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <polygon class="shape-element" fill="#000000" points="0,0 225,0 112.5,110.559"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c6c310a223192df7a19659744b631a76" data-block-type="text"
+                 style="height: auto; width: 154px; left: 403px; top: 180px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 18; font-size: 50%; line-height: 0.91;">
+                    <p>Host/User Auth</p>
+                    <p>(LDAP, Kerberos, ...)</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="ab6b44521bb9bf6ea2f69b20cf5a991c" data-block-type="image"
+                 style="width: 37.5px; height: 37.5px; left: 461.25px; top: 134px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 19;"><img alt="security-host-auth" data-lazy-loaded="" data-natural-height="75"
+                                                                        data-natural-width="75" data-src="images/security-host-auth.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="14eac4cd08fdeceb87f72895f5f000e8" data-block-type="image"
+                 style="width: 69px; height: 58.139px; left: 308px; top: 195px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 20;"><img alt="security-object-permissions" data-crop-height="0.491892"
+                                                                        data-crop-width="0.534653" data-crop-x="0.158416" data-crop-y="0.167568"
+                                                                        data-lazy-loaded="" data-natural-height="185" data-natural-width="202"
+                                                                        data-src="images/security-object-permissions.png"
+                                                                        style="left: -20px; top: -20px; width: 129px; height: 118px;"/></div>
+            </div>
+            <div class="sl-block" data-block-id="0505240886ab242293d8391ffe000bd9" data-block-type="text"
+                 style="height: auto; width: 154px; left: 265.5px; top: 253.139px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 21; font-size: 50%; line-height: 0.91;">
+                    <p>Object</p>
+                    <p>permissions</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="8098318bebb20d6e7eb8ba81fbd4ec3b" data-block-type="image"
+                 style="width: 50.862px; height: 50.862px; left: 589.138px; top: 188.277px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 22;"><img alt="security-data-access-control" data-lazy-loaded=""
+                                                                        data-natural-height="75" data-natural-width="75"
+                                                                        data-src="images/security-data-access-control.png" style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="d76ec1e1cc9f8586d7dd991865871919" data-block-type="text"
+                 style="height: auto; width: 154px; left: 537.569px; top: 239.139px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 23; font-size: 50%; line-height: 0.91;">
+                    <p>Data access control</p>
+                    <p>(confidentiality)</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3e0ce9fc800ca4788b3943a3e9d1eee0" data-block-type="image"
+                 style="width: 71.89px; height: 71.89px; left: 229.555px; top: 357.5px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 24;"><img alt="security-data-encryption" data-lazy-loaded="" data-natural-height="91"
+                                                                        data-natural-width="91" data-src="images/security-data-encryption.png"
+                                                                        style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="bb6d2bace003763f29daf59f686c2d3a" data-block-type="text"
+                 style="height: auto; width: 106.61px; left: 212.195px; top: 438.78px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 25; font-size: 50%; line-height: 0.91;">
+                    <p>Data Encryption</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="28ad41ccc834debf8670059e9d42b237" data-block-type="image"
+                 style="width: 65.4713px; height: 64px; left: 344.264px; top: 496px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 26;"><img alt="security-connection-encryption" data-lazy-loaded=""
+                                                                        data-natural-height="87" data-natural-width="89"
+                                                                        data-src="images/security-connection-encryption.png" style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="6ff0f4243924b528b9f3b63315acd189" data-block-type="text"
+                 style="height: auto; width: 106.61px; left: 323.695px; top: 570.78px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 27; font-size: 50%; line-height: 0.91;">
+                    <p>Connection Encryption</p>
+                    <p>(OpenSSL)</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="883196061d45d73201179f3aab50269b" data-block-type="image"
+                 style="width: 66px; height: 66px; left: 524px; top: 526.28px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 28;"><img alt="security-trace-tasks" data-lazy-loaded="" data-natural-height="66"
+                                                                        data-natural-width="66" data-src="images/security-trace-tasks.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1ef0e79bf8ed3d2401e6a7d40d1b0f85" data-block-type="text"
+                 style="height: auto; width: 106.61px; left: 497.428px; top: 604px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 29; font-size: 50%; line-height: 0.91; color: rgb(204, 204, 204);">
+                    <p>Trace of tasks and connections</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a482f7cf4a4576522615f8b2303cfe2b" data-block-type="image"
+                 style="width: 71.5px; height: 71.5px; left: 620.069px; top: 451.78px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 30;"><img alt="security-search-tool" data-lazy-loaded="" data-natural-height="89"
+                                                                        data-natural-width="89" data-src="images/security-search-tool.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="57c06e6abab90a0c810a0f2108e95bd0" data-block-type="text"
+                 style="height: auto; width: 106.61px; left: 606.233px; top: 531.78px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 31; font-size: 50%; line-height: 0.91; color: rgb(204, 204, 204);">
+                    <p>Search</p>
+                    <p>Tool</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b91949c30804f8575b29d8934abc601d" data-block-type="image"
+                 style="width: 60.928px; height: 62.3286px; left: 670.5px; top: 326.336px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 32;"><img alt="security-trace-resources" data-lazy-loaded="" data-natural-height="89"
+                                                                        data-natural-width="87" data-src="images/security-trace-resources.png"
+                                                                        style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="1d1e193e65b0d21dfe01e6ff055b63a6" data-block-type="text"
+                 style="height: auto; width: 106.61px; left: 647.659px; top: 393.445px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 33; font-size: 50%; line-height: 0.91; color: rgb(204, 204, 204);">
+                    <p>Trace of used resources</p>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="120b33f55549f16b81505d203b18446a">
+            <div class="sl-block" data-block-id="5a77f0a80ebb35ab6078ea82dcf8e35f" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="f0305b3b0bfc350df9d72610b1b12d7f" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Security</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="f0f9f4e475a6adef54a648106ff9f891" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>Users, Roles &amp; Groups</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7033ecdd7f21fbbc1d842557fd1d6fc7" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="a0896c24de0b39ba061092e97ddc02a8">
+            <div class="sl-block" data-block-id="ed22339aaa94d3b4c892c3d1cc9e15ed" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>About Roles and Privileges</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7d5c8b7061860586133624ad5a112eeb" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="85a55d6359a096a00125d4b5d16ad914" data-block-type="image"
+                 style="width: 199px; height: 143px; left: 3px; top: 178.864px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;"><img alt="servers-1pair" data-lazy-loaded="" data-natural-height="143"
+                                                                        data-natural-width="199" data-src="images/servers-1pair.jpg" style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="a4507bd7a25d561a8a2741bd0de9ec6b" data-block-type="shape"
+                 style="width: 118.601px; height: 271.278px; left: 201.399px; top: 114.725px;">
+                <div class="sl-block-style" style="z-index: 13; opacity: 0.5;">
+                    <div class="sl-block-content" data-shape-fill-color="rgb(204, 204, 204)" data-shape-stretch="true" data-shape-type="triangle-left"
+                         style="z-index: 13;">
+                        <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 119 271" width="100%"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <polygon class="shape-element" fill="rgb(204, 204, 204)" points="0,135.639 118.601,0 118.601,271.278"></polygon>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="e2334ed79a95718938cb9eb3e97b7c59" data-block-type="image"
+                 style="width: 519.103px; height: 271.278px; left: 320px; top: 114.725px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 14;"><img alt="security-users-roles" data-lazy-loaded="" data-natural-height="347"
+                                                                        data-natural-width="664" data-src="images/security-users-roles.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b2c7a33582ed53297507afc21820d3d5" data-block-type="text"
+                 style="height: auto; width: 718.206px; left: 120.897px; top: 419px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
+                    <ul>
+                        <li style="text-align:left"><span style="font-size:0.7em">Login Roles (formerly Users) and Groups</span></li>
+                        <li style="text-align:left"><span style="font-size:0.7em">Not related to OS users and groups</span></li>
+                        <li style="text-align:left"><span style="font-size:0.7em">Attributes to determine permission levels</span></li>
+                        <li style="text-align:left"><span style="font-size:0.7em">Every system has a default superuser role (<strong>gpadmin</strong>)</span>
+                        </li>
+                        <li style="text-align:left"><span
+                                style="font-size:0.7em">Roles are given access privileges to databases, schemas, and objects</span></li>
+                        <li style="text-align:left"><span style="font-size:0.7em">Roles can be members of other roles</span></li>
+                        <li style="text-align:left"><span style="font-size:0.7em">Roles are defined at the system/server level, above databases</span>
+                        </li>
+                    </ul>
+                    <p></p>
+                </div>
+            </div>
+        </section>
+        <section data-id="35858bf1796a0bc8127c30d37755c45e">
+            <div class="sl-block" data-block-id="a8afa6f9d530e83995286eb6de4ac195" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>User Roles</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="692ecdcc43b890de6769c6180eff0931" data-block-type="text"
+                 style="height: auto; width: 868.296px; left: 3px; top: 140px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+                    <ul>
+                        <li>User Account = role that can login</li>
+                        <li>Default attributes for a new role:
+                            <ul>
+                                <li>NOSUPERUSER</li>
+                                <li>NOCREATEDB</li>
+                                <li>NOCREATEROLE</li>
+                                <li>INHERIT</li>
+                                <li>NOLOGIN (must explicitly grant LOGIN to user roles)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="cafe7e577ac40eea568e3233a08699e9" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="0b8aa978491e6101bd434068e0dcf3cc" data-block-type="text"
+                 style="height: 180px; width: 480px; left: 0px; top: 516px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; background-color: rgb(238, 238, 238); padding: 5px;">
+                    <p>Syntax</p>
+                    <ul>
+                        <li class="visible">CREATE ROLE : adds new role</li>
+                        <li class="visible">ALTER ROLE : change privileges for an existing role</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="d7e9e4d48e659a31d1d59d44d92ecbc6" data-block-type="code"
+                 style="width: 420px; height: 180px; left: 508px; top: 516px;">
+                <div class="sl-block-content notranslate fragment" data-code-frame="none" data-code-wrap="true" data-fragment-index="0"
+                     data-highlight-theme="sunburst" style="z-index: 14; font-size: 130%;"><pre class="sql"><code>CREATE ROLE john
+    WITH LOGIN
+         RESOURCE QUEUE adhoc;
+
+ALTER ROLE john
+    WITH CREATEDB;</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="4821b6b31800efecba2b2b5994140eb4">
+            <div class="sl-block" data-block-id="6fe5293f27c2737b79cd83f108a1f8ba" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Group Roles</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a6225bdd7b18206979bf5a50235d90ba" data-block-type="text"
+                 style="height: auto; width: 868.296px; left: 3px; top: 140px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; text-align: left;">
+                    <ul>
+                        <li>A role can be member of other roles</li>
+                        <li>Members inherit object privileges of the parent role</li>
+                        <li>Allows DBA to set object privileges in one place</li>
+                        <li>Role attributes not inherited, but can SET ROLE to a parent role to access a role attribute</li>
+                        <li>Group roles typically do not have LOGIN permissions</li>
+                        <li>Use GRANT/REVOKE to grant/remove members from a role</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="ff447a1d14c1702a4c30ab2c566d2fb6" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="935e594027427ec913a15aa45c17a2ef" data-block-type="text"
+                 style="height: 180px; width: 480px; left: 0px; top: 516px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; background-color: rgb(238, 238, 238); padding: 5px;">
+                    <p>Syntax</p>
+                    <ul>
+                        <li>GRANT : add role to group</li>
+                        <li class="visible">REVOKE : removes a role from a group</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a1b9b76a9675a766df957eee5c5854be" data-block-type="code"
+                 style="width: 420px; height: 180px; left: 508px; top: 516px;">
+                <div class="sl-block-content notranslate fragment" data-code-frame="none" data-code-wrap="true" data-fragment-index="0"
+                     data-highlight-theme="sunburst" style="z-index: 14; font-size: 130%;"><pre class="sql"><code>CREATE ROLE grp_admin
+    WITH CREATEROLE CREATEDB;
+
+GRANT grp_admin TO john, sally;
+
+REVOKE admin FROM bob;</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="b53e1d6bd02274c293af92faa35aaadb">
+            <div class="sl-block" data-block-id="38cb7faf1cf92171629cb4a0176adf48" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b64834d6097fa7d855f72e6f09c22444" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Security</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a44ab7d5a86e4e0c153bd3459c3716dd" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>DB Object Privileges</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="78d03df84d1d629c91a6daac1a695eec" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="173cbe5af0f8cc230f9cdd2b84414ab8">
+            <div class="sl-block" data-block-id="a1ecc69be1b61a3a905a3af0b87c2419" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>About Object Privileges</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7c4be2484270b6a04d19c895566ee90e" data-block-type="text"
+                 style="height: auto; width: 868.296px; left: 3px; top: 140px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>Each object has an <em>OWNER</em> role having all privileges</li>
+                        <li>All other roles must be granted privileges</li>
+                        <li>PUBLIC privilege = object accessible to all roles</li>
+                        <li>Use GRANT/REVOKE commands to manage privileges</li>
+                        <li>Use DROP OWNED/REASSIGN OWNED for managing objects owned by disabled (LOGIN revoked) roles</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="50cc76bc083cd26eb36b37304ba7084b" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7b6ae78cb1d1df5ff5dedf76d9b61f65" data-block-type="code"
+                 style="width: 438px; height: 180px; left: 20px; top: 490px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-code-wrap="true" data-highlight-theme="sunburst"
+                     style="z-index: 14; font-size: 130%;"><pre class="sql"><code>GRANT ALL ON DATABASE mydatabase
+   TO admin
+   WITH GRANT OPTION;
+
+GRANT SELECT ON TABLE mytable
+   TO PUBLIC;</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="e5a381aa9a2f96a587867af0e90d7a9e" data-block-type="code"
+                 style="width: 438px; height: 180px; left: 500px; top: 490px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-code-wrap="true" data-highlight-theme="sunburst"
+                     style="z-index: 15; font-size: 130%;"><pre class="sql"><code>REVOKE INSERT UPDATE
+   ON TABLE mytable FROM sally;
+
+REASSIGN OWNED BY sally TO john;
+
+DROP OWNED BY visitor;</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="09bb7d2237e3c97c1de68b1da25fd1d3" data-block-type="text"
+                 style="height: auto; width: 955px; left: 3px; top: 428px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(217, 234, 211);">
+                    <p>Examples</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+        </section>
+        <section data-id="26aed04a7b89640ddfc3ff97be5aeda0">
+            <div class="sl-block" data-block-id="9a4c677ff9b3a1a5eff5dd31cd1595ed" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Privileges assigned for ...</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="bda04293d0e02e325b143e0c2b33e6e8" data-block-type="text"
+                 style="height: auto; width: 960px; left: 0px; top: 560px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 11; text-align: left; background-color: rgb(238, 238, 238);">
+                    <p>Minimum object access privileges are highlighted in <span style="color:#FF0000">RED</span> above.</p>
+                    <p>Note: By default, no privileges are granted.</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="15e3c681f0af9062c8c5a488fdd7679b" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4dda7445f34976fe645fd0d9e509ba4e" data-block-type="table"
+                 style="height: auto; min-width: 120px; width: 954.5px; left: 3px; top: 139px;">
+                <div class="sl-block-content" data-table-border-color="rgb(255, 255, 255)" data-table-border-width="2px" data-table-cols="2"
+                     data-table-rows="7" style="z-index: 13;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Object Type</th>
+                            <th style="border-width: 2px; border-color: rgb(255, 255, 255);">Privileges</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Database</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);">
+                                <span style="color: red">CONNECT</span>, TEMPORARY, CREATE, ALL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Schema</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);">
+                                <span style="color: red">USAGE</span>, CREATE, ALL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Table/View</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);">
+                                <span style="color: red">SELECT</span>, INSERT, UPDATE, DELETE, TRUNCATE, ALL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Sequence</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);">USAGE, SELECT, UPDATE, ALL</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">FUNCTION</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);"><span style="color: red">EXECUTE</span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 206px; border-width: 2px; border-color: rgb(255, 255, 255);">Language</td>
+                            <td style="border-width: 2px; border-color: rgb(255, 255, 255);">USAGE</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="f7af6dfa3ef2ccdb524aced76c7d1b76">
+            <div class="sl-block" data-block-id="7072a75c129d28476acdf4646e721b0f" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="8bf969b8b1b7dba846f221de283beb5d" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Security</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="491cb0c22ddf0cd9a98d7233d2632ad3" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>Host-Based Authentication</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b6c500267e8dc9b7cbef8a1ffa318bc4" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="eaca87f846bfd2d68579aa00334d0d2f">
+            <div class="sl-block" data-block-id="5a70ea7bd521f65b5c7ab29cb6300f35" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c83301a7158e6b58effce7e7abcb0df3" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Host Based Authentication</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1a167bbef48904268b621cb309355ba3" data-block-type="text"
+                 style="height: auto; width: 943.245px; left: 1px; top: 176.688px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>Handles user authentication</li>
+                        <li>The file is located in $MASTER_DATA_DIRECTORY</li>
+                        <li>Comments are ignored</li>
+                        <li>File is read line by line
+                            <ul>
+                                <li>First matching line is used and all subsequent lines are ignored</li>
+                            </ul>
+                        </li>
+                        <li>Pessimistic - if no grants, then deny access</li>
+                        <li>To be able to access a Greenplum DB from an external host, the role/host pair has to be set in this file
+                            <ul>
+                                <li>If the pair is not declared, access will be denied, even if the role exists in Greenplum</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9f124dfdd3a430c9dfb7f5e51bfd0d67" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="b7fa9d52b76c928bcd15acaffa6f9816">
+            <div class="sl-block" data-block-id="5183bda9be65515143fd4d6c78188622" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1670e89cfac61ff9b6eda7a81ff8c736" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Formats</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b0c8413032e269c98ee466bbc11ea8c6" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="d7259f94bba78e235f9ccb6f3af02f36" data-block-type="table"
+                 style="height: auto; min-width: 120px; width: 928.332px; left: 11.668px; top: 149px;">
+                <div class="sl-block-content" data-table-border-color="rgb(255, 255, 255)" data-table-border-width="2px" data-table-cols="7"
+                     data-table-rows="8" style="z-index: 13; font-size: 70%;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">Connection Type</th>
+                            <th style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">Database(s)</th>
+                            <th style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">Role(s)</th>
+                            <th style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">Network Address</th>
+                            <th style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP Mask</th>
+                            <th style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">Authentication Method</th>
+                            <th style="border-color: rgb(255, 255, 255); border-width: 2px;">Authentication Options</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">local</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">host</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostssl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostnossl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">host</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostssl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostnossl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b57374d7202d957ef452edd38072edf9" data-block-type="text"
+                 style="height: auto; width: 793.25px; left: 3px; top: 569px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; font-size: 80%; padding: 5px; background-color: rgb(255, 217, 102);">
+<pre style="text-align:left"><span style="font-size:1.0em">local:     </span><span>Unix Domain Socket c</span><span
+        style="font-size:1.0em">onnection </span>
+<span style="font-size:1.0em">host:      Network connection, encryption is optional</span>
+<span style="font-size:1.0em">hostssl:   </span><span>Network connection</span><span style="font-size:1.0em">, encryption is enforced</span>
+<span style="font-size:1.0em">hostnossl: Network connection, no encryption</span></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a5857ab7df3378d475c6620b004ca874" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 46.6665px; top: 490px;">
+                <div class="sl-block-content" data-line-color="#f1c232" data-line-end-type="arrow" data-line-start-type="none" data-line-width="6px"
+                     data-line-x1="0" data-line-x2="0" data-line-y1="79" data-line-y2="0" style="z-index: 15;">
+                    <svg height="79" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 1 79" width="1" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="0" y1="79" y2="9"></line>
+                        <line stroke="#f1c232" stroke-width="6" x1="0" x2="0" y1="79" y2="9"></line>
+                        <polygon fill="#f1c232" points="0,-9 9,9 -9,9" transform="translate(0,9) rotate(0)"></polygon>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="eedb44eb99ea150fa0e476a08872b76c">
+            <div class="sl-block" data-block-id="e8b40b74a0445f1a4a3e3901b4f26e91" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="81b554349f38c223e6db3bf10a950cc0" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Database and Roles (Users)</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="d3649ac2c1003c1a0c79c30b8a31f51a" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a75255341a5a5128bcf860551dcf3fc6" data-block-type="table"
+                 style="height: auto; width: 928.332px; left: 11.668px; top: 149px;">
+                <div class="sl-block-content" data-table-border-color="rgb(255, 255, 255)" data-table-border-width="2px" data-table-cols="7"
+                     data-table-rows="8" style="z-index: 13; font-size: 70%;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <th style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">Connection Type</th>
+                            <th style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">Database(s)</th>
+                            <th style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">Role(s)</th>
+                            <th style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">Network Address</th>
+                            <th style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP Mask</th>
+                            <th style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">Authentication Method</th>
+                            <th style="border-color: rgb(255, 255, 255); border-width: 2px;">Authentication Options</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">local</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">host</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostssl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostnossl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">CIDR-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;"></td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">host</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostssl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 133px; border-color: rgb(255, 255, 255); border-width: 2px;">hostnossl</td>
+                            <td style="width: 136px; border-color: rgb(255, 255, 255); border-width: 2px;">database</td>
+                            <td style="width: 89px; border-color: rgb(255, 255, 255); border-width: 2px;">user</td>
+                            <td style="width: 116px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-addr</td>
+                            <td style="width: 107px; border-color: rgb(255, 255, 255); border-width: 2px;">IP-mask</td>
+                            <td style="width: 172px; border-color: rgb(255, 255, 255); border-width: 2px;">auth-method</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">auth-options</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="955880351d05356b172f303b80068e62" data-block-type="text"
+                 style="height: auto; width: 750px; left: 3px; top: 566px;">
+                <div class="sl-block-content fragment current-visible" data-fragment-index="0" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; font-size: 80%; padding: 5px; background-color: rgb(255, 217, 102);">
+                    <ul>
+                        <li class="fragment current-visible" data-fragment-index="0" style="text-align:left">Database name or list of comma separated names</li>
+                        <li class="fragment current-visible" data-fragment-index="0" style="text-align:left">all : tag specifying all databases</li>
+                        <li class="fragment current-visible" data-fragment-index="0" style="text-align:left">@&lt;filename&gt; : file containing list
+                            of database names, 1 per line
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="40594fd70b0fa93c9de2a7aca179b752" data-block-type="line"
+                 style="width: auto; height: auto; left: 209.599px; top: 490px;">
+                <div class="sl-block-content fragment current-visible" data-fragment-index="0" data-line-color="#f1c232" data-line-end-type="arrow"
+                     data-line-start-type="none" data-line-width="6px" data-line-x1="0" data-line-x2="0" data-line-y1="79" data-line-y2="0"
+                     style="z-index: 15;">
+                    <svg height="79" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 1 79" width="1" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="0" y1="79" y2="9"></line>
+                        <line stroke="#f1c232" stroke-width="6" x1="0" x2="0" y1="79" y2="9"></line>
+                        <polygon fill="#f1c232" points="0,-9 9,9 -9,9" transform="translate(0,9) rotate(0)"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5dd59b8c2cfe1079412e651b917b67a6" data-block-type="line"
+                 style="width: auto; height: auto; left: 320px; top: 490px;">
+                <div class="sl-block-content fragment" data-fragment-index="1" data-line-color="#f1c232" data-line-end-type="arrow"
+                     data-line-start-type="none" data-line-width="6px" data-line-x1="0" data-line-x2="0" data-line-y1="79" data-line-y2="0"
+                     style="z-index: 17;">
+                    <svg height="79" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 1 79" width="1" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="0" y1="79" y2="9"></line>
+                        <line stroke="#f1c232" stroke-width="6" x1="0" x2="0" y1="79" y2="9"></line>
+                        <polygon fill="#f1c232" points="0,-9 9,9 -9,9" transform="translate(0,9) rotate(0)"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a0ebf09b28e66f9b435421d8308d6a29" data-block-type="text"
+                 style="height: auto; width: 737.853px; left: 219.647px; top: 566px;">
+                <div class="sl-block-content fragment" data-fragment-index="1" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 16; font-size: 80%; padding: 5px; background-color: rgb(255, 217, 102);">
+                    <ul>
+                        <li class="fragment" data-fragment-index="1" style="text-align:left">Role name or list of roles (separated by commas)</li>
+                        <li class="fragment" data-fragment-index="1" style="text-align:left">all: tag specifying all roles</li>
+                        <li class="fragment" data-fragment-index="1" style="text-align:left">+&lt;role&gt;: a group role where access is granted to
+                            all members
+                        </li>
+                        <li class="fragment" data-fragment-index="1" style="text-align:left">@&lt;filename&gt; : file containing list of roles, 1 per
+                            line
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="419875682197ee111a2933c6eeab2c65">
+            <div class="sl-block" data-block-id="b709e6bf711be9c181118b0d151ba77a" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="74a8519a460c2744d76c992a3c965ce4" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Network Address</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6ee0468abbacd2d8d030d5e6cdc208f0" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="11309d3561ad1e9d1f819c150adcc4d2" data-block-type="text"
+                 style="height: auto; width: 954.25px; left: 2.75px; top: 148.707px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; background-color: rgba(0, 0, 0, 0); line-height: 1.456;">
+                    <ul>
+                        <li style="text-align:left">Does not apply for local connections</li>
+                        <li style="text-align:left">IPv4 and IPv6 supported</li>
+                        <li style="text-align:left">Two formats
+                            <ul>
+                                <li style="text-align:left">CIDR-address
+                                    <ul>
+                                        <li style="text-align:left"><span style="font-size:0.9em"><u><span style="color:rgb(62, 167, 188)"><a
+                                                href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing" target="_blank">https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing</a></span></u></span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li style="text-align:left">IP + Mask</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="157afa1a296212adf57b96b5639687c9" data-block-type="table"
+                 style="height: auto; min-width: 120px; width: 940px; left: 3px; top: 450px;">
+                <div class="sl-block-content"  data-table-padding="2px" data-table-rows="5"
+                     style="z-index: 16; font-size: 80%;">
+                    <table>
+                        <tbody style="padding: 2px;">
+                        <tr>
+                            <th style="width: 223px;border-color: rgb(255, 255, 255);">CIDR-Address</th>
+                            <th style="border-color: rgb(255, 255, 255);">IP-addr&nbsp; &nbsp; &nbsp; &nbsp; + IP-mask</th>
+                            <th style="border-color: rgb(255, 255, 255);">Comment</th>
+                        </tr>
+                        <tr>
+                            <td style="width: 223px;border-color: rgb(255, 255, 255);">192.107.2.89/32</td>
+                            <td style="border-color: rgb(255, 255, 255);">192.107.2.89&nbsp; 255.255.255.255</td>
+                            <td style="border-color: rgb(255, 255, 255);">Single host</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 223px;border-color: rgb(255, 255, 255);">192.107.2.0/24</td>
+                            <td style="border-color: rgb(255, 255, 255);">192.107.2.0&nbsp; &nbsp; 255.255.255.0</td>
+                            <td style="border-color: rgb(255, 255, 255);">Small network</td>
+                        </tr>
+                        <tr>
+                            <td style="border-color: rgb(255, 255, 255);">192.107.0.0/16</td>
+                            <td style="border-color: rgb(255, 255, 255);">192.107.0.0&nbsp; &nbsp; 255.255.0.0</td>
+                            <td style="border-color: rgb(255, 255, 255);">Large network</td>
+                        </tr>
+                        <tr>
+                            <td style="border-color: rgb(255, 255, 255);">0.0.0.0/0</td>
+                            <td style="border-color: rgb(255, 255, 255);">0.0.0.0&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;0.0.0.0</td>
+                            <td style="border-color: rgb(255, 255, 255);">Any host</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section data-id="b347f27c2c53a47a2dfdfc7c1bf570b2">
+            <div class="sl-block" data-block-id="aa1205cbdb16a7e4d3268374786b4bed" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="a998538c16e2dedf1d2a2a008ccbdc9b" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Authentication Method</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="013008ff96d048437e44782579a062c6" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="544c2db0f88cb1dc02b34e787bc0ec0f" data-block-type="table"
+                 style="height: auto; width: 928.332px; left: 11.668px; top: 226.122px;">
+                <div class="sl-block-content" data-table-border-color="rgb(255, 255, 255)" data-table-border-width="2px" data-table-cols="2"
+                     data-table-has-header="false" data-table-rows="7" style="z-index: 13; font-size: 70%;">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">trust</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">No password asked, access is granted immediately</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">reject</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Access is denied/rejected</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">md5</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Password required: hashed using md5 before sending to
+                                server
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">password</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Password required: transmitted in plain text</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">ldap</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Authentication using LDAP, encrypted or unencrypted</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">gss</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Authentication using GSSAPI and Kerberos</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 235px; border-color: rgb(255, 255, 255); border-width: 2px;">pam</td>
+                            <td style="border-color: rgb(255, 255, 255); border-width: 2px;">Uses the Linux Pluggable Authentication Method to
+                                authenticate the user (stacking of methods is possible)
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        <section data-id="4271f8d6d1b2f96315d776581e23b1a5">
+            <div class="sl-block" data-block-id="1e1900036c89f86f5e8ea31ab9ff36c0" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5885bcc46df2b83931795fa3f3956816" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Examples</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="eb8817c0f06aa2afcb86a720b08aaeae" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="fe1e4fa5e9c79a642657cd67c636b511" data-block-type="code"
+                 style="width: 950px; height: 540px; left: 3px; top: 140px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="solarized-light" style="z-index: 14;"><pre
+                        class="cmake"><code># allow the gpadmin user local access to all databases
+# using ident authentication
+local   all   gpadmin      ident               sameuser
+host    all   gpadmin      127.0.0.1/32        ident
+host    all   gpadmin      ::1/128             ident
+
+# allow the 'dba' role access to any database from any host
+# with IP address 192.168.x.x and use md5 encrypted passwords
+# to authenticate the user
+host    all   dba          192.168.0.0/16      md5
+
+# allow the 'user1' role access to the databases db1 and db2 from any host
+# and use no passwords to authenticate the user
+host    db1,db2  user1     0.0.0.0/0           trust
+
+# allow all the members of the 'gp-admin' group role access to the database vpdb from any
+# host with IP address 192.168.x.x and use md5 encrypted  passwords to authenticate the user
+host    vpdb    +gp-admin     192.168.0.0/16   md5
+
+# allow all roles access to all databases from hosts with IP address 192.168.x.x and use
+# ldap to authenticate the user
+# NOTE: Greenplum role names must match the LDAP common name.
+# NOTE: split across three lines for clarity. Must be on same line to take effect.
+host    all   all   192.168.0.0/16 ldap
+        ldapserver=usldap1 ldapport=1389
+        ldapprefix="cn=" ldapsuffix=",ou=People,dc=company,dc=com"</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="2448e2092ceebfb45a4b8e78b52c99f9">
+            <div class="sl-block" data-block-id="3159f6f6520bdb706a4a46e16286fb85" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>pg_hba.conf</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="ad47e19a30e7b09ce6bbbf26bc720229" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>
+                        <font color="#000000">Applying Settings</font>
+                    </h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="26c41f7119fa33d97547403ae2984a03" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/gp-onlight-vertical.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3cfaedcfe7c6222def1c8a7990d624df" data-block-type="text"
+                 style="height: auto; width: 821.589px; left: 3px; top: 179.534px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+                    <ul>
+                        <li style="text-align:left">Changes in the pg_hba.conf file will not take effect until you execute <em><strong>gpstop
+                            -u</strong></em>
+                            <ul>
+                                <li style="text-align:left">Signals the database to read and apply settings in configuration files; does not stop the
+                                    database
+                                </li>
+                            </ul>
+                        </li>
+                        <li style="text-align:left">The order of entries in the file is very important. The first entry matching user's host/role pair
+                            wins
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6c1e7c54ad67e67627e481a472c05559" data-block-type="code"
+                 style="width: 910px; height: 140px; left: 50px; top: 440px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="solarized-light"
+                     style="z-index: 14; font-size: 125%;"><pre class="sql"><code>host  all   user1   0.0.0.0/0	    trust
+.
+.
+.
+host  all   user1   192.168.0.0/16	md5  # This will not be applied</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1c491d75b60664ba7193a5ef4fc0765e" data-block-type="text"
+                 style="height: auto; width: 939.742px; left: 10.129px; top: 630px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15; font-size: 90%;">
+                    <p><a href="https://gpdb.docs.pivotal.io/6-1/admin_guide/client_auth.html" target="_blank">Greenplum Administration Guide -
+                        Configuring Client Authentication</a></p>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774"
+                 data-background-position="0% 0%" data-id="security-closing-slide"
+                 data-menu-title="End">
+            <div class="sl-block" data-block-type="image"
+                 style="width: 100%; height: auto; left: 10px; top: 250px;"
+                 data-block-id="footer-logo">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/logos/gp-ondark-horizontal.png">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var SLConfig = {
+        "deck": {
+            "id": 1675831,
+            "slug": "greenplum-security",
+            "title": "Greenplum Security",
+            "description": "Overview of Greenplum user authentication and security",
+            "width": 960,
+            "height": 700,
+            "visibility": "self",
+            "published_at": null,
+            "sanitize_messages": null,
+            "thumbnail_url": "https://s3.amazonaws.com/media-p.slid.es/thumbnails/0364e44bffaa19ab7611494070fba988/thumb.jpg?1576611141",
+            "view_count": 0,
+            "user": {
+                "id": 1134143,
+                "username": "csylvester",
+                "name": "Craig Sylvester",
+                "description": "Pivotal Data Engineer - Federal Division",
+                "thumbnail_url": "https://www.gravatar.com/avatar/d2436491e8c9292c895eebad673e3837?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png",
+                "paid": true,
+                "pro": true,
+                "lite": false,
+                "team_id": null,
+                "settings": {
+                    "id": 3868303,
+                    "present_controls": true,
+                    "present_upsizing": true,
+                    "present_pointer": false,
+                    "present_notes": true,
+                    "default_deck_tag_id": null
+                }
+            },
+            "background_transition": "slide",
+            "transition": "slide",
+            "theme_id": null,
+            "theme_font": "montserrat",
+            "theme_color": "white-blue",
+            "auto_slide_interval": 0,
+            "comments_enabled": true,
+            "forking_enabled": false,
+            "rolling_links": false,
+            "center": false,
+            "shuffle": false,
+            "should_loop": false,
+            "share_notes": false,
+            "slide_number": false,
+            "slide_count": 18,
+            "rtl": false,
+            "version": 2,
+            "collaborative": false,
+            "deck_user_editor_limit": 3,
+            "data_updated_at": 1576685315558,
+            "font_typekit": null,
+            "font_google": null,
+            "time_limit": null,
+            "upsizing_enabled": true,
+            "notes": {}
+        }
+    };
+
+
+    // Use local fonts
+    SLConfig.fonts_url = 'lib/fonts/';
+</script>
+<script src="lib/reveal.min.js"></script>
+<script src="lib/offline.js"></script>
+<!-- Initialize the presentation -->
+<script>
+    Reveal.initialize({
+        width: 960,
+        height: 700,
+        margin: 0.05,
+
+
+        hash: true,
+        controls: true,
+        progress: true,
+        mouseWheel: false,
+        showNotes: false,
+        slideNumber: false,
+
+        autoSlide: 0,
+        autoSlideStoppable: true,
+
+        center: false,
+        shuffle: false,
+        loop: false,
+        rtl: false,
+
+        transition: "slide",
+        backgroundTransition: "slide",
+
+        highlight: {
+            escapeHTML: false
+        },
+
+        /* Added menu plugin from https://github.com/denehyg/reveal.js-menu: CJS, 07oct2019 */
+        /* For a description of the 'menu' options, see the gp-intro-overview.html presentation */
+        menu: {
+            side: 'left',
+            width: 'wide',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            useTextContentForMissingTitles: false,
+            hideMissingTitles: false,
+            markers: true,
+            custom: false,
+            themes: false,
+            themesPath: 'css/theme/',
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true,
+            sticky: false,
+            autoOpen: true,
+            delayInit: false,
+            openOnInit: false,
+            loadIcons: true
+        },
+
+        dependencies: [
+            {
+                src: 'lib/reveal-plugins/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {
+                src: 'lib/reveal-plugins/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {src: 'lib/reveal-plugins/highlight/highlight.js'},
+            {
+                src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                }
+            },
+            {src: 'lib/reveal-plugins/zoom/zoom.js', async: true},
+            {src: 'lib/reveal-plugins/menu/menu.js', async: false}
+        ]
+    });
+</script>
+</body>
+</html>
+

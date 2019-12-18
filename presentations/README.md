@@ -12,3 +12,10 @@ The presentations used throughout the workshop are contained here.
   * To display the `index.html` file in the current directory and have it run on port 3000
     * `http-server . -p 3000 -o`
 
+
+
+### Additional software being used:
+- reveal.js (https://github.com/hakimel/reveal.js/)
+  * menu plugin (https://github.com/denehyg/reveal.js-menu)
+  * chart plugin (https://github.com/rajgoel/reveal.js-plugins/tree/master/chart)
+
