@@ -18,12 +18,13 @@ limitations under the License.
     <title>Integrating Greenplum with External Data</title>
     <meta content="Overview of PXF" name="description"/>
     <link href="lib/offline-v2.css" rel="stylesheet" type="text/css"/>
+    <link href="lib/gp-workshop.css" rel="stylesheet" type="text/css"/>
 </head>
+
 <body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
 <div class="reveal">
     <div class="slides">
-        <section data-background-image="images/bg-green-pivotal-labs.png" data-background-position="0% 0%"
-                 data-id="eeb7ffa9df77208cf1bb0818428deb3a">
+        <section class="title-slide" data-id="title-slide">
             <div class="sl-block" data-block-id="db813b73dfa24c6edc5458110c64740a" data-block-type="text"
                  style="width: 806px; left: 80px; top: 216px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
@@ -33,7 +34,7 @@ limitations under the License.
             <div class="sl-block" data-block-id="db0a9ce0b2ebd89058de30572dd1ac70" data-block-type="text"
                  style="height: auto; width: 600px; left: 172px; top: 553px;">
                 <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; font-size: 150%;">
-                    <p>PXF</p>
+                    <p>Platform Extension Framework (PXF)</p>
                 </div>
             </div>
             <div class="sl-block" data-block-id="9402125ee9920a7d438bae6957c683b2" data-block-type="line"
@@ -72,8 +73,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="ca18d9e36ac2e833b3d14124be4f425b" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="e4106f3caade29fedef5ca2a57dcfcbf" data-block-type="shape"
@@ -219,8 +220,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="7d5c8b7061860586133624ad5a112eeb" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="581a578bd54c0921114549ef8421cd71" data-block-type="image"
@@ -321,8 +322,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="876120bf7b4582924130789e1c8ffd4f" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="61ba44f6bb3248659de1c7331be5293e" data-block-type="code"
@@ -380,8 +381,8 @@ CREATE WRITABLE EXTERNAL WEB TABLE table_name ... ; </code></pre>
             <div class="sl-block" data-block-id="bd3c8ea1e99bcdda32d10dbf7bb2a48c" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="fab8dfc2681930a7ae7c5d8e0ce56575" data-block-type="text"
@@ -473,8 +474,8 @@ CREATE WRITABLE EXTERNAL WEB TABLE table_name ... ; </code></pre>
             <div class="sl-block" data-block-id="5a26818f16a634b176b6fec679f0b7f9" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 14;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="37df0fe3acee46beda54379579804bb0" data-block-type="image"
@@ -535,8 +536,8 @@ CREATE WRITABLE EXTERNAL WEB TABLE table_name ... ; </code></pre>
             <div class="sl-block" data-block-id="74ae4c4b5260f61c0df9ae25ebd36c52" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="979934e490ef71daa61dcca0770d991b" data-block-type="text"
@@ -587,8 +588,8 @@ CREATE WRITABLE EXTERNAL WEB TABLE table_name ... ; </code></pre>
             <div class="sl-block" data-block-id="1a92bd5d17eb39e3062966514a2a6666" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="7eb30c648d989857390e7f72d42205e6" data-block-type="text"
@@ -702,8 +703,8 @@ CREATE WRITABLE EXTERNAL WEB TABLE table_name ... ; </code></pre>
             <div class="sl-block" data-block-id="2b28e031b0e34df46698e1400dc06200" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="3c8d3ba95236930ec7c521c4eb4f7a6a" data-block-type="text"
@@ -828,8 +829,8 @@ FORMAT
             <div class="sl-block" data-block-id="494af3b948c4ae2c182abc29209fe2f2" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="2592e91f5aba6dc1cb4a03b7d61520e1" data-block-type="shape"
@@ -922,8 +923,8 @@ FORMAT
             <div class="sl-block" data-block-id="dcaa02481a424a40c8287cf31959f1d0" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="52aff40572e710c10f4bc916f935ba19" data-block-type="shape"
@@ -994,8 +995,8 @@ FORMAT
             <div class="sl-block" data-block-id="51b8d8aec833d1f6933dd6a7d72aaa3b" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="8d20e3f9d7261541b0bf2529d7eaa3a8" data-block-type="text"
@@ -1021,8 +1022,8 @@ FORMAT
             <div class="sl-block" data-block-id="89d0e00ea8fefdf3b9e7a567b54263c3" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 10;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="1db1efbd335d70b409bc7f1b03ce2341" data-block-type="text"
@@ -1087,8 +1088,8 @@ FORMAT
             <div class="sl-block" data-block-id="745df646d7c5340082e250880ae94841" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
         </section>
@@ -1110,8 +1111,8 @@ FORMAT
             <div class="sl-block" data-block-id="b04eb89e5d0617776dcc759fcf342615" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 16;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="5c91136f414d297524279581ac7fec72" data-block-type="code"
@@ -1451,8 +1452,8 @@ WHERE  state = 'CA';</code></pre>
             <div class="sl-block" data-block-id="962c0b897a4850a0935b347580cd1ad1" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 16;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="9265fc08249a8d2bad2ffd12cbb1a931" data-block-type="code"
@@ -1787,8 +1788,8 @@ WHERE  state = 'CA';</code></pre>
             <div class="sl-block" data-block-id="3d2577712e4499db1d7276ee15ccd427" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="444184921de41a6a0542023d7894e9f0" data-block-type="text"
@@ -2330,8 +2331,8 @@ WHERE  state = 'CA';</code></pre>
             <div class="sl-block" data-block-id="d5a2ad31159bad54b3f3d91e0c89d1a2" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
                 <div class="sl-block-content" style="z-index: 15;">
-                    <img alt="gp-workshop-vertical-logo" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/gp-workshop-vertical-on-light.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                          data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="c4f3bf84951baf026b4279719a687889" data-block-type="text"
@@ -2541,8 +2542,8 @@ WHERE  state = 'CA';</code></pre>
         <section data-background-color="#008774" data-id="d0c4ad78be96984dd4757c0baad36ee9" data-menu-title="End">
             <div class="sl-block" data-block-id="85fc8ce1dcb1e1d5dcfe8bba0d2ebbf9" data-block-type="image"
                  style="min-width: 4px; min-height: 4px; width: 806px; height: 200px; left: 77px; top: 250px;">
-                <div class="sl-block-content" style="z-index: 11;"><img alt="gp-ondark-horizontal" data-natural-height="200" data-natural-width="808"
-                                                                        data-src="images/logos/gp-ondark-horizontal.png" style=""/></div>
+                <div class="sl-block-content" style="z-index: 11;"><img alt="logo-gp-horizontal-ondark" data-natural-height="200" data-natural-width="808"
+                                                                        data-src="images/logos/logo-gp-horizontal-ondark.png" style=""/></div>
             </div>
         </section>
     </div>

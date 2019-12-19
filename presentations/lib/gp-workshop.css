@@ -1,0 +1,28 @@
+/*!
+ * Styles used for the Greenplum Workshop presentations
+ *
+ * Craig Sylvester, Pivotal
+ */
+
+.reveal .controls button { color: #f27062 }
+
+.reveal .backgrounds .agenda-slide { background: linear-gradient(90deg, #008774 40%, white 40%); }
+
+.reveal .backgrounds .title-slide { background-image: url("../images/bg-green-pivotal-labs.png"); }
+
+/*! h2: Used for titles on slides. This is Pivotal teal green. */
+.reveal .slides h2 {
+    color: #008774;
+    font-size: 1.7em;
+}
+/*! h3: Used for sub-titles on slides (not all slides) */
+.reveal .slides h3 {
+    color: black;
+    font-size: 1em;
+    text-align: left;
+}
+
+/*! Custom settings for tables to create alternating row colors */
+.reveal th { background: #57B6A5; color: #FFF; }
+.reveal tr:nth-child(even) { background: #C8EBE4; }
+.reveal tr:nth-child(odd) { background: #D9FFF7; }

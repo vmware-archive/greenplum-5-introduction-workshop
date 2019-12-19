@@ -17,47 +17,13 @@ limitations under the License.
     <title>Greenplum Security</title>
     <meta content="Overview of Greenplum user authentication and security" name="description"/>
     <link href="lib/offline-v2.css" rel="stylesheet" type="text/css"/>
-    <!-- User CSS -->
-    <style id="user-css-output" type="text/css">
-        .reveal .controls button {
-            color: #f27062
-        }
-
-        .reveal .backgrounds .agenda-slide {
-            background: linear-gradient(90deg, #008774 40%, white 40%);
-        }
-
-        .reveal .slides h2 {
-            color: #008774;
-            font-size: 1.7em;
-        }
-
-        .reveal .slides h3 {
-            color: black;
-            font-size: 1em;
-            text-align: left;
-        }
-
-        .reveal th {
-            background: #57B6A5;
-            color: #FFF;
-        }
-
-        .reveal tr:nth-child(even) {
-            background: #C8EBE4;
-        }
-
-        .reveal tr:nth-child(odd) {
-            background: #D9FFF7;
-        }
-
-    </style>
+    <link href="lib/gp-workshop.css" rel="stylesheet" type="text/css"/>
 </head>
+
 <body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
 <div class="reveal">
     <div class="slides">
-        <section data-background-image="images/bg-green-pivotal-labs.png" data-background-position="0% 0%"
-                 data-id="eeb7ffa9df77208cf1bb0818428deb3a">
+        <section class="title-slide" data-id="title-slide">
             <div class="sl-block" data-block-id="db813b73dfa24c6edc5458110c64740a" data-block-type="text"
                  style="width: 806px; left: 80px; top: 216px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
@@ -88,7 +54,7 @@ limitations under the License.
                                                                         style=""/></div>
             </div>
         </section>
-        <section class="agenda-slide" data-id="security-slide-2">
+        <section class="agenda-slide" data-id="agenda-slide">
             <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
                  data-block-id="7e2719aa089f4c3b21056aab57483e43">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -99,7 +65,7 @@ limitations under the License.
             <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
                  style="width: 12%; height: auto; left: 900px; top: 10px;" >
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img data-src="images/gp-workshop-vertical-on-light.png">
+                    <img alt="gp-wkshop-vertical-ondark" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
                 </div>
             </div>
 
@@ -117,7 +83,7 @@ limitations under the License.
                 </div>
             </div>
         </section>
-        <section data-id="fcac435a77a2c64d6d71397647fdd3ad">
+        <section data-id="security-slide-3">
             <div class="sl-block" data-block-id="cf6b4b244797f22ef7e9877a292ca2e0" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -128,8 +94,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="617ab249350bc226e666e0ec90964e81" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 11;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="b252c0802212c0ddf21c18315ee5385b" data-block-type="image"
@@ -289,12 +255,12 @@ limitations under the License.
                 </div>
             </div>
         </section>
-        <section data-background-color="#008774" data-id="120b33f55549f16b81505d203b18446a">
+        <section data-background-color="#008774" data-id="security-slide-4">
             <div class="sl-block" data-block-id="5a77f0a80ebb35ab6078ea82dcf8e35f" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 10;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="f0305b3b0bfc350df9d72610b1b12d7f" data-block-type="text"
@@ -321,7 +287,7 @@ limitations under the License.
                 </div>
             </div>
         </section>
-        <section data-id="a0896c24de0b39ba061092e97ddc02a8">
+        <section data-id="security-slide-5">
             <div class="sl-block" data-block-id="ed22339aaa94d3b4c892c3d1cc9e15ed" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -332,8 +298,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="7d5c8b7061860586133624ad5a112eeb" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 11;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="85a55d6359a096a00125d4b5d16ad914" data-block-type="image"
@@ -378,7 +344,7 @@ limitations under the License.
                 </div>
             </div>
         </section>
-        <section data-id="35858bf1796a0bc8127c30d37755c45e">
+        <section data-id="security-slide-6">
             <div class="sl-block" data-block-id="a8afa6f9d530e83995286eb6de4ac195" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -406,8 +372,8 @@ limitations under the License.
             <div class="sl-block" data-block-id="cafe7e577ac40eea568e3233a08699e9" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="0b8aa978491e6101bd434068e0dcf3cc" data-block-type="text"
@@ -433,7 +399,7 @@ ALTER ROLE john
                 </div>
             </div>
         </section>
-        <section data-id="4821b6b31800efecba2b2b5994140eb4">
+        <section data-id="security-slide-7">
             <div class="sl-block" data-block-id="6fe5293f27c2737b79cd83f108a1f8ba" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -457,8 +423,8 @@ ALTER ROLE john
             <div class="sl-block" data-block-id="ff447a1d14c1702a4c30ab2c566d2fb6" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="935e594027427ec913a15aa45c17a2ef" data-block-type="text"
@@ -484,12 +450,12 @@ REVOKE admin FROM bob;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-background-color="#008774" data-id="b53e1d6bd02274c293af92faa35aaadb">
+        <section data-background-color="#008774" data-id="security-slide-8">
             <div class="sl-block" data-block-id="38cb7faf1cf92171629cb4a0176adf48" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 10;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="b64834d6097fa7d855f72e6f09c22444" data-block-type="text"
@@ -516,7 +482,7 @@ REVOKE admin FROM bob;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="173cbe5af0f8cc230f9cdd2b84414ab8">
+        <section data-id="security-slide-9">
             <div class="sl-block" data-block-id="a1ecc69be1b61a3a905a3af0b87c2419" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -539,8 +505,8 @@ REVOKE admin FROM bob;</code></pre>
             <div class="sl-block" data-block-id="50cc76bc083cd26eb36b37304ba7084b" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="7b6ae78cb1d1df5ff5dedf76d9b61f65" data-block-type="code"
@@ -578,7 +544,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="26aed04a7b89640ddfc3ff97be5aeda0">
+        <section data-id="security-slide-10">
             <div class="sl-block" data-block-id="9a4c677ff9b3a1a5eff5dd31cd1595ed" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -597,8 +563,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="15e3c681f0af9062c8c5a488fdd7679b" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="4dda7445f34976fe645fd0d9e509ba4e" data-block-type="table"
@@ -646,12 +612,12 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-background-color="#008774" data-id="f7af6dfa3ef2ccdb524aced76c7d1b76">
+        <section data-background-color="#008774" data-id="security-slide-11">
             <div class="sl-block" data-block-id="7072a75c129d28476acdf4646e721b0f" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 10;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="8bf969b8b1b7dba846f221de283beb5d" data-block-type="text"
@@ -678,7 +644,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="eaca87f846bfd2d68579aa00334d0d2f">
+        <section data-id="security-slide-12">
             <div class="sl-block" data-block-id="5a70ea7bd521f65b5c7ab29cb6300f35" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -718,12 +684,12 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="9f124dfdd3a430c9dfb7f5e51bfd0d67" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 13;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
         </section>
-        <section data-id="b7fa9d52b76c928bcd15acaffa6f9816">
+        <section data-id="security-slide-13">
             <div class="sl-block" data-block-id="5183bda9be65515143fd4d6c78188622" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -741,8 +707,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="b0c8413032e269c98ee466bbc11ea8c6" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="d7259f94bba78e235f9ccb6f3af02f36" data-block-type="table"
@@ -850,7 +816,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="eedb44eb99ea150fa0e476a08872b76c">
+        <section data-id="security-slide-14">
             <div class="sl-block" data-block-id="e8b40b74a0445f1a4a3e3901b4f26e91" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -868,8 +834,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="d3649ac2c1003c1a0c79c30b8a31f51a" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="a75255341a5a5128bcf860551dcf3fc6" data-block-type="table"
@@ -1008,7 +974,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="419875682197ee111a2933c6eeab2c65">
+        <section data-id="security-slide-15">
             <div class="sl-block" data-block-id="b709e6bf711be9c181118b0d151ba77a" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -1026,8 +992,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="6ee0468abbacd2d8d030d5e6cdc208f0" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="11309d3561ad1e9d1f819c150adcc4d2" data-block-type="text"
@@ -1088,7 +1054,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="b347f27c2c53a47a2dfdfc7c1bf570b2">
+        <section data-id="security-slide-16">
             <div class="sl-block" data-block-id="aa1205cbdb16a7e4d3268374786b4bed" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -1106,8 +1072,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="013008ff96d048437e44782579a062c6" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="544c2db0f88cb1dc02b34e787bc0ec0f" data-block-type="table"
@@ -1153,7 +1119,7 @@ DROP OWNED BY visitor;</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="4271f8d6d1b2f96315d776581e23b1a5">
+        <section data-id="security-slide-17">
             <div class="sl-block" data-block-id="1e1900036c89f86f5e8ea31ab9ff36c0" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -1171,8 +1137,8 @@ DROP OWNED BY visitor;</code></pre>
             <div class="sl-block" data-block-id="eb8817c0f06aa2afcb86a720b08aaeae" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="fe1e4fa5e9c79a642657cd67c636b511" data-block-type="code"
@@ -1207,7 +1173,7 @@ host    all   all   192.168.0.0/16 ldap
                 </div>
             </div>
         </section>
-        <section data-id="2448e2092ceebfb45a4b8e78b52c99f9">
+        <section data-id="security-slide-18">
             <div class="sl-block" data-block-id="3159f6f6520bdb706a4a46e16286fb85" data-block-type="text"
                  style="width: 799px; left: 3px; top: 4px; height: auto;">
                 <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
@@ -1227,8 +1193,8 @@ host    all   all   192.168.0.0/16 ldap
             <div class="sl-block" data-block-id="26c41f7119fa33d97547403ae2984a03" data-block-type="image"
                  style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="gp-onlight-vertical" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
-                         data-src="images/logos/gp-onlight-vertical.png"/>
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
                 </div>
             </div>
             <div class="sl-block" data-block-id="3cfaedcfe7c6222def1c8a7990d624df" data-block-type="text"
@@ -1268,13 +1234,13 @@ host  all   user1   192.168.0.0/16	md5  # This will not be applied</code></pre>
             </div>
         </section>
         <section data-background-color="#008774"
-                 data-background-position="0% 0%" data-id="security-closing-slide"
+                 data-background-position="0% 0%" data-id="closing-slide"
                  data-menu-title="End">
             <div class="sl-block" data-block-type="image"
                  style="width: 100%; height: auto; left: 10px; top: 250px;"
                  data-block-id="footer-logo">
                 <div class="sl-block-content" style="z-index: 12;">
-                    <img data-src="images/logos/gp-ondark-horizontal.png">
+                    <img data-src="images/logos/logo-gp-horizontal-ondark.png">
                 </div>
             </div>
         </section>
