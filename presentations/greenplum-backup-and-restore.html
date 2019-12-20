@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+
+<html class="sl-root decks export offline loaded">
+<head>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" name="viewport"/>
+    <meta charset="utf-8"/>
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible"/>
+    <title>Greenplum Backup and Restore</title>
+    <meta content="Overview of the Greenplum backup and restore utilities." name="description"/>
+    <link href="lib/offline-v2.css" rel="stylesheet" type="text/css"/>
+    <link href="lib/gp-workshop.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+<div class="reveal">
+    <div class="slides">
+        <section class="title-slide" data-id="1255ea5d908afbac251f1e1f9d3d308c">
+            <div class="sl-block" data-block-id="84b306e8815fc7b633bfe6af361ec4ba" data-block-type="text"
+                 style="width: 806px; left: 80px; top: 216px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 10;">
+                    <h1>Petabyte Scale Data Warehousing - Greenplum</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="673da5d85b64d588d7880af4c33e9773" data-block-type="text"
+                 style="height: auto; width: 600px; left: 172px; top: 553px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 11; font-size: 150%;">
+                    <p>Backup and Restore</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="dda58aa1382386982967979ff85af785" data-block-type="line"
+                 style="width: auto; height: auto; left: 163px; top: 522px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 12;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5f4a28dafe2c73962d7faeab42de802b" data-block-type="image"
+                 style="width: 300px; height: 124px; left: 0px; top: 0px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;"><img data-lazy-loaded="" data-natural-height="751" data-natural-width="1814"
+                                                                        data-src="images/logos/logo-pivotal-on-dark.png"
+                                                                        style=""/></div>
+            </div>
+        </section>
+        <section class="agenda-slide" data-id="24fa2a0d224197f37a3584326c863614">
+            <div class="sl-block" data-block-id="445dc98261eb8a1a6978e7923cf2a8a5" data-block-type="text"
+                 style="width: auto; left: 0px; top: 288px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: center; color: white;">
+                    <h1>Agenda</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="27439754a1f2af36ee0646ee26ddc30d" data-block-type="text"
+                 style="height: auto; width: 560px; left: 400px; top: 145.5px;">
+                <div class="sl-block-content" data-has-line-height="" data-placeholder-tag="p" data-placeholder-text="Text" dir="ui"
+                     style="z-index: 12; text-align: left; line-height: 1.43; font-size: 1.3em;">
+                    <ul>
+                        <li>Overview</li>
+                        <li>Backup command</li>
+                        <li>Restore command</li>
+                        <li>Pivotal Greenplum components
+                            <ul style="list-style-type: circle">
+                                <li>gpmanager</li>
+                                <li>gpcopy</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4ebb3355189aeb2783035edd0bc45097" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="d6180d05064de01bf628100e7bda9749">
+            <div class="sl-block" data-block-id="bf86628405d8e2042ff4ad2f6a7009b7" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9e55bdbc79ffe08533cad69ba469a142" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 12; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">Backup/Restore</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="06367d57e3017cc4d937dd9c70ccc098" data-block-type="text"
+                 style="height: auto; width: 453px; left: 502.5px; top: 145px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13; text-align: left;">
+                    <ul>
+                        <li>Uses <strong>COPY ... ON SEGMENT</strong>
+                            <ul>
+                                <li>data is backed up as CSV text only (no COPY command)</li>
+                                <li>COPY command is visible from pg_stat_activity</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="226612313a7dea683db9d1324cec38c2" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 14;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="501eeb284bab3cea772f68198ea282a6" data-block-type="text"
+                 style="height: auto; width: 477.25px; left: 3px; top: 630px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; font-size: 70%; background-color: rgb(255, 255, 0);">
+                    <p><em>gpbackup</em> and <em>gprestore</em> source code available:</p>
+                    <p><a href="https://github.com/greenplum-db/gpbackup" target="_blank">https://github.com/greenplum-db/gpbackup</a></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3a5c2918faab0133714b4ee227959419" data-block-type="image"
+                 style="width: 425.652px; height: 275px; left: 3px; top: 187px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 16;">
+                    <img alt="backup-restore-graphic" data-lazy-loaded="" data-natural-height="460" data-natural-width="712"
+                         data-src="images/backup-restore-graphic.png"
+                         style=""/></div>
+            </div>
+            <div class="sl-block" data-block-id="6659efbf4cb5ef9c5a09f5ede24a10d8" data-block-type="text"
+                 style="height: auto; width: 149.25px; left: 536.75px; top: 538.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; font-size: 70%; background-color: rgb(217, 234, 211);">
+                    <p>Greenplum Master</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="cffd888ac422b273eb73e89ff6c218db" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 686px; top: 559.5px;">
+                <div class="sl-block-content" data-line-color="#000000" data-line-end-type="none" data-line-start-type="none" data-line-x1="74"
+                     data-line-x2="0" data-line-y1="0.5" data-line-y2="0" style="z-index: 18;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 74 1" width="74" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="74" x2="0" y1="0.5" y2="0"></line>
+                        <line stroke="#000000" stroke-width="2" x1="74" x2="0" y1="0.5" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3c5b3752907064590cecb943bdf9292e" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 686px; top: 456px;">
+                <div class="sl-block-content" data-line-color="#000000" data-line-end-type="none" data-line-start-type="none" data-line-x1="0"
+                     data-line-x2="74" data-line-y1="103.5" data-line-y2="0" style="z-index: 19;">
+                    <svg height="103.5" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 74 103.5" width="74"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="74" y1="103.5" y2="0"></line>
+                        <line stroke="#000000" stroke-width="2" x1="0" x2="74" y1="103.5" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9ea485c138714f6a9560c35ab64c1cae" data-block-type="text"
+                 style="height: auto; width: 72px; left: 760px; top: 442.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 20; font-size: 70%; background-color: rgb(147, 196, 125);">
+                    <p>Seg1</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7c38298a80c77876120974016d009a92" data-block-type="text"
+                 style="height: auto; width: 72px; left: 760px; top: 546.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 21; font-size: 70%; background-color: rgb(147, 196, 125);">
+                    <p>SegN</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9b30f518b2e0dcd06f8508ee903c4eee" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 832px; top: 456px;">
+                <div class="sl-block-content" data-line-color="#000000" data-line-end-type="none" data-line-start-type="none" data-line-x1="0"
+                     data-line-x2="48" data-line-y1="0" data-line-y2="0" style="z-index: 22;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 48 1" width="48" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="48" y1="0" y2="0"></line>
+                        <line stroke="#000000" stroke-width="2" x1="0" x2="48" y1="0" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9fbcd48e24667cf05adaff0adb768c85" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 832px; top: 559.5px;">
+                <div class="sl-block-content" data-line-color="#000000" data-line-end-type="none" data-line-start-type="none" data-line-x1="0"
+                     data-line-x2="48" data-line-y1="0" data-line-y2="0" style="z-index: 23;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 48 1" width="48" xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="48" y1="0" y2="0"></line>
+                        <line stroke="#000000" stroke-width="2" x1="0" x2="48" y1="0" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="16155235f6d7cb9680e0628e7eecddd4" data-block-type="text"
+                 style="height: auto; width: 66.826px; left: 768.587px; top: 485.587px;">
+                <div class="sl-block-style" style="z-index: 24; transform: rotate(90deg);">
+                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 24;">
+                        <p>. . .</p>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="824fee381c9ef3ab10c49b72cfadf68c" data-block-type="image"
+                 style="width: 54.652px; height: 54.1364px; left: 872.674px; top: 420px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 26;"><img alt="delimited-files" data-lazy-loaded="" data-natural-height="210"
+                                                                        data-natural-width="212" data-src="images/delimited-files.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="301cdab4e98525be1787f53d236076ce" data-block-type="image"
+                 style="width: 54.652px; height: 54.1364px; left: 880px; top: 532.432px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 27;"><img alt="delimited-files" data-lazy-loaded="" data-natural-height="210"
+                                                                        data-natural-width="212" data-src="images/delimited-files.png" style=""/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="111ef85e5b9afd193a03866d35d6ccbd" data-block-type="shape"
+                 style="width: 460px; height: 504.5px; left: 497.5px; top: 140px;">
+                <div class="sl-block-content" data-shape-fill-color="rgb(238, 238, 238)" data-shape-stretch="true" data-shape-stroke-color="#888888"
+                     data-shape-stroke-width="2px" data-shape-type="rect" style="z-index: 10;">
+                    <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 460 505" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <clippath id="shape-mask-1-1576792357476">
+                                <rect fill="rgb(238, 238, 238)" height="504.5" rx="0" ry="0" stroke="#888888" stroke-width="4" width="460"></rect>
+                            </clippath>
+                        </defs>
+                        <rect class="shape-element" clip-path="url(#shape-mask-1-1576792357476)" fill="rgb(238, 238, 238)" height="504.5" rx="0"
+                              ry="0" stroke="#888888" stroke-width="4" width="460"></rect>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="cb8e288398e0563f8b2cb36aa2f1f5e3" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 520.5px; top: 411px;">
+                <div class="sl-block-content" data-line-color="#888888" data-line-end-type="none" data-line-start-type="none" data-line-width="4px"
+                     data-line-x1="0" data-line-x2="420.75" data-line-y1="0" data-line-y2="0" style="z-index: 28;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 420.75 1" width="420.75"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="420.75" y1="0" y2="0"></line>
+                        <line stroke="#888888" stroke-width="4" x1="0" x2="420.75" y1="0" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="39593beef8e751b4b89626cf85a75d62" data-block-type="text"
+                 style="height: auto; width: 183.25px; left: 536.75px; top: 442.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 29; font-size: 65%;">
+<pre style="text-align:left"><span style="color:#008000">COPY</span> &lt;table&gt;
+<span style="color:#008000">TO</span>   &lt;location&gt;
+<span style="color:#008000">ON SEGMENTS</span>;</pre>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="a8c318c5bdd8bfd99940e1f0be74f67b">
+            <div class="sl-block" data-block-id="02fff6e0720fb338c0d2ea22cf8e6793" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="72776ab2fbe498da1a97e094dccd1e6f" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Backup and Restore</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3ae7eaf7f6d53b232feee802321632e2" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>gpbackup</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6a945410a8feaf29924632dfefcbb27b" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="09584b8a320cf11c4964fba31e0f5af8">
+            <div class="sl-block" data-block-id="b20173fbd7945812cceeda7e8e90ff0e" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c74a90617175a80d308cfb59701ca51b" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>A few details</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="2571aadbdd77dd87f26a5a9c84efa6a1" data-block-type="text"
+                 style="height: auto; width: 948px; left: -3.5px; top: 175px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>Acquires an <strong>ACCESS SHARE</strong> lock on each table that is backed up
+                            <ul>
+                                <li style="list-style-type: circle">Reduces lock impact</li>
+                            </ul>
+                        </li>
+                        <li>Runs in a transaction
+                            <ul>
+                                <li style="list-style-type: circle">combination of <strong>ACCESS SHARE</strong> and <strong>MVCC</strong> allows for
+                                    DML operations to continue without affecting the backup
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Ability to run several backups in parallel or to use several threads (with the option <em>--jobs</em>)
+                            <ul>
+                                <li style="list-style-type: circle">Improves the overall performance</li>
+                            </ul>
+                        </li>
+                        <li>A sub-directory per backup (timestamp key)
+                            <ul>
+                                <li style="list-style-type: circle">Makes it easier to rollup backups</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="798fccf9ee979f4b842f4dd7f73b0ef7" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="b778645ab3ce9407bad4f213c4f950d3">
+            <div class="sl-block" data-block-id="a5e2bb9d680d8f197d52218cefb92dac" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1bad4f6ceb185893d9a9320a01566c85" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3><span style="color:#000000">A few more details</span></h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1e12b1c3134f32bb4b702eb03d4ada28" data-block-type="text"
+                 style="height: auto; width: 948px; left: 3px; top: 175px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left; font-size: 80%;">
+                    <ul>
+                        <li>Ability to see the progress (number of tables) of the backup and the restore
+                            <ul style="list-style-type: circle">
+                                <li>Easier monitoring</li>
+                                <li>More accurate estimate of the end of backup</li>
+                            </ul>
+                        </li>
+                        <li>Dump only metadata or only data
+                            <ul style="list-style-type: circle">
+                                <li>A single tool to extract DDL and/or data</li>
+                            </ul>
+                        </li>
+                        <li>Option to define the compression level</li>
+                        <li>One file per table (or partition) and per segment
+                            <ul style="list-style-type: circle">
+                                <li>Or create one file per segment (<em>--single-data-file </em>option)</li>
+                            </ul>
+                        </li>
+                        <li>Incremental backup
+                            <ul style="list-style-type: circle">
+                                <li>You can override the date of the last incremental (<em>--from-timestamp </em>option)</li>
+                                <li>Currently only supported for append-optimized tables</li>
+                            </ul>
+                        </li>
+                        <li>Plugin architecture (<em>--plugin-config</em> option) to support external storage
+                            <ul style="list-style-type: circle">
+                                <li>DDBoost for Data Domain</li>
+                                <li>S3-like storage (i.e. Dell ECS, Minio, Amazon S3, ...)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="fb36fb7ffc94eb552536607ef11bac62" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="b2b37bca0448d422c3a88d14a3e3c76a">
+            <div class="sl-block" data-block-id="254b05ad1d50c366a7bb43f97a01760b" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Command options</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6ace1122a06f8a6fd86f5b5322112c9b" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="511d3a31b64e85caacd13976e0974a68" data-block-type="code"
+                 style="width: 735px; height: 531px; left: 9.5px; top: 140px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="github-gist"
+                     style="z-index: 14; font-size: 130%;"><pre class="apache"><code>gpbackup --dbname database_name
+   [--backup-dir directory]
+   [--compression-level level]
+   [--data-only]
+   [--debug]
+   [--exclude-schema schema_name]
+   [--exclude-table schema.table]
+   [--exclude-table-file file_name]
+   [--include-schema schema_name]
+   [--include-table schema.table]
+   [--include-table-file file_name]
+   [--incremental [--from-timestamp backup-timestamp]]
+   [--jobs int]
+   [--leaf-partition-data]
+   [--metadata-only]
+   [--no-compression]
+   [--plugin-config config_file_location]
+   [--quiet]
+   [--single-data-file]
+   [--verbose][--version][--with-stats]
+   [--help]</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="90a20c8b71c8ef72669d70ac61784c73">
+            <div class="sl-block" data-block-id="8bc46a97d5dc074c838af6f9fc5f8b5e" data-block-type="text"
+                 style="width: 814px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Example output</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="daf5e61a5e4bcf4ff3fb5252a29e125e" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6c9b128077e63ef36dadcb9dd3a29b93" data-block-type="code"
+                 style="width: 943px; height: 447px; left: 8px; top: 210px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="github-gist"
+                     style="z-index: 13; font-size: 90%; border-style: solid; border-width: 1px; border-color: rgb(170, 170, 170);"><pre class="none"><code>gpbackup --dbname gplab --backup-dir /home/gpadmin/backup
+20190613:20:11:40 gpbackup:gpadmin:mdw:003717-[INFO]:-Starting backup of database gplab
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Backup Timestamp = 20190613201140
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Backup Database = gplab
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Gathering table state information
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Acquiring ACCESS SHARE locks on tables
+Locks acquired:  1 / 1 [================================================================] 100.00% 0s
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Gathering additional table metadata
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Metadata will be written to
+     /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/gpbackup_20190613201140_metadata.sql
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Writing global database metadata
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Global database metadata backup complete
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Writing pre-data metadata
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Pre-data metadata backup complete
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Writing post-data metadata
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Post-data metadata backup complete
+20190613:20:11:42 gpbackup:gpadmin:mdw:003717-[INFO]:-Writing data to file
+Tables backed up:  1 / 1 [==============================================================] 100.00% 0s
+20190613:20:11:43 gpbackup:gpadmin:mdw:003717-[INFO]:-Data backup complete
+20190613:20:11:44 gpbackup:gpadmin:mdw:003717-[INFO]:-Found neither
+        /usr/local/greenplum-db/./bin/gp_email_contacts.yaml nor /home/gpadmin/gp_email_contacts.yaml
+20190613:20:11:44 gpbackup:gpadmin:mdw:003717-[INFO]:-Email containing gpbackup report
+    /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/gpbackup_20190613201140_report]
+    will not be sent
+20190613:20:11:44 gpbackup:gpadmin:mdw:003717-[INFO]:-Backup completed successfully</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="778a1efe61efa412a1663397a1d0e7b1" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 191px; top: 171px;">
+                <div class="sl-block-content" data-line-color="#f4cccc" data-line-end-type="none" data-line-start-type="none" data-line-width="4px"
+                     data-line-x1="0" data-line-x2="15.5" data-line-y1="44" data-line-y2="0" style="z-index: 16;">
+                    <svg height="44" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 15.5 44" width="15.5"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="15.5" y1="44" y2="0"></line>
+                        <line stroke="#f4cccc" stroke-width="4" x1="0" x2="15.5" y1="44" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c81e281c4a4d647aca8281759702f698" data-block-type="text"
+                 style="height: auto; width: 287.5px; left: 206.5px; top: 140px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; font-size: 80%; background-color: rgb(244, 204, 204); color: rgb(0, 135, 116);">
+                    <p>DBNAME is required</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="af1f79f1b286de1bbb2397a7a0658780" data-block-type="shape"
+                 style="width: 136px; height: 20px; left: 88px; top: 215px;">
+                <div class="sl-block-style" style="z-index: 14; opacity: 0.25;">
+                    <div class="sl-block-content" data-shape-fill-color="rgb(234, 153, 153)" data-shape-stretch="true" data-shape-type="rect"
+                         style="z-index: 14;">
+                        <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 136 20" width="100%"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <rect class="shape-element" fill="rgb(234, 153, 153)" height="20" rx="0" ry="0" width="136"></rect>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5b66f90a14b3b6b63b4427d4c83e1a90" data-block-type="shape"
+                 style="width: 948px; height: 448px; left: 12px; top: 215px;">
+                <div class="sl-block-content" data-shape-fill-color="rgb(204, 204, 204)" data-shape-stretch="true" data-shape-type="rect"
+                     style="z-index: 10;">
+                    <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 948 448" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape-element" fill="rgb(204, 204, 204)" height="448" rx="0" ry="0" width="948"></rect>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="80bb2310773373399f24a52f6b21d3e6">
+            <div class="sl-block" data-block-id="f40eecefc853890f24b0c90655d841b8" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Output Files</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="7e1b311c51bf60ff7bc501f48bd31230" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="33c713596f2195734474e2489bb07bcb" data-block-type="code"
+                 style="width: 783px; height: 131px; left: 0px; top: 228px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="monokai" style="z-index: 12; font-size: 90%;"><pre
+                        class="autohotkey"><code>ls -l /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/
+total 16
+-r--r--r-- 1 gpadmin gpadmin  615 13 juin  20:11 gpbackup_20190613201140_config.yaml
+-r--r--r-- 1 gpadmin gpadmin 3557 13 juin  20:11 gpbackup_20190613201140_metadata.sql
+-r--r--r-- 1 gpadmin gpadmin 1478 13 juin  20:11 gpbackup_20190613201140_report
+-r--r--r-- 1 gpadmin gpadmin 3986 13 juin  20:11 gpbackup_20190613201140_toc.yaml</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="020bb0e18b4ce750c5a3067b604cbc90" data-block-type="text"
+                 style="height: auto; width: 368px; left: 3px; top: 189px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 13;">
+                    <p style="text-align: left;">On the master:</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1e298aaaa7c88270a3e6ba14463b0151" data-block-type="text"
+                 style="height: auto; width: 368px; left: 0px; top: 420px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14;">
+                    <p style="text-align:left">On the segments:</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4308459226c448ea95c0b0bbf867a802" data-block-type="code"
+                 style="width: 783px; height: 131px; left: 0px; top: 459px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="monokai" style="z-index: 15; font-size: 90%;"><pre
+                        class="autohotkey"><code>ssh sdw1 ls -l /home/gpadmin/backup/gpseg0/backups/20190613/20190613201140
+total 2824
+-rw------- 1 gpadmin gpadmin 2889418 13 juin  20:11 gpbackup_0_20190613201140_61917.gz
+-rw------- 1 gpadmin gpadmin 2902423 13 juin  20:11 gpbackup_1_20190613201140_61917.gz
+....</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="6a92649f1a866aca5812e6a43ba38579">
+            <div class="sl-block" data-block-id="05284bbd3f35c56602df2834c09c135a" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Report</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="729c5877dbebc61ce9cca2e833fab23a" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6ff14869463a0bb0d5e381f4d507e629" data-block-type="code"
+                 style="width: 954.75px; height: 403px; left: 2.75px; top: 210px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="ir-black" style="z-index: 12;"><pre
+                        class="none"><code>more /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/gpbackup_20190613201140_report
+Greenplum Database Backup Report
+Timestamp Key: 20190613201140
+GPDB Version: 5.17.0 build commit:fc9a9d4cad8dd4037b9bc07bf837c0b958726103
+gpbackup Version: 1.10.0
+Database Name: gplab
+Command Line: gpbackup --dbname gplab --backup-dir /home/gpadmin/backup
+Compression: gzip
+Plugin Executable: None
+Backup Section: All Sections
+Object Filtering: None
+Includes Statistics: No
+Data File Format: Multiple Data Files Per Segment
+Incremental: False
+
+Start Time: 2019-06-13 20:11:40
+End Time: 2019-06-13 20:11:44
+Duration: 0:00:04
+
+Backup Status: Success</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="cb5287b6fab2e79b02cd3b3971bef813">
+            <div class="sl-block" data-block-id="71bad8076d2841c609903ab85fc756cc" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - History</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="8cffe0ee16ad1fc434211164525d0acf" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="8966b7321acb5f4b2ecc26483c105804" data-block-type="code"
+                 style="width: 843.75px; height: 420px; left: 2.75px; top: 210px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="ir-black" style="z-index: 12;"><pre
+                        class="yaml"><code>more /data1/master/gpseg-1/gpbackup_history.yaml
+backupconfigs:
+- backupdir: /home/gpadmin/backup
+  backupversion: 1.10.0
+  compressed: true
+  databasename: gplab
+  databaseversion: 5.17.0 build commit:fc9a9d4cad8dd4037b9bc07bf837c0b958726103
+  dataonly: false
+  deleted: false
+  excluderelations: []
+  excludeschemafiltered: false
+  excludeschemas: []
+  excludetablefiltered: false
+  includerelations: []
+  includeschemafiltered: false
+  includeschemas: []
+  includetablefiltered: false
+  incremental: false
+  leafpartitiondata: false
+  ...</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="5b348f9176c954d2e01a9f602873ecdf">
+            <div class="sl-block" data-block-id="7b4343d3c1b13cca2cdf3b9baa48dbc2" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="437a89c193e3f5a90898f4924efacefa" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Backup and Restore</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="71b7d22da66c1b1d16f77e288ce12c8c" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>gprestore</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4828c08ae42829802a06349f424363e0" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="9d9409af72711698ecfeaa69e13f5092">
+            <div class="sl-block" data-block-id="3c3e0f19099d86374f7d43b36f659bd5" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gprestore - Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="17069e8d45256b963b4d792b81bd16cf" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>A few details</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b896cd202cce2a8bd675519bb767ea0d" data-block-type="text"
+                 style="height: auto; width: 948px; left: -3.5px; top: 175px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>
+                            <span style="color:rgb(0, 37, 62)">Restores to a database with the same name (<em>--redirect-db</em> option is available)</span>
+                            <ul style="list-style-type: circle">
+                                <li><span style="color:rgb(0, 37, 62)">​If target db does not exist, use <em>--create-db</em> option</span></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span style="color:rgb(0, 37, 62)">Database system objects are automatically included in a </span><strong>gpbackup</strong><span
+                                style="color:rgb(0, 37, 62)">&nbsp;backup set</span>
+                            <ul style="list-style-type: circle">
+                                <li><span
+                                        style="color:rgb(0, 37, 62)">Use ​<em>--with-globals</em> to restore (default is to not restore globals)</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Ability to run several restores in parallel or to use several threads (with the option <em>--jobs</em>)
+                            <ul style="list-style-type: circle">
+                                <li>Improves the overall performance</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4c6edc73732f9d925189b191939ad24a" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="8bee1f1dfb1e8565d72baa27402d2024">
+            <div class="sl-block" data-block-id="e44fbac4aba730abb27dba34118e9ab0" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gprestore - Overview</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="6ccc5fc6f6b56a50804c4bbe6204affc" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>A few more details</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c900499144b9354c242230612e92c11c" data-block-type="text"
+                 style="height: auto; width: 948px; left: -3.5px; top: 175px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>
+                            <span style="color:rgb(0, 37, 62)">One of these codes is returned after </span><strong>gprestore</strong><span
+                                style="color:rgb(0, 37, 62)">&nbsp;completes.</span>
+                            <ol start="0">
+                                <li>Restore completed with no problems.</li>
+                                <li>Restore completed with non-fatal errors. See log file for more information.</li>
+                                <li>Restore failed with a fatal error. See log file for more information.</li>
+                            </ol>
+                        </li>
+                        <li><span style="color:rgb(0, 37, 62)">Can send status email notifications after a back up operation completes</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5b1985ed1544812555edb5e2229505cc" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="01effb5b36d165467b70d92d180e1f84">
+            <div class="sl-block" data-block-id="b2ca0970465fde1c21dace563da238ac" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup - Command options</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9f433885df68845010f6dd40bd0c0826" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 11;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b572c03c7d682a1ade909b99cfee7aba" data-block-type="code"
+                 style="width: 735px; height: 531px; left: 10.5px; top: 140px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="github-gist"
+                     style="z-index: 12; font-size: 130%;"><pre class="apache"><code>gprestore --timestamp YYYYMMDDHHMMSS
+   [--backup-dir directory]
+   [--create-db]
+   [--debug]
+   [--exclude-schema schema_name]
+   [--exclude-table schema.table]
+   [--exclude-table-file file_name]
+   [--include-schema schema_name]
+   [--include-table schema.table]
+   [--include-table-file file_name]
+   [--data-only | --metadata-only]
+   [--jobs int]
+   [--on-error-continue]
+   [--plugin-config config_file_location]
+   [--quiet]
+   [--redirect-db database_name]
+   [--verbose]
+   [--version]
+   [--with-globals]
+   [--with-stats]
+   [--help]</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="3c99d7f3c6623a85fe2142b3aad94873">
+            <div class="sl-block" data-block-id="059159c49a83a51062f9a04cf1673b97" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gprestore - Example output</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="5c8f0bf14c15ab6830e347c21974508d" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="efd3546d1319f21df965e9557fa0b0e8" data-block-type="code"
+                 style="width: 954.5px; height: 299px; left: 0.75px; top: 210px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="github-gist"
+                     style="z-index: 13; font-size: 85%; border-style: solid; border-width: 1px; border-color: rgb(204, 204, 204);"><pre class="none"><code>gprestore --backup-dir /home/gpadmin/backup --timestamp 20190613201140 --create-db
+20190614:08:03:11 gprestore:gpadmin:mdw:063015-[INFO]:-Restore Key = 20190613201140
+20190614:08:03:12 gprestore:gpadmin:mdw:063015-[INFO]:-Creating database
+20190614:08:03:28 gprestore:gpadmin:mdw:063015-[INFO]:-Database creation complete for: gplab
+20190614:08:03:28 gprestore:gpadmin:mdw:063015-[INFO]:-Restoring pre-data metadata
+Pre-data objects restored:  6 / 6 [=====================================================] 100.00% 0s
+20190614:08:03:29 gprestore:gpadmin:mdw:063015-[INFO]:-Pre-data metadata restore complete
+Tables restored:  1 / 1 [===============================================================] 100.00% 2s
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Data restore complete
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Restoring post-data metadata
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Post-data metadata restore complete
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Found neither
+     /usr/local/greenplum-db/./bin/gp_email_contacts.yaml nor /home/gpadmin/gp_email_contacts.yaml
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Email containing gprestore report
+     /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/gprestore_20190613201140_20190614080311_report
+     will not be sent
+20190614:08:03:32 gprestore:gpadmin:mdw:063015-[INFO]:-Restore completed successfully</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="c7e59cb3f36f6f38580ac4996be81071" data-block-type="shape"
+                 style="width: 223px; height: 20px; left: 377px; top: 215px;">
+                <div class="sl-block-style" style="z-index: 14; opacity: 0.25;">
+                    <div class="sl-block-content" data-shape-fill-color="rgb(234, 153, 153)" data-shape-stretch="true" data-shape-type="rect"
+                         style="z-index: 14;">
+                        <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 223 20" width="100%"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <rect class="shape-element" fill="rgb(234, 153, 153)" height="20" rx="0" ry="0" width="223"></rect>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b11f126de6d4b056a57e557639f29fc8" data-block-type="text"
+                 style="height: auto; width: 287.5px; left: 495.5px; top: 140px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; font-size: 80%; background-color: rgb(244, 204, 204); color: rgb(0, 135, 116);">
+                    <p>TIMESTAMP is required</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="913d84f205a72e435221aac8b67522a2" data-block-type="line"
+                 style="width: auto; height: auto; min-width: 0px; min-height: 0px; left: 480px; top: 171px;">
+                <div class="sl-block-content" data-line-color="#f4cccc" data-line-end-type="none" data-line-start-type="none" data-line-width="4px"
+                     data-line-x1="0" data-line-x2="15.5" data-line-y1="44" data-line-y2="0" style="z-index: 16;">
+                    <svg height="44" preserveaspectratio="xMidYMid" version="1.1" viewbox="0 0 15.5 44" width="15.5"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="0" x2="15.5" y1="44" y2="0"></line>
+                        <line stroke="#f4cccc" stroke-width="4" x1="0" x2="15.5" y1="44" y2="0"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="85e96af96507f0ae929329707f45a17c" data-block-type="shape"
+                 style="width: 951px; height: 301px; left: 9px; top: 215px;">
+                <div class="sl-block-content" data-shape-fill-color="rgb(204, 204, 204)" data-shape-stretch="true" data-shape-type="rect"
+                     style="z-index: 10;">
+                    <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 951 301" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape-element" fill="rgb(204, 204, 204)" height="301" rx="0" ry="0" width="951"></rect>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="fabb740db5be1990512745fb04defe3c">
+            <div class="sl-block" data-block-id="7ac0024f5c9eaa3e4b4cc554c937868f" data-block-type="text"
+                 style="width: 897px; left: 3px; top: 10px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gprestore - Report</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1f5ce5c3f888d2bfe328e204a6cdf565" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3a2a97e717e9eb9a1beb75df05e348e4" data-block-type="code"
+                 style="width: 933.75px; height: 264px; left: 2.75px; top: 210px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="github-gist"
+                     style="z-index: 13; font-size: 83%; border-style: solid; border-width: 1px; border-color: rgb(204, 204, 204);"><pre class="none"><code>more /home/gpadmin/backup/gpseg-1/backups/20190613/20190613201140/gprestore_20190613201140_20190614080311_report
+Greenplum Database Restore Report
+
+Timestamp Key: 20190613201140
+GPDB Version: 5.17.0 build commit:fc9a9d4cad8dd4037b9bc07bf837c0b958726103
+gprestore Version: 1.10.0
+
+Database Name: gplab
+Command Line: gprestore --backup-dir /home/gpadmin/backup --timestamp 20190613201140 --create-db
+
+Start Time: 2019-06-14 08:03:11
+End Time: 2019-06-14 08:03:32
+Duration: 0:00:21
+
+Restore Status: Success</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="0da879bee694d268321082b7b2b8794e" data-block-type="shape"
+                 style="width: 931px; height: 267px; left: 10px; top: 213px;">
+                <div class="sl-block-content" data-shape-fill-color="rgb(204, 204, 204)" data-shape-stretch="true" data-shape-type="rect"
+                     style="z-index: 10;">
+                    <svg height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 931 267" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <rect class="shape-element" fill="rgb(204, 204, 204)" height="267" rx="0" ry="0" width="931"></rect>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="bdba882df9d8ac425070fe81a4904a88">
+            <div class="sl-block" data-block-id="c0ea93c48df59142aa751be074a64f35" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 10;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="91499a3c0a89c986f59c7eff3070c16b" data-block-type="text"
+                 style="width: 806px; left: 77px; top: 223px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
+                    <h1>Backup and Restore</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="72198e80c2d64ae31516e530c7f75744" data-block-type="text"
+                 style="height: auto; width: 600px; left: 180px; top: 391px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
+                    <p>Pivotal Greenplum utilities</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="67bdc5a3cc3dca878b286392bd5cdc20" data-block-type="line"
+                 style="width: auto; height: auto; left: 160px; top: 350px;">
+                <div class="sl-block-content" data-line-color="#ffff00" data-line-end-type="none" data-line-start-type="none" data-line-width="10px"
+                     data-line-x1="-220" data-line-x2="420" data-line-y1="170" data-line-y2="170" style="z-index: 13;">
+                    <svg height="1" preserveaspectratio="xMidYMid" version="1.1" viewbox="-220 170 640 1" width="640"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" x2="420" y1="170" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" x2="420" y1="170" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="558f9e5d10da726467b28c9795ab8d6a">
+            <div class="sl-block" data-block-id="7f04f4fcb415ea8e324a2e104714e9df" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpbackup-manager</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="f4426cf74f27461da3704f9356eb6d80" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>Pivotal Greenplum</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="fd2d93129ed8850dec8b017cb12eac0f" data-block-type="text"
+                 style="height: auto; width: 948px; left: 3px; top: 155.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>
+                            <span style="color:rgb(0, 37, 62)">Manages backup sets created using the </span><strong>gpbackup</strong><span
+                                style="color:rgb(0, 37, 62)">&nbsp;utility</span>
+                            <ul style="list-style-type: circle">
+                                <li><span style="color:rgb(0, 37, 62)">list backups</span></li>
+                                <li><span style="color:rgb(0, 37, 62)">display a report for a backup</span></li>
+                                <li><span style="color:rgb(0, 37, 62)">delete a backup</span></li>
+                            </ul>
+                        </li>
+                        <li>C<span style="color:rgb(0, 37, 62)">an also encrypt passwords to store in a DD Boost plugin configuration file.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="854f6cfe58776f3f2945d31cd4ca8ada" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="9ed2b59f9c334936cae39c79a05c18cc" data-block-type="code"
+                 style="width: 956.5px; height: 117px; left: 0px; top: 450px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="ir-black" style="z-index: 14; font-size: 70%;"><pre
+                        class="yaml"><code>gpadmin@mdw:$ gpbackup_manager list-backups
+  timestamp        date                       database   type            object filtering   plugin   duration   date deleted
+  20190719092809   Fri Jul 19 2019 09:28:09   sales      full            include-schema              01:49:38   Fri Jul 19 2019 09:30:34
+  20190719092716   Fri Jul 19 2019 09:27:16   sales      full            exclude-schema              01:38:45
+  20190719092609   Fri Jul 19 2019 09:26:09   sales      data-only                                   01:07:22
+  20190719092557   Fri Jul 19 2019 09:25:57   sales      metadata-only                               00:00:19
+  20190719092530   Fri Jul 19 2019 09:25:30   sales      full                                        01:50:27</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="42e1390ebc0811924246cdf672ef165d" data-block-type="code"
+                 style="width: 960px; height: 99.5px; left: 0px; top: 591px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="ir-black" style="z-index: 15; font-size: 70%;"><pre
+                        class="yaml"><code>$ gpbackup_manager delete-backup 20190620145126
+
+Are you sure you want to delete-backup 20190620145126? (y/n)y
+Deletion of 20190620145126 in progress.
+
+Deletion of 20190620145126 complete.</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="30b37c8c52fcfd18bc12dd35288f84d4">
+            <div class="sl-block" data-block-id="4dc5c8a410fb81e09449bfac9c1ac1d3" data-block-type="text"
+                 style="width: 877px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpcopy - data transfer utility</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="4ab1be96c4527d5624fe293a4ca7d5ba" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>Pivotal Greenplum</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1593749950a635bd27c7cbb1295fa188" data-block-type="text"
+                 style="height: auto; width: 948px; left: 3px; top: 147.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left; font-size: 75%;">
+                    <ul>
+                        <li>High-performance and standalone utility to copy metadata and/or data from one Greenplum database to another Greenplum
+                            database
+                        </li>
+                        <li>Transfer one or more full databases, or one or more database tables
+                            <ul style="list-style-type: circle">
+                                <li>A full database transfer includes the database schema, table data, indexes, views, roles, user-defined functions,
+                                    resource queues, and resource groups.
+                                </li>
+                                <li>If a copied table or database does not exist in the destination cluster, <strong>gpcopy</strong> creates it
+                                    automatically, along with necessary indexes.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Supports migrations between Greenplum databases where source and destination systems have:
+                            <ul style="list-style-type: circle">
+                                <li>a different number of segment instances</li>
+                                <li>different GreenPlum versions</li>
+                            </ul>
+                        </li>
+                        <li>Provides detailed reporting and summary information about all aspects of the copy operation</li>
+                        <li>Allows the source table data to change while the data is being copied (a lock is not acquired on the source table when
+                            data is copied)
+                        </li>
+                        <li>Includes the <em>--truncate-source-after</em> option to help migrate data from one Pivotal Greenplum Database system to
+                            another on the same hardware, requiring minimal free space available
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="b15af631782ca4f4f9830f0c16af760d" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+        </section>
+        <section data-id="d064a26f739b2cac2fb97cf0a1f7eb92">
+            <div class="sl-block" data-block-id="35c357e97c14e0a6700c2089a43b4b02" data-block-type="text"
+                 style="width: 799px; left: 3px; top: 4px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
+                    <h2>gpcopy</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="1f109df44e66275d5b878a7585ad299c" data-block-type="text"
+                 style="width: 939px; left: 1px; top: 74px; height: auto;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
+                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
+                    <h3>Pivotal Greenplum</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="71ec3d9e080d766833c72965b38dae22" data-block-type="text"
+                 style="height: auto; width: 948px; left: 3px; top: 147.5px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>Pre-requisites:
+                            <ul style="list-style-type: circle">
+                                <li>Network connection between all source and destination segments</li>
+                            </ul>
+                        </li>
+                        <li>Parallel copy tasks denoted with <em>--jobs</em> option (default = 4)</li>
+                        <li>Validate the transfer at the end of the copy using:
+                            <ul style="list-style-type: circle">
+                                <li>
+                                    <em>--validate count</em> or <em>--validate md5xor</em>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="82e522310dcc970a3cabad4ba303f6cf" data-block-type="image"
+                 style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 13;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-lazy-loaded="" data-natural-height="487" data-natural-width="619"
+                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png"/>
+                </div>
+            </div>
+            <div class="sl-block" data-block-id="3d358186b25f3ff9bfa76ecbd836f3a2" data-block-type="code"
+                 style="width: 902.5px; height: 89px; left: 28.75px; top: 560px;">
+                <div class="sl-block-content notranslate" data-code-frame="none" data-highlight-theme="ir-black"
+                     style="z-index: 14; font-size: 130%;">
+<pre class="yaml"><code>gpcopy --source-host mytest --source-port 1234 --source-user gpuser
+       --dest-host demohost --dest-port 1234 --dest-user gpuser
+       --full --drop --validate count</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-background-color="#008774" data-id="3ca2aa658ea039f1c10dfe6b6ab6a44f">
+            <div class="sl-block" data-block-id="greenplum-logo" data-block-type="image"
+                 style="width: 100%; height: auto; left: 10px; top: 250px; min-width: 1px; min-height: 1px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-lazy-loaded="" data-src="images/logos/logo-gp-horizontal-ondark.png"/>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var SLConfig = {
+        "deck": {
+            "id": 1677637,
+            "slug": "greenplum-backup-and-restore",
+            "title": "Greenplum Backup and Restore",
+            "description": "Overview of the Greenplum backup and restore utilities.",
+            "width": 960,
+            "height": 700,
+            "visibility": "self",
+            "published_at": null,
+            "sanitize_messages": null,
+            "thumbnail_url": "https://s3.amazonaws.com/media-p.slid.es/thumbnails/0de824e1d35b4b7cac0c934af0b2390f/thumb.jpg?1576852927",
+            "view_count": 0,
+            "user": {
+                "id": 1134143,
+                "username": "csylvester",
+                "name": "Craig Sylvester",
+                "description": "Pivotal Data Engineer - Federal Division",
+                "thumbnail_url": "https://www.gravatar.com/avatar/d2436491e8c9292c895eebad673e3837?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png",
+                "paid": true,
+                "pro": true,
+                "lite": false,
+                "team_id": null,
+                "settings": {
+                    "id": 3868303,
+                    "present_controls": true,
+                    "present_upsizing": true,
+                    "present_pointer": false,
+                    "present_notes": true,
+                    "default_deck_tag_id": null
+                }
+            },
+            "background_transition": "slide",
+            "transition": "slide",
+            "theme_id": null,
+            "theme_font": "montserrat",
+            "theme_color": "white-blue",
+            "auto_slide_interval": 0,
+            "comments_enabled": true,
+            "forking_enabled": false,
+            "rolling_links": false,
+            "center": false,
+            "shuffle": false,
+            "should_loop": false,
+            "share_notes": false,
+            "slide_number": false,
+            "slide_count": 22,
+            "rtl": false,
+            "version": 2,
+            "collaborative": null,
+            "deck_user_editor_limit": 3,
+            "data_updated_at": 1576868953206,
+            "font_typekit": null,
+            "font_google": null,
+            "time_limit": null,
+            "upsizing_enabled": true,
+            "notes": {
+                "b778645ab3ce9407bad4f213c4f950d3": "More compression =\u003e longer backup\n\nIncremental : only for append-optimized tables",
+                "80bb2310773373399f24a52f6b21d3e6": "By default, each segment stores each table's data for the backup in a separate compressed CSV file in \u003cseg_dir\u003e/backups/\u003cYYYYMMDD\u003e/\u003cYYYYMMDDHHMMSS\u003e/",
+                "3c99d7f3c6623a85fe2142b3aad94873": "To use gprestore to restore from a backup set, you must use the --timestamp option to specify the exact timestamp value (YYYYMMDDHHMMSS) to restore. Include the --create-db option if the database does not exist in the cluster. For example:\nBy default, gprestore uses 1 connection to restore table data and metadata. If you have a large backup set, you can improve performance of the restore by increasing the number of parallel connections with the --jobs option",
+                "fabb740db5be1990512745fb04defe3c": "When performing a restore operation, gprestore generates a report file. When email notification is configured, the email sent contains the contents of the report file.",
+                "6a92649f1a866aca5812e6a43ba38579": "When performing a backup operation, gpbackup generates a report file. When email notification is configured, the email sent contains the contents of the report file.",
+                "cb5287b6fab2e79b02cd3b3971bef813": "When performing a backup operation, gpbackup appends backup information in the gpbackup history file, gpbackup_history.yaml, in the Greenplum Database master data directory. The file contains the backup timestamp, information about the backup options, and backup set information for incremental backups. This file is not backed up by gpbackup.\n\ngpbackup uses the information in the file to find a matching backup for an incremental backup when you run gpbackup with the --incremental option and do not specify the --from-timesamp option to indicate the backup that you want to use as the latest backup in the incremental backup set.",
+                "30b37c8c52fcfd18bc12dd35288f84d4": "Pivotal provides a separate downloadable package for installing gpcopy. The gpcopy utility copies objects data from one Greenplum cluster to another for migration purposes.\n\nEach Pivotal gpcopy package is versioned independently of Greenplum Database, but is backwards-compatible with earlier versions of Greenplum Database versions 4.3.26 and later, 5.8, and 6.x. See the Release Notes for additional compatibility information.\n\nConfiguration files, including postgresql.conf and pg_hba.conf, must be transferred manually by an administrator. Extensions installed in the database with gppkg, such as MADlib and programming language extensions, must be installed in the destination database by an administrator."
+            }
+        }
+    };
+
+
+    // Use local fonts
+    SLConfig.fonts_url = 'lib/fonts/';
+</script>
+<script src="lib/reveal.min.js"></script>
+<script src="lib/offline.js"></script>
+<!-- Initialize the presentation -->
+<script>
+    Reveal.initialize({
+        width: 960,
+        height: 700,
+        margin: 0.05,
+
+
+        hash: true,
+        controls: true,
+        progress: true,
+        mouseWheel: false,
+        showNotes: false,
+        slideNumber: false,
+
+        autoSlide: 0,
+        autoSlideStoppable: true,
+
+        center: false,
+        shuffle: false,
+        loop: false,
+        rtl: false,
+
+        transition: "slide",
+        backgroundTransition: "slide",
+
+        highlight: {
+            escapeHTML: false
+        },
+        menu: {
+            side: 'left',
+            width: 'wide',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            useTextContentForMissingTitles: false,
+            hideMissingTitles: false,
+            markers: true,
+            custom: false,
+            themes: false,
+            themesPath: 'css/theme/',
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true,
+            sticky: false,
+            autoOpen: true,
+            delayInit: false,
+            openOnInit: false,
+            loadIcons: true
+        },
+        dependencies: [
+            {
+                src: 'lib/reveal-plugins/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {
+                src: 'lib/reveal-plugins/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {src: 'lib/reveal-plugins/highlight/highlight.js'},
+            {
+                src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                }
+            },
+            {src: 'lib/reveal-plugins/zoom/zoom.js', async: true},
+            {src: 'lib/reveal-plugins/menu/menu.js', async: false}
+        ]
+    });
+</script>
+</body>
+</html>
+
