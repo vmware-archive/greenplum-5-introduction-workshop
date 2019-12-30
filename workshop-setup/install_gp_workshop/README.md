@@ -5,9 +5,9 @@ A set of Ansible roles and playbooks for installing the Greenplum workshop. Note
 ### Downloading and installing the workshop:
 * The stable release can be pulled from the git repository.
   - Using Subversion to retrieve just the Ansible playbooks folder:\
-`svn export https://github.com/Pivotal-Data-Engineering/greenplum-workshop/trunk/workshop-setup-ansible workshop-setup-ansible`
+`svn export https://github.com/Pivotal-Data-Engineering/greenplum-open-source-workshop/trunk/workshop-setup workshop-setup`
   - Retrieve the entire repository:\
-`git clone https://github.com/Pivotal-Data-Engineering/greenplum-workshop.git`\
+`git clone https://github.com/Pivotal-Data-Engineering/greenplum-open-source-workshop.git`\
 or\
 `wget https://github.com/Pivotal-Data-Engineering/greenplum-workshop/archive/master.zip`
 
