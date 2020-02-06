@@ -1,67 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="220bd8b5-7545-40ad-b7ac-5b409f15f54b" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="1042c9d9-9207-45ba-b48c-4458e20fdd23" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/docs.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-img-src.py" beforeDir="false" afterPath="$PROJECT_DIR$/fix-img-src.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gp-workshop.css" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gp-workshop.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../workshop-setup/install_gp_workshop/inventory" beforeDir="false" afterPath="$PROJECT_DIR$/../workshop-setup/install_gp_workshop/inventory" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1UWz9hCI6QfPvNVfe7hSuFYPPmV" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="ProjectId" id="1X1oub6YA64tHcmJJ5gnmxLDI51" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="StructuralSearchPlugin">
-    <replaceConfiguration name="user defined" created="1576765217163" text="&lt;img data-src=&quot;images/gp-workshop-vertical-on-light.png&quot;&gt;" recursive="false" caseInsensitive="true" type="HTML" scope_type="NAMED" scope_descriptor="Current File" reformatAccordingToStyle="false" shortenFQN="false" replacement="&lt;img alt=&quot;logo-gp-wkshop-vertical-onlight&quot; data-src=&quot;images/logos/logo-gp-wkshop-vertical-onlight.png&quot;&gt;" history="1">
-      <constraint name="__context__" within="" contains="" />
-    </replaceConfiguration>
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="220bd8b5-7545-40ad-b7ac-5b409f15f54b" name="Default Changelist" comment="" />
-      <created>1575486989461</created>
+      <changelist id="1042c9d9-9207-45ba-b48c-4458e20fdd23" name="Default Changelist" comment="" />
+      <created>1580223184644</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1575486989461</updated>
-      <workItem from="1575486990707" duration="35307000" />
-      <workItem from="1576026883650" duration="230000" />
-      <workItem from="1576073707732" duration="555000" />
-      <workItem from="1576080675710" duration="638000" />
-      <workItem from="1576685590468" duration="18641000" />
+      <updated>1580223184644</updated>
+      <workItem from="1580223186962" duration="429000" />
+      <workItem from="1580223682411" duration="3820000" />
     </task>
     <servers />
   </component>
@@ -81,7 +68,10 @@
       </map>
     </option>
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  <component name="WindowStateProjectService">
+    <state x="897" y="429" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1580223767124">
+      <screen x="0" y="23" width="2560" height="1417" />
+    </state>
+    <state x="897" y="429" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1580223767124" />
   </component>
 </project>

@@ -30,9 +30,10 @@ from bs4 import BeautifulSoup as bs
 in_file = ''
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "f:")
+    opts, remainder = getopt.getopt(sys.argv[1:], "f:")
 except getopt.GetoptError:
-    print 'get_topics.py -f FILE'
+    print opts
+    print sys.argv[0], '-f FILE'
     sys.exit(2)
 for opt, arg in opts:
     if opt == '-f':

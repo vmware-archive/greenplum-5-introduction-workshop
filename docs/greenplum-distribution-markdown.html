@@ -1,0 +1,1165 @@
+<!--
+Copyright (C) 2019-Present Pivotal Software, Inc. All rights reserved.
+This program and the accompanying materials are made available under the terms of the under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License. You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html class="sl-root decks export offline loaded">
+<head>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Greenplum - Data Distribution</title>
+
+    <meta name="description" content="Overview of the data distribution used with the Greenplum database.">
+
+    <link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
+
+    <link rel="stylesheet" type="text/css" href="lib/gp-workshop.css">
+</head>
+<body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
+<div class="reveal">
+    <div class="slides">
+        <section class="title-slide" data-id="data-distribution-title-slide">
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 216px; height: auto;"
+                 data-block-id="e084e6e2da7761270dc2bda36ac913f8">
+                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text"
+                     style="z-index: 11;">
+                    <h1>Petabyte Scale Data Warehousing with Greenplum</h1>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="2d2695d7ccb3f4a29881b1ff002fa9ed"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 172px; top: 553px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; font-size: 150%;">
+                    <p>Data Distribution</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="c38aee5b210584c66487b4226e710eb6"
+                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 163px; top: 522px;">
+                <div class="sl-block-content" data-line-x1="-220" data-line-y1="170" data-line-x2="420"
+                     data-line-y2="170" data-line-color="#ffff00" data-line-start-type="none" data-line-end-type="none"
+                     style="z-index: 13;" data-line-width="10px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="640"
+                         height="1" viewbox="-220 170 640 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" y1="170" x2="420" y2="170"></line>
+                        <line stroke="#ffff00" stroke-width="10" x1="-220" y1="170" x2="420" y2="170"></line>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 300px; height: 124px; left: 0px; top: 0px;"
+                 data-block-id="f99612684b72408925b015d6a5125d78">
+                <div class="sl-block-content" style="z-index: 15;"><img style="" data-natural-width="1814"
+                                                                        data-natural-height="751" data-lazy-loaded=""
+                                                                        data-src="images/logos/logo-pivotal-on-dark.png">
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-2">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="b583c71f094b89f1184d8e97f4af2409">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>CREATE TABLE Definition</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="3944588c1cbd04a2ab3de21766ef587e"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 0px; top: 74px;">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3></div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 216px; height: auto;"
+                 data-block-id="c36367a54d0d248173578e240b8a4fdd">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>One of the most important aspects of GP!</li>
+                        <li>Every table has a distribution method</li>
+                        <li>
+                            <pre><span style="color:#008000">DISTRIBUTED BY (column)</span></pre>
+
+                            <ul>
+                                <li>Uses a hash distribution</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <pre><span style="color:#008000">DISTRIBUTED RANDOMLY</span></pre>
+
+                            <ul>
+                                <li>Uses a random distribution which is not guaranteed to provide a perfectly even
+                                    distribution
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Explicitly define a column or random distribution for all tables
+                            <ul>
+                                <li>Do not use the default</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-3">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="9440f43ed3e0d735f321be55e5d26e20">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>DISTRIBUTED BY (column_name)</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 880px; left: 0px; top: 326px; height: auto;"
+                 data-block-id="02b88714ea3182978590a2f34a482366">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li><span style="font-size:0.7em">Use a single column that will distribute data across all segments evenly</span>
+                        </li>
+                        <li>
+                            <p><span style="font-size:0.7em">For large tables significant performance gains can be obtained with local joins (co-located joins)</span>
+                            </p>
+
+                            <ul>
+                                <li>
+                                    <p><span style="font-size:0.7em">For tables commonly joined together, distribute on the same column</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span style="font-size:0.7em">Co-located join is performed within the segment</span></p>
+
+                            <ul>
+                                <li>
+                                    <p><span
+                                            style="font-size:0.7em">Segment operates independently of other segments</span>
+                                    </p>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <p><span
+                                    style="font-size:0.7em">Co-located join eliminates or minimizes motion operations</span>
+                            </p>
+
+                            <ul>
+                                <li>
+                                    <p><span style="font-size:0.7em">Broadcast motion or Redistribute motion</span></p>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 79px;"
+                 data-block-id="a9ca05e5f35508c31d72d670fdc2ea1d">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" data-block-id="0cf27789764f58e8af38bbc375a2fae7"
+                 style="min-width: 30px; min-height: 30px; width: 354px; height: 134px; left: 123px; top: 154px;">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 14; font-size: 150%; border-style: solid; border-color: rgb(102, 102, 102); border-width: 3px;"><pre
+                        class="sql"><code data-line-numbers="4">CREATE TABLE foo (
+     id integer,
+     size float8)
+DISTRIBUTED BY (id);</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-4">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="0cc3759fced9663957dfb0d027184eba">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>DISTRIBUTED BY (column_name)</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 880px; left: 0px; top: 72px;"
+                 data-block-id="430d42a3b663d3c2025ac65040214f3a">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="e17c34419d7ab72a748710d8c29f2738"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 800px; left: 0px; top: 236px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13;">
+                    <h3 style="text-align:left"><span style="color:#FF0000">Things to avoid</span></h3>
+
+                    <ul>
+                        <li style="text-align:left">Do not distribute on columns that will be used in the WHERE clause of a query
+                        </li>
+                        <li style="text-align:left">Do not distribute on DATE or TIMESTAMP</li>
+                        <li style="text-align:left">Never distribute and partition a table on the same column</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-5">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="b2aca80311d15be0e146746a70bbd65c">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>DISTRIBUTED RANDOMLY</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 800px; left: 3px; top: 326px; height: auto;"
+                 data-block-id="0c0b8d7399083c58393aa85b49a3cf88">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 11; text-align: left;">
+                    <ul>
+                        <li>
+                            <span style="font-size:0.7em">Uses a random algorithm</span>
+                            <ul>
+                                <li><span style="font-size:0.7em">​Distributes data across all segments</span></li>
+                                <li><span style="font-size:0.7em">​​Minimal data skew but not guaranteed to have a perfectly even distribution</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span style="font-size:0.7em">Any query that joins to a randomly distributed table will require a motion operation</span>
+                            <ul>
+                                <li>​<span style="font-size:0.7em">Broadcast motion <em>or</em></span>
+                                </li>
+                                <li><span style="font-size:0.7em">Redistribute motion</span></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 73px;"
+                 data-block-id="40dcf4881ad52a112d93bcf21e50ae6c">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 384px; height: 133px; left: 128px; top: 155px;"
+                 data-block-id="cc5c719645c48580894095a81b95e57a">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 13; font-size: 150%; border-style: solid; border-color: rgb(102, 102, 102); border-width: 3px;"><pre
+                        class="sql"><code data-line-numbers="4">CREATE TABLE foo (
+     id integer,
+     size float8)
+DISTRIBUTED RANDOMLY);</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-6">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="720b47eaba0af1564ce38cb61a21c580">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>ALTERing Distribution</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 74px;"
+                 data-block-id="8329fccfc5e4bfafdc1f1985a425b4b4">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 954px; left: 0px; top: 152px; height: auto;"
+                 data-block-id="b30979977a478f90050eff2890e4a35b">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 12; text-align: left;">
+                    <ul>
+                        <li>Distribution is done at table creation time but can be altered.
+                            <ul>
+                                <li>
+                                    <pre>ALTER TABLE sales SET DISTRIBUTED BY (customer_id);</pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>When you change the hash distribution of a table, data is automatically redistributed.
+                        </li>
+                        <li>Changing the distribution policy to RANDOM does not cause the data to be redistributed:
+                            <ul>
+                                <li>
+                                    <pre>ALTER TABLE sales SET DISTRIBUTED RANDOMLY;</pre>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="0d64dbee583201507a09f2b9bc0f3be5"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 960px; left: 0px; top: 538px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255);">
+                    <p style="text-align:left"><span style="font-size:0.9em"> Best Practice: Create a new table with the new distribution and then swap</span>
+                    </p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" data-block-id="512521a9f255f55de33294a8ebd448f0"
+                 style="min-width: 30px; min-height: 30px; width: 960px; height: 108px; left: 0px; top: 576px;">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 14; border-style: solid; border-width: 1px; font-size: 140%;"><pre
+                        class="sql"><code>CREATE TABLE new_foo as select * from foo distributed randomly;
+DROP TABLE foo;
+ALTER TABLE new_foo RENAME to foo;</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-7">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="c9f57150701a5a3abe5c292466ed613a">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>Data and Computational Skew</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 954px; left: 0px; top: 181px; height: auto;"
+                 data-block-id="0a5c27b04e44c35ecb7fab370440e60f">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 11; text-align: left;">
+                    <ul>
+                        <li>
+                            Select a distribution key with unique values and high cardinality that will not result in data skew
+                            <ul>
+                                <li>
+                                    Do not distribute on boolean keys and keys with low cardinality<br><i><span style="color:rgb(99,99,99)">(
+                                    The system distributes rows with the same hash value to the same segment instance
+                                    therefore resulting in the data being located on only a few segments.)</span></i>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            Select a distribution key that will not result in computational skew (in flight when a query is executing)
+                            <ul>
+                                <li>
+                                    Operations on columns that have low cardinality or non-uniform distribution
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 880px; left: 0px; top: 74px;"
+                 data-block-id="33ed80028393fd55fadb7ee16e8cd67d">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-8">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="e73ad45017c5839d7594d8ca103cdf8e">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>Co-Located Joins</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 339px; height: 213px; left: 80px; top: 140px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 13;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="https://s3.amazonaws.com/media-p.slid.es/uploads/1134143/images/6879117/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 203px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 266px;"
+                 data-block-id="269f84d882d8e84a1f14219af4801ea2">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; text-align: center; color: rgb(0, 0, 255);" data-fragment-index="0">
+                    <p><strong>freq_shopper (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="b198601c1caefb104d26015eb0d52fc5"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 96px; left: 192px; top: 232px;">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; color: rgb(0, 0, 255);" data-fragment-index="1">
+                    <p><span style="font-size:1.4em"><strong>=</strong></span></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 366px; left: 64px; top: 89px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 339px; height: 213px; left: 80px; top: 452px;"
+                 data-block-id="e63ddd175185ba9557bece1dbc101e77">
+                <div class="sl-block-content" style="z-index: 22;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="https://s3.amazonaws.com/media-p.slid.es/uploads/1134143/images/6879117/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 515px;"
+                 data-block-id="1dcccbb2ece95499aaf72f0d786a3db1">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 23; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 339px; left: 80px; top: 578px;"
+                 data-block-id="6aaad26a53bd6cb6a2fc1afb0f8fce87">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 24; text-align: center; color: rgb(0, 0, 255);" data-fragment-index="0">
+                    <p><strong>freq_shopper (cust_id)</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 96px; left: 192px; top: 544px;"
+                 data-block-id="b5db6fc12191d817d6f2d9998b9727cc">
+                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 25; color: rgb(0, 0, 255);" data-fragment-index="1">
+                    <p><span style="font-size:1.4em"><strong>=</strong></span></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 366px; left: 64px; top: 401px;"
+                 data-block-id="a6d7037f55cc1bb8428459317467bccc">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 21; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1B</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+
+                    <p style="text-align:left">&nbsp;</p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" data-block-id="7106cea008a908d8f0704d898ec293ec"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 461px; left: 499px; top: 310px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; font-size: 139%;">
+                    <p>Distribute on the same key used in the join to obtain <span style="color:#008000"><strong>local joins</strong></span>
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-9">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="5276fd302c8336678b3dac8f9d8ad5ee">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>Redistribution Motion</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 70px;"
+                 data-block-id="546da999ddbd3923813e98b4b2927b1b">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: auto; left: 30px; top: 560px; min-width: 100px; "
+                 data-block-id="e1d8259bac264c8e89e066afae8a15fa">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: left; font-size: 0.9em">
+                    <pre><span style="color:#EE82EE">WHERE</span> customer.cust_id = freq_shopper.cust_id</pre>
+                    <span style="color:#696969">freq_shopper table is dynamically redistributed on f_customer_id</span>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 16px; top: 224px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 12;" data-maintain-ar="false">
+                    <img data-natural-width="340" data-natural-height="320" style="" data-lazy-loaded=""
+                         alt="disks-green" src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 16px; top: 228px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br>cust_id = 102<br><br>freq_shopper (trans_n)</strong></p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 0px; top: 173px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 373px; top: 224px;"
+                 data-block-id="760bd9a3b121b07a809e2b1edb6c1595">
+                <div class="sl-block-content" style="z-index: 15;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 373px; top: 228px;"
+                 data-block-id="0a0ac24b373198f05eadb2079a8f001b">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 16; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br>cust_id = 745<br><br>freq_shopper (tran_num)<br>cust_id = 102</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 357px; top: 173px;"
+                 data-block-id="59f036ecc61c42e0667200e18d94281a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 2E</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 300px; left: 729px; top: 224px;"
+                 data-block-id="fe1567809a9c79f9cfabec43494df856">
+                <div class="sl-block-content" style="z-index: 18;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 729px; top: 228px;"
+                 data-block-id="1d5e957317f57eee8bdcc62a55def542">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>freq_shopper (trans_num)<br>cust_id = 745</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 360px; min-width: 30px; min-height: 30px; width: 247px; left: 713px; top: 173px;"
+                 data-block-id="1fe98f565bda456e635e8ba199b41924">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 3C</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="56ab728084a8ce8cf62883a44ae01721"
+                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 258px; top: 335px;">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 20;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 615px; top: 337px;"
+                 data-block-id="d4145f977879ef7bcc13d95a29e6b9d5">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 22;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-10">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="c59efca964a04642521c483fa882566b">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 11; text-align: left;">
+                    <h2>Broadcast Motion</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 70px;"
+                 data-block-id="cb759fdb23536b8854dc088713cfffee">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 845px; left: 64px; top: 520px;"
+                 data-block-id="1eb9d69da19de7a4bd6e377ca72ad55a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13;">
+                    <pre><span style="font-size:0.9em"><span style="color:#EE82EE">WHERE</span> customer.c_statekey = state.s_key</span></pre>
+                    <p> </p>
+                    <p><span style="font-size:0.9em; color:#696969">state table is dynamically broadcast to all segments</span>
+                    </p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 16px; top: 224px;"
+                 data-block-id="e17777b0b259b1ec7a35c75f628e512d">
+                <div class="sl-block-content" style="z-index: 12;" data-maintain-ar="false">
+                    <img data-natural-width="340" data-natural-height="320" style="" data-lazy-loaded=""
+                         alt="disks-green" src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="6f107d38f4d5ed409cdb1de9a0d037b4"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 16px; top: 228px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 13; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ... WY</strong></p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" data-block-id="164eaf33c24c5c2e8b2f39bac7f66905"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 0px; top: 173px;">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 10; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1A</p>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 373px; top: 224px;"
+                 data-block-id="760bd9a3b121b07a809e2b1edb6c1595">
+                <div class="sl-block-content" style="z-index: 15;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 373px; top: 228px;"
+                 data-block-id="0a0ac24b373198f05eadb2079a8f001b">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 16; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ...WY</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 357px; top: 173px;"
+                 data-block-id="59f036ecc61c42e0667200e18d94281a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1B</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="image"
+                 style="min-width: 4px; min-height: 4px; width: 214px; height: 240px; left: 729px; top: 224px;"
+                 data-block-id="fe1567809a9c79f9cfabec43494df856">
+                <div class="sl-block-content" style="z-index: 18;" data-maintain-ar="false"><img data-natural-width="339" data-natural-height="340"
+                                                                                                 style="" alt="disks-green" data-lazy-loaded=""
+                                                                                                 src="images/disks-green.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 214px; left: 729px; top: 228px;"
+                 data-block-id="1d5e957317f57eee8bdcc62a55def542">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 19; text-align: center; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 255);">
+                    <p><strong>customer (cust_id)<br><br>state (s_key)<br>AK ...WY</strong></p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: 300px; min-width: 30px; min-height: 30px; width: 247px; left: 713px; top: 173px;"
+                 data-block-id="1fe98f565bda456e635e8ba199b41924">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 17; background-color: rgb(255, 255, 255); border-style: solid; border-width: 3px;">
+                    <p style="text-align:left">&nbsp;Segment 1C</p>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" data-block-id="56ab728084a8ce8cf62883a44ae01721"
+                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 258px; top: 335px;">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 20;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 615px; top: 337px;"
+                 data-block-id="d4145f977879ef7bcc13d95a29e6b9d5">
+                <div class="sl-block-content" data-line-x1="-122" data-line-y1="85" data-line-x2="-32" data-line-y2="85" data-line-color="#000000"
+                     data-line-start-type="arrow" data-line-end-type="arrow" style="z-index: 22;" data-line-width="6px">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveAspectRatio="xMidYMid" width="90" height="1" viewBox="-122 85 90 1">
+                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <line stroke="#000000" stroke-width="6" x1="-113" y1="85" x2="-40" y2="85"></line>
+                        <polygon fill="#000000" transform="translate(-113,85) rotate(90)" points="0,9 9,-9 -9,-9"></polygon>
+                        <polygon fill="#000000" transform="translate(-40,85) rotate(90)" points="0,-9 9,9 -9,9"></polygon>
+                    </svg>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-11">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="9e8f018d3629652b58a77f88a6f8b686">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>Join Keys - Data Types Matter</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 74px;"
+                 data-block-id="05ca5242e00c1898b69cd70eb09cb5cc">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 615px; height: 68px; left: 173px; top: 180px;"
+                 data-block-id="e135fb742dbf087472b7d7bc6fdfac21">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 13; border-style: solid; border-width: 1px; font-size: 125%;"
+                     data-code-wrap="true"><pre class="none"><code>customer (c_customer_id)        745::int
+freq_shopper (f_customer_id)    745::varchar(10)</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 885px; left: 0px; top: 288px; height: auto;"
+                 data-block-id="19f18581923bd022952e6cebcb29246a">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 14; text-align: left;">
+                    <ul>
+                        <li>Values might appear the same, however they are
+                            <ul>
+                                <li>stored differently</li>
+                                <li>hashed differently</li>
+                            </ul>
+                        </li>
+                        <li>Resulting in:
+                            <ul>
+                                <li>
+                                    <em>like</em> rows being stored on different segments
+                                </li>
+                                <li>a distribution motion before the tables can be joined</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 921px; left: 20px; top: 600px;"
+                 data-block-id="9bfc5b6b4e1fb56686cf59af3598cd44">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255); padding-left:10px; text-align:left; font-size:28px">
+                    Best Practice: For distribution (join) keys, use the same data type.<br>This is important particularly for large tables that are
+                    joined.
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-12">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="5df7c36b57cffc10541344117031ca5e">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>Checking for Data Skew</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 74px;"
+                 data-block-id="438e3eb73c7c521e121b34cf3d88b03d">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" data-block-id="0d64dbee583201507a09f2b9bc0f3be5"
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 870px; left: 0px; top: 600px">
+                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
+                     style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255); padding-left:10px; text-align:left; font-size:0.9em">
+                    Best Practice:<br>Check for data skew after initial load and subsequent loads
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" data-block-id="6f6eb8a2b8bbcbf5f66184b8f9d8f3b3"
+                 style="min-width: 30px; min-height: 30px; width: 870px; height: 94px; left: 0px; top: 180px;">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 13; font-size: 177%; border-style: solid; border-width: 1px;"><pre
+                        class="sql"><code>SELECT COUNT(*), gp_segment_id
+FROM &lt;table-name&gt; GROUP BY gp_segment_id;</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code"
+                 style="min-width: 30px; min-height: 30px; width: 870px; height: 304px; left: 0px; top: 280px;"
+                 data-block-id="dc604ec01ce003071a3e5670d7ec7faf">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 15; font-size: 177%; border-style: solid; border-width: 1px;"
+                     data-code-wrap="true"><pre class="sql"><code>SELECT '&lt;table-name&gt;' as "Table Name",
+       max(c) as "Max Seg Rows",
+       min(c) as "Min Seg Rows",
+       (max(c) - min(c))*100.0/max(c)
+          as "% Difference Between Max &amp; Min"
+FROM (SELECT count(*) c, gp_segment_id
+      FROM &lt;table-name&gt; GROUP BY 2) as a;</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-13">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 806px; left: 3px; top: 0px; height: auto;"
+                 data-block-id="042c41edfa53c8e1cbd667535a6e5628">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>Skew Examples</h2>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 3px; top: 72px;"
+                 data-block-id="68cb2c1c7f61cbe5aac3644354f55167">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="code" style="width: 469px; height: 476px; left: 0px; top: 200px;"
+                 data-block-id="743bad8ee6b8f53bf15c2b64e4206cd4">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="osx-grey"
+                     style="z-index: 12; font-size: 125%; border-style: solid; border-width: 1px;"
+                     data-code-wrap="true">
+        <pre class="sql"><code>gpuser=&gt;
+   SELECT count(*), gp_segment_id
+   FROM otp_x
+   GROUP BY gp_segment_id
+   ORDER BY 1;
+
+  count      | gp_segment_id
+-------------+---------------
+        7800 |             7
+      699342 |             0
+     1121978 |             5
+     2002998 |             6
+     2256304 |             2
+     4125946 |             3
+     5270874 |             1
+     5374803 |             4
+(8 rows)</code></pre>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 447px; height: 476px; left: 513px; top: 200px;"
+                 data-block-id="b5a6f3dec375ef824381cc01ad02cf38">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="osx-grey"
+                     style="z-index: 12; font-size: 125%; border-style: solid; border-width: 1px;"
+                     data-code-wrap="true">
+        <pre class="sql"><code>gpuser=&gt;
+   SELECT count(*), gp_segment_id
+   FROM otp_x
+   GROUP BY gp_segment_id
+   ORDER BY 1;
+
+  count     | gp_segment_id
+------------+---------------
+    2607504 |             7
+    2607505 |             5
+    2607505 |             4
+    2607505 |             0
+    2607505 |             2
+    2607506 |             3
+    2607507 |             1
+    2607508 |             6
+(8 rows)</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-slide-14">
+            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
+                 style="width: 12%; height: auto; left: 900px; top: 10px;">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
+                 data-block-id="1ec352c36a29f8708d3afa8cb98acb38">
+                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
+                     style="z-index: 10; text-align: left;">
+                    <h2>Check for Skew - Simple Example</h2>
+                </div>
+            </div>
+
+            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 0px; top: 74px;"
+                 data-block-id="5cf8f4760163d76fe76f5765b5aa2e46">
+                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle">
+                    <h3>Data Distribution</h3>
+                </div>
+            </div>
+            <div class="sl-block" data-block-type="code" style="width: 960px; height: 459px; left: 0px; top: 216px;"
+                 data-block-id="6906e02e3ff327d01cbc6d5452ac1ede">
+                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                     style="z-index: 12; border-style: solid; border-width: 1px; font-size: 125%;"
+                     data-code-wrap="true"><pre class="sql"><code>test=$ SELECT COUNT(*), gp_segment_id FROM sales GROUP BY gp_segment_id;
+ count | gp_segment_id
+ ------+---------------
+     1 |             1
+     2 |             0
+  (2 rows)
+
+
+test=$ SELECT 'sales' as "Table Name",
+       max(c) as "Max Seg Rows",
+       min(c) as "Min Seg Rows",
+       (max(c)-min(c))*100.0/max(c) as "% Difference Between Max &amp; Min"
+       FROM (SELECT count(*) c, gp_segment_id FROM sales GROUP BY 2) as a;
+
+ Table Name | Max Seg Rows | Min Seg Rows | % Difference Between Max &amp; Min
+------------+--------------+--------------+-------------------------------
+ sales      |            2 |            1 |           50.0000000000000000
+(1 row)
+</code></pre>
+                </div>
+            </div>
+        </section>
+        <section data-id="data-distribution-ending-slide"
+                 data-background-color="#008774"
+                 data-background-position="0% 0%" data-id="closing-slide"
+                 data-menu-title="End">
+            <div class="sl-block" data-block-type="image"
+                 style="width: 100%; height: auto; left: 10px; top: 250px;"
+                 data-block-id="footer-logo">
+                <div class="sl-block-content" style="z-index: 12;">
+                    <img data-src="images/logos/logo-gp-horizontal-ondark.png">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    var SLConfig = {
+        "deck": {
+            "id": 1609225,
+            "slug": "gp-data-distribution",
+            "title": "Greenplum - Data Distribution",
+            "description": "Overview of the data distribution used with the Greenplum database.",
+            "width": 960,
+            "height": 720,
+            "visibility": "all",
+            "published_at": "2019-09-26T18:23:44.248Z",
+            "sanitize_messages": null,
+            "thumbnail_url": "https://s3.amazonaws.com/media-p.slid.es/thumbnails/3ffe1c862dd25dea5687f104b37296c8/thumb.jpg?1570134715",
+            "view_count": 1,
+            "user": {
+                "id": 1134143,
+                "username": "csylvester",
+                "name": "",
+                "description": "",
+                "thumbnail_url": "https://www.gravatar.com/avatar/d2436491e8c9292c895eebad673e3837?s=140\u0026d=https%3A%2F%2Fstatic.slid.es%2Fimages%2Fdefault-profile-picture.png",
+                "paid": true,
+                "pro": true,
+                "lite": false,
+                "team_id": null,
+                "settings": {
+                    "id": 3868303,
+                    "present_controls": true,
+                    "present_upsizing": true,
+                    "present_pointer": false,
+                    "present_notes": true,
+                    "default_deck_tag_id": null
+                }
+            },
+            "background_transition": "slide",
+            "transition": "slide",
+            "theme_id": null,
+            "theme_font": "montserrat",
+            "theme_color": "white-blue",
+            "auto_slide_interval": 0,
+            "comments_enabled": true,
+            "forking_enabled": true,
+            "rolling_links": false,
+            "center": false,
+            "shuffle": false,
+            "should_loop": false,
+            "share_notes": false,
+            "slide_number": false,
+            "slide_count": 15,
+            "rtl": false,
+            "version": 2,
+            "collaborative": null,
+            "deck_user_editor_limit": 3,
+            "data_updated_at": 1570134714655,
+            "font_typekit": null,
+            "font_google": null,
+            "time_limit": null,
+            "upsizing_enabled": true,
+            "notes": {
+                "data-distribution-slide-11": "It is important that the distribution keys are the same data type to obtain a local join.  While the values might appear to be the same visually, different data types are stored differently at the disk level and hash to different values resulting with like rows being stored on different segment instances. \n\nIn the example displayed, the customer table is distributed on the c_customer_id which is defined as type INT.\nThe freq_shopper table is distributed on the f_customer_id which is defined as type VARCHAR. This results in like rows (with the same customer_id respectively) being stored on different segment instances requiring a redistribution to perform the join.  Instead of a local join the optimizer redistributes the customer table based on the VARCHAR representation of the c_customer_id. A hash join is then performed using the same data type for both customer_id columns (customer.c_customer_id = varchar (freq_shopper.f_customer_id)). \n\n",
+                "data-distribution-slide-7": "Use a distribution key with unique values and high cardinality to distribute the data evenly across all segment instances. Boolean keys (True/False or 1/0) or low cardinality keys (Inactive/Active or Male/Female) are not candidates for a distribution key. \nThe system distributes rows with the same hash value to the same segment instance, therefore resulting in the data being located on only a few segment instances.  It is important to remember in an MPP environment, overall response time for a query is measured by the completion time for all segment instances. \n\nData skew is caused by uneven distribution of data because of the wrong selection of distribution keys. It is present at the table level, can be easily identified and avoided by selecting optimal distribution keys.\n\nComputational skew happens in flight when a query is executing and is not as easy to detect. It can happen for various operations like join, sort, aggregation, various OLAP operations, etc. with operations on columns that have low cardinality and non-uniform distribution. For example, if a row_number function is used on state column of customer table, it will result in more data flowing to segment that contains rows for ‘CA’, resulting in computational skew. Instead of 2 stage aggregation, one stage aggregation is picked by optimizer for columns with low cardinality.",
+                "data-distribution-slide-3": "For large tables a hash distribution that evenly distributes table rows across all segment instances is desired. While a random distribution will evenly distribute table rows across all segments, the significant performance gains of local joins, also called co-located joins is lost. ",
+                "data-distribution-slide-12": "The first query will return one row for each segment. The second query will return a single row for the table.\n",
+                "data-distribution-slide-2": "Every table in a Pivotal database has a data distribution method.  The DISTRIBUTED clause specifies the distribution method for a table.\nThere are two distribution methods:\n  hash distribution - designated by specifying a column name in the DISTRIBUTED BY clause\n  random distribution - designated by specifying the DISTRIBUTED RANDOMLY clause. \n\nThe DISTRIBUTED BY (column name) clause will distribute the data across all segment instances using a hash algorithm.   \nThe DISTRIBUTED RANDOMLY clause will distribute the data across all segment instances using a random algorithm. \n",
+                "data-distribution-slide-4": "For large tables a hash distribution that evenly distributes table rows across all segment instances is desired. While a random distribution will evenly distribute table rows across all segments, the significant performance gains of local joins, also called co-located joins, is lost. \n",
+                "data-distribution-slide-5": "The DISTRIBUTED RANDOM clause will distribute the data across all segment instances using a random algorithm. For any table that uses a random distribution, either a redistribution or broadcast operation will be required to perform a table join. \nThere are performance implications when performing a redistribution or broadcast of very large tables.  Random distribution should be used for small tables and when a hash distribution method is not feasible due to significant data skew."
+            }
+        }
+    };
+
+
+    // Use local fonts
+    SLConfig.fonts_url = 'lib/fonts/';
+</script>
+
+<script src="lib/reveal.min.js"></script>
+<script src="lib/offline.js"></script>
+
+<!-- Initialize the presentation -->
+<script>
+    Reveal.initialize({
+        width: 960,
+        height: 720,
+        margin: 0.05,
+
+
+        hash: true,
+        controls: true,
+        progress: true,
+        mouseWheel: false,
+        showNotes: false,
+        slideNumber: false,
+
+        autoSlide: 0,
+        autoSlideStoppable: true,
+
+        center: false,
+        shuffle: false,
+        loop: false,
+        rtl: false,
+
+        transition: "slide",
+        backgroundTransition: "slide",
+
+        highlight: {
+            escapeHTML: false
+        },
+
+        /* Added menu plugin from https://github.com/denehyg/reveal.js-menu: CJS, 07oct2019 */
+        /* For a description of the 'menu' options, see the gp-intro-overview.html presentation */
+        menu: {
+            side: 'left',
+            width: 'wide',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            useTextContentForMissingTitles: false,
+            hideMissingTitles: false,
+            markers: true,
+            custom: false,
+            themes: false,
+            themesPath: 'css/theme/',
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true,
+            sticky: false,
+            autoOpen: true,
+            delayInit: false,
+            openOnInit: false,
+            loadIcons: true
+        },
+
+        dependencies: [
+            {
+                src: 'lib/reveal-plugins/markdown/marked.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {
+                src: 'lib/reveal-plugins/markdown/markdown.js', condition: function () {
+                    return !!document.querySelector('[data-markdown]');
+                }
+            },
+            {src: 'lib/reveal-plugins/highlight/highlight.js'},
+            {
+                src: 'lib/reveal-plugins/notes/notes.js', async: true, condition: function () {
+                    return !!document.body.classList;
+                }
+            },
+            {src: 'lib/reveal-plugins/zoom/zoom.js', async: true},
+            {src: 'lib/reveal-plugins/menu/menu.js', async: false}
+        ]
+    });
+</script>
+
+
+</body>
+</html>
