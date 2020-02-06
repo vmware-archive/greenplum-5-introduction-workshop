@@ -9,6 +9,7 @@
 .reveal .backgrounds .agenda-slide { background: linear-gradient(90deg, #008774 40%, white 40%); }
 
 .reveal .backgrounds .title-slide { background-image: url("../images/bg-green-pivotal-labs.png"); }
+.reveal .backgrounds .last-slide { background-image: url("../images/bg-green-pivotal-labs.png"); }
 
 /*! h2: Used for titles on slides. This is Pivotal teal green. */
 .reveal .slides h2 {
@@ -24,5 +25,9 @@
 
 /*! Custom settings for tables to create alternating row colors */
 .reveal th { background: #57B6A5; color: #FFF; }
-.reveal tr:nth-child(even) { background: #C8EBE4; }
+.reveal tr:nth-child(even) { background: white /*! #C8EBE4 */ ; }
 .reveal tr:nth-child(odd) { background: #D9FFF7; }
+
+.reveal .table-col-color-1 {
+      background-color: yellow;
+}

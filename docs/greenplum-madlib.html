@@ -811,7 +811,7 @@ limitations under the License.
                     <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
                 </div>
             </div>
-            <div class="sl-block" data-block-type="code" style="width: 422px; height: 155px; left: 29px; top: 526px;"
+            <div class="sl-block" data-block-type="code" style="width: auto; height: auto; left: 29px; top: 526px;"
                  data-block-id="50b358ee43ca0d36d1f740982f90b3eb">
                 <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
                      style="z-index: 14; border-width: 1px; font-size: 120%;"><pre><code>SELECT madlib.linregr_train(
@@ -952,10 +952,11 @@ limitations under the License.
                     <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
                 </div>
             </div>
-            <div class="sl-block" data-block-type="code" style="width: 422px; height: 155px; left: 126px; top: 168px;"
+            <div class="sl-block" data-block-type="code" style="width: 420px; height: 150px; left: 125px; top: 170px;"
                  data-block-id="b4bb45d61048d876017bfd3670bd25c0">
                 <div class="sl-block-content notranslate fragment semi-fade-out" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 14; border-width: 1px; font-size: 120%;" data-fragment-index="0"><pre><code>SELECT madlib.linregr_train(
+                     style="z-index: 14; border-width: 1px; font-size: 120%;" data-fragment-index="0">
+                     <pre><code>SELECT madlib.linregr_train(
                         'houses',
                  'house_linregr',
                          'price',
@@ -1018,10 +1019,11 @@ limitations under the License.
                     </svg>
                 </div>
             </div>
-            <div class="sl-block" data-block-type="code" style="width: 763px; height: 186px; left: 15px; top: 432px;"
+            <div class="sl-block" data-block-type="code" style="width: 760px; height: 170px; left: 15px; top: 432px;"
                  data-block-id="627a733452379dbfbf2462b8e50f7ee9">
                 <div class="sl-block-content notranslate" data-highlight-theme="monokai" data-code-frame="none"
-                     style="z-index: 10; border-width: 1px; font-size: 150%;"><pre><code style="padding: 15px;">SELECT houses.*,
+                     style="z-index: 10; border-width: 1px; font-size: 150%;">
+                     <pre><code style="padding: 15px;">SELECT houses.*,
    madlib.linregr_predict(ARRAY[1,tax,bath,size],
    m.coef
   )as predict
