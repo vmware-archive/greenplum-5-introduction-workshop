@@ -1,7 +1,7 @@
 # Greenplum 5 Workshop
 
 The slides for this workshop can be presented from this web site:  
-    https://pivotal-data-engineering.github.io/greenplum-open-source-workshop/
+    https://pivotal-data-engineering.github.io/greenplum-5-introduction-workshop/
 <-- This material is located in the docs folder.
 
 
