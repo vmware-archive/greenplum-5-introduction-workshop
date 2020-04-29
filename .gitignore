@@ -5,4 +5,6 @@ refresh-s3.sh
 *-testing-harness
 .git.SAVE
 docs/.idea/
-presentations.iml
+*.iml
+gruntfile.js
+package.json
