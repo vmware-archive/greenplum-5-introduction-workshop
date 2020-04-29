@@ -6,6 +6,4 @@ refresh-s3.sh
 .git.SAVE
 docs/.idea/
 *.iml
-node_modules/
-gruntfile.js
-package.json
+.*.json
