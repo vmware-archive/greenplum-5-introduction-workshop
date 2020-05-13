@@ -1,33 +1,45 @@
-/*!
+/*
  * Styles used for the Greenplum Workshop presentations
  *
- * Craig Sylvester, Pivotal
+ * Craig Sylvester, VMware
  */
+
+:root {
+    --pivotal-green: #008774;
+}
+
+#pivotal-green {
+    color: var(--pivotal-green, green);
+}
+
+.logo-image > img {
+    content:url("../images/logos/logo-gp-wkshop-vertical-onlight-small.png");
+}
 
 .reveal .controls button { color: #f27062 }
 
-.reveal .backgrounds .agenda-slide { background: linear-gradient(90deg, #008774 40%, white 40%); }
+.reveal .backgrounds .title-slide { background-image: url("../images/bg-green-pivotal-labs.png"); background-size: contain;}
+.reveal .backgrounds .agenda-slide { background: linear-gradient(90deg, var(--pivotal-green) 40%, white 40%); }
+.reveal .backgrounds .last-slide { background-color: var(--pivotal-green); }
 
-.reveal .backgrounds .title-slide { background-image: url("../images/bg-green-pivotal-labs.png"); }
-.reveal .backgrounds .last-slide { background-image: url("../images/bg-green-pivotal-labs.png"); }
+/* h2: Used for titles on slides. */
+.reveal .slides h2 { text-align: left; text-indent: -.0em; color: var(--pivotal-green); font-size: 1.7em; }
+/* h3: Used for sub-titles on slides (not all slides) */
+.reveal .slides h3 { text-align: left; text-indent: -0em; color: black; font-size: 1em; }
 
-/*! h2: Used for titles on slides. This is Pivotal teal green. */
-.reveal .slides h2 {
-    color: #008774;
-    font-size: 1.7em;
-}
-/*! h3: Used for sub-titles on slides (not all slides) */
-.reveal .slides h3 {
-    color: black;
-    font-size: 1em;
-    text-align: left;
-}
-
-/*! Custom settings for tables to create alternating row colors */
+/* Custom settings for tables to create alternating row colors */
 .reveal th { background: #57B6A5; color: #FFF; }
-.reveal tr:nth-child(even) { background: white /*! #C8EBE4 */ ; }
-.reveal tr:nth-child(odd) { background: #D9FFF7; }
+.reveal tr:nth-child(even) { background: white; color: black; }
+.reveal tr:nth-child(odd) { background: #D9FFF7; color: black; }
 
-.reveal .table-col-color-1 {
-      background-color: yellow;
+.reveal .table-col-color-1 { background-color: yellow; }
+
+body { font-size: 100%; }
+
+/* Add logo to each slide
+body:after {
+    content: url(../images/logos/logo-gp-wkshop-vertical-onlight-small.png);
+    position: fixed; left: 85%; top: 5%;
 }
+*/
+

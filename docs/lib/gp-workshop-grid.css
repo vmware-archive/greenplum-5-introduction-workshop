@@ -1,0 +1,308 @@
+/*
+ * Grid layouts used for the Greenplum Workshop presentations
+ *
+ * Craig Sylvester, VMware
+ */
+
+html, body {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+}
+.grid-page {
+    height: 95%;
+    display: grid;
+    grid-template-columns: repeat(8, [col] 130px);
+    /*grid-template-rows: 130px repeat(auto-fit, [row] 60px) 150px;*/
+    grid-template-rows: [header-start] 130px [header-end] repeat(2, [row] 25%)  auto;
+    grid-gap: 10px;
+}
+
+
+.grid-page > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header {
+    grid-column: col 1/col -1;
+    grid-row: header;
+    display: flex;
+    flex-direction: row;
+}
+
+.header > div:nth-child(2) {
+    margin-left: auto;
+}
+
+.footer {
+    grid-column: col 1 / col -1;
+    grid-row: -1;
+}
+
+.add-bg {
+    color: white;
+    background-color: var(--pivotal-green);
+}
+
+.justify-left {
+    align-self: flex-start;
+}
+
+.full-page {
+    grid-column: col 1 / col -1;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /*background-color: red;*/
+    /*max-height: 100%;*/
+}
+
+.full-page-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    /*background-color: green;*/
+}
+
+.boxshadow {
+    box-shadow: 1px 2px 10px rgba(0,0,0,.3);
+}
+
+.image-page {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+.image-page > div {
+    /*background: red;*/
+    padding: 1rem;
+    display: grid;
+    place-items: center;
+}
+
+.image-page > div::before {
+    /*for aspect ratio*/
+    content: "";
+    display: block;
+}
+
+.image-page > div > a {
+    grid-area: 1 / 1 / 2 / 2;
+    width: 100%;
+}
+.image-page > div > a > img {
+    object-fit: contain;
+    width: 100%;
+}
+
+.content-1of2-vertical {
+    grid-column: col 1 / span 4;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    /*background-color: red;*/
+}
+
+.content-2of2-vertical {
+    grid-column: col 5 / -1;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+.content-1of2-horizontal {
+    grid-column: col 1 / col -1;
+    /*grid-row: row 1 / span 3;*/
+    grid-row: row 1;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: flex-start;*/
+    max-height: 100%;
+}
+
+.content-2of2-horizontal {
+    grid-column: col 1 / col -1;
+    /*grid-row: row 4 / span 3;*/
+    grid-row: row 2;
+    display: flex;
+    flex-direction: row;
+    /*justify-content: flex-start;*/
+}
+
+.content-1quarter {
+    grid-column: col 1 / col 4;
+    grid-row: row 1 / row 2;
+}
+
+.content-2quarter {
+    grid-column: col 1 / col 4;
+    grid-row: row 3 / row 4;
+}
+
+.content-3quarter {
+    grid-column: col 5 / span 3;
+    grid-row: row 1 / row 2;
+}
+
+.content-4quarter {
+    grid-column: col 5 / span 3;
+    grid-row: row 3 / row 4;
+}
+
+figure {
+    margin: 0;
+    position: relative;
+}
+
+.position-text p {
+    z-index: 100;
+    position: absolute;
+    /* Use <p style="left: XXpx; top: ..."> to position the text instead of setting it here */
+}
+
+.content-first-third {
+    grid-column: col 1 / col 3;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-second-third {
+    grid-column: col 3 / span 3;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-third-third {
+    grid-column: col 5 / -1;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-two-third {
+    grid-column: col 3 / -1;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.image > img {
+    margins: auto;
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
+/* Example of an images page */
+/* ---------------------------------------------------------------
+.container {
+    height: 100%;
+    display: grid;
+    gap: 3px;
+    grid-template-columns: repeat(auto-fit,minmax(100px, 1fr));
+    grid-auto-rows: 75px;
+    grid-auto-float: dense;
+}
+.horizontal {
+    grid-column: span 2;
+}
+
+.vertical {
+    grid-row: span 2;
+}
+
+.big {
+    grid-column: span 2;
+    grid-row:  span 2;
+}
+ --------------------------------------------------------------- */
+
+/* Example of using template-areas to define layout */
+/* ---------------------------------------------------------------
+.container {
+    height: 100%;
+    display:grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: 40px auto auto 40px;
+    grid-gap: 3px;
+    grid-template-areas:
+           "h h h h h h h h"
+           "m c c c c c c c"
+           "m d d d d d d d"
+           "f f f f f f f f";
+}
+.header  { grid-area: h; }
+.menu    { grid-area: m;}
+.content1 { grid-area: c; }
+.content2 { grid-area: d; }
+.footer  { grid-area: f; }
+ --------------------------------------------------------------- */
+
+/* Web site: Example of using grid lines to define layout */
+/* ---------------------------------------------------------------
+.container {
+    height: 80%;
+    display: grid;
+    grid-gap: 3px;
+    grid-template-columns: [main-start] 1fr [content-start] 5fr [content-end main-end];
+    grid-template-rows: [main-start] 40px [content-start] auto [content-end] 40px [main-end];
+}
+
+.header { grid-column: main; }
+.menu {}
+.content { grid-area: content;}
+.footer { grid-column: main;}
+ --------------------------------------------------------------- */
+
+/* Web site: justifying the content */
+/* ---------------------------------------------------------------
+.container {
+    border: 1px solid black;
+    height: 100%;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(2, 100px);
+    justify-content: space-around;
+    // align-content: center;
+}
+.header  { grid-column: 1 / -1; }
+.menu    { grid-column: 1 / 3;}
+.content { grid-column: 3 / -1; justify-self: center; }
+.footer  { grid-column: 1 / -1; }
+ --------------------------------------------------------------- */
+
+/* Web site: justifying the items */
+/* ---------------------------------------------------------------
+.container {
+    height: 100%;
+    display:grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 40px auto 40px;
+    grid-gap: 3px;
+    //justify-items: center;
+    //align-items: center;
+}
+.header  { grid-column: 1 / -1; }
+.menu    { grid-column: 1 / 3;}
+.content { grid-column: 3 / -1; justify-self: center; }
+.footer  { grid-column: 1 / -1; }
+ --------------------------------------------------------------- */
