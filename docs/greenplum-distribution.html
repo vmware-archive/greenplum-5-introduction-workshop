@@ -30,14 +30,24 @@ limitations under the License.
     <div class="slides">
         <section class="title-slide" data-id="data-distribution-title-slide">
             <div class="grid-page">
-                <div class="full-page ">
+                <div class="full-page" id="title-slide">
                     <div><h1>Petabyte Scale Data Warehousing with Greenplum</h1></div>
-                    <br>
-                    <div><h2 style="font-size: 200%; color: yellow;">Data Distribution</h2></div>
+                    <h2 class="subtitle">Data Distribution</h2>
                 </div>
             </div>
         </section>
         <section data-id="data-distribution-slide-2">
+            <aside class="notes">
+            Every table in a GP database has a data distribution method.
+            The DISTRIBUTED clause specifies the distribution method for a table.
+            <br>There are two distribution methods:
+            <br>hash distribution - designated by specifying a column name in the DISTRIBUTED BY clause
+            <br>random distribution - designated by specifying the DISTRIBUTED RANDOMLY clause.
+            <br><br>
+            The DISTRIBUTED BY (column name) clause will distribute the data across all segment instances using a hash algorithm.
+            <br>
+            The DISTRIBUTED RANDOMLY clause will distribute the data across all segment instances using a random algorithm.
+            </aside>
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -139,6 +149,12 @@ DISTRIBUTED BY (id);</code></pre>
             </div>
         </section>
         <section data-id="data-distribution-slide-5">
+            <aside class="notes">
+            The DISTRIBUTED RANDOM clause will distribute the data across all segment instances using a random algorithm.
+            For any table that uses a random distribution, either a redistribution or broadcast operation will be required to perform a table join.
+            <br>There are performance implications when performing a redistribution or broadcast of very large tables.
+            Random distribution should be used for small tables and when a hash distribution method is not feasible due to significant data skew.
+            </aside>
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -217,6 +233,21 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
             </div>
         </section>
         <section data-id="data-distribution-slide-7">
+            <aside class="notes">
+            Use a distribution key with high cardinality (preferably unique values) to distribute the data evenly across all segment instances.
+            Boolean keys (True/False or 1/0) or low cardinality keys (Inactive/Active or Male/Female) are not candidates for a distribution key.
+            <br>The system distributes rows with the same hash value to the same segment instance, therefore resulting in the data being
+            located on only a few segment instances. It is important to remember in an MPP environment, overall response time for a query is
+            measured by the completion time for all segment instances.
+            <br><br>Data skew is caused by uneven distribution of data because of the wrong selection of distribution keys.
+            It is present at the table level, can be easily identified and avoided by selecting optimal distribution keys.
+            <br><br>Computational skew happens in flight when a query is executing and is not as easy to detect.
+            It can happen for various operations like join, sort, aggregation, various OLAP operations, etc. with operations on columns
+            that have low cardinality and non-uniform distribution.
+            <br>For example, if a row_number function is used on state column of customer table, it will result in more data flowing to
+            segment that contains rows for ‘CA’, resulting in computational skew.
+            Instead of 2 stage aggregation, one stage aggregation is picked by optimizer for columns with low cardinality.
+            </aside>
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -256,7 +287,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                     </div>
                     <div class="logo-image"><img></div>
                 </div>
-                <div class="content-1of2-vertical">
+                <div class="content-left-half">
                     <figure style="margin-bottom: 20px;">
                         <div class="position-text"><p style="left: 80px; top: 5px;">Segment 1A</p></div>
                         <img alt="disks-green" src="./images/disks-green-smashed.png">
@@ -277,7 +308,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                         </div>
                     </figure>
                 </div>
-                <div class="content-2of2-vertical">
+                <div class="content-right-half">
                     <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
                          style="z-index: 14; font-size: 150%;">
                         Distribute on the same key used in the join to obtain
@@ -391,6 +422,18 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
             </div>
         </section>
         <section data-id="data-distribution-slide-11">
+            <aside class="notes">
+                It is important that the distribution keys are the same data type to obtain a local join.
+                While the values might appear to be the same visually, different data types are stored differently at the disk level
+                and hash to different values resulting with like rows being stored on different segment instances.
+                <br><br>In the example displayed, the customer table is distributed on the cust_id which is defined as type INT.
+                <br>The freq_shopper table is distributed on the cust_id which is defined as type VARCHAR.
+                This results in like rows (with the same customer ID respectively) being stored on different segment instances requiring
+                a redistribution to perform the join.
+                Instead of a local join, the optimizer redistributes the customer table based on the VARCHAR representation of the cust_id.
+                A hash join is then performed using the same data type for both customer ID columns
+                (customer.cust_id = varchar (freq_shopper.cust_id)).
+            </aside>
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -404,7 +447,7 @@ ALTER TABLE new_foo RENAME to foo;</code></pre>
                     <pre class="none"><code>customer (c_customer_id)        745::int
 freq_shopper (f_customer_id)    745::varchar(10)</code></pre>
                     </div>
-                    <div style="margin-top: 10px;">.
+                    <div style="margin-top: 25px;">
                         <ul>
                             <li>Values might appear the same, however they are
                                 <ul>
@@ -430,6 +473,9 @@ freq_shopper (f_customer_id)    745::varchar(10)</code></pre>
             </div>
         </section>
         <section data-id="data-distribution-slide-12">
+            <aside class="notes">
+            The first query will return one row for each segment. The second query will return a single row for the table.
+            </aside>
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -454,7 +500,7 @@ FROM (SELECT count(*) c, gp_segment_id
       FROM &lt;table-name&gt; GROUP BY 2) as a;</code></pre>
                     </div>
                 </div>
-                <div class="footer add-bg">
+                <div class="footer add-bg" style="margin-top: 50px;">
                     Best Practice:<br>Check for data skew after initial load and subsequent loads
                 </div>
             </div>
@@ -467,9 +513,9 @@ FROM (SELECT count(*) c, gp_segment_id
                     </div>
                     <div class="logo-image"><img></div>
                 </div>
-                <div class="content-1of2-vertical">
+                <div class="content-left-half">
                     <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="osx-grey"
-                         style="z-index: 12; padding: 5px; font-size: 75%; border-style: solid; border-width: 1px;" data-code-wrap="true">
+                         style="z-index: 12; padding: 5px; font-size: 70%; border-style: solid; border-width: 1px;" data-code-wrap="true">
         <pre class="sql"><code>gpuser=&gt;
    SELECT count(*), gp_segment_id
    FROM otp_x
@@ -489,9 +535,9 @@ FROM (SELECT count(*) c, gp_segment_id
 (8 rows)</code></pre>
                     </div>
                 </div>
-                <div class="content-2of2-vertical">
+                <div class="content-right-half">
                     <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="osx-grey"
-                         style="z-index: 12; padding: 5px; font-size: 75%; border-style: solid; border-width: 1px;" data-code-wrap="true">
+                         style="z-index: 12; padding: 5px; font-size: 70%; border-style: solid; border-width: 1px;" data-code-wrap="true">
         <pre class="sql"><code>gpuser=&gt;
    SELECT count(*), gp_segment_id
    FROM otp_x
@@ -522,8 +568,8 @@ FROM (SELECT count(*) c, gp_segment_id
                     <div class="logo-image"><img></div>
                 </div>
                 <div class="full-page">
-                    <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
-                         style="z-index: 12; padding: 10px; border-style: solid; border-width: 1px; font-size: 70%;"
+                    <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="osx-grey"
+                         style="z-index: 12; padding: 3px; border-style: solid; border-width: 1px; font-size: 70%;"
                          data-code-wrap="true"><pre class="sql"><code>test=$ SELECT COUNT(*), gp_segment_id FROM sales GROUP BY gp_segment_id;
  count | gp_segment_id
  ------+---------------
@@ -531,16 +577,16 @@ FROM (SELECT count(*) c, gp_segment_id
      2 |             0
   (2 rows)
 
-
 test=$ SELECT 'sales' as "Table Name",
-       max(c) as "Max Seg Rows",
-       min(c) as "Min Seg Rows",
-       (max(c)-min(c))*100.0/max(c) as "% Difference Between Max &amp; Min"
-       FROM (SELECT count(*) c, gp_segment_id FROM sales GROUP BY 2) as a;
+         max(c) as "Max Seg Rows",
+         min(c) as "Min Seg Rows",
+         (max(c)-min(c))*100.0/max(c) as "% Diff Between Max &amp; Min"
+       FROM (
+         SELECT count(*) c, gp_segment_id FROM sales GROUP BY 2) as a;
 
- Table Name | Max Seg Rows | Min Seg Rows | % Difference Between Max &amp; Min
-------------+--------------+--------------+-------------------------------
- sales      |            2 |            1 |           50.0000000000000000
+ Table Name | Max Seg Rows | Min Seg Rows | % Diff Between Max &amp; Min
+------------+--------------+--------------+-------------------------
+ sales      |            2 |            1 |     50.0000000000000000
 (1 row)
 </code></pre>
                     </div>
@@ -614,16 +660,7 @@ test=$ SELECT 'sales' as "Table Name",
             "font_typekit": null,
             "font_google": null,
             "time_limit": null,
-            "upsizing_enabled": true,
-            "notes": {
-                "data-distribution-slide-11": "It is important that the distribution keys are the same data type to obtain a local join.  While the values might appear to be the same visually, different data types are stored differently at the disk level and hash to different values resulting with like rows being stored on different segment instances. \n\nIn the example displayed, the customer table is distributed on the c_customer_id which is defined as type INT.\nThe freq_shopper table is distributed on the f_customer_id which is defined as type VARCHAR. This results in like rows (with the same customer_id respectively) being stored on different segment instances requiring a redistribution to perform the join.  Instead of a local join the optimizer redistributes the customer table based on the VARCHAR representation of the c_customer_id. A hash join is then performed using the same data type for both customer_id columns (customer.c_customer_id = varchar (freq_shopper.f_customer_id)). \n\n",
-                "data-distribution-slide-7": "Use a distribution key with unique values and high cardinality to distribute the data evenly across all segment instances. Boolean keys (True/False or 1/0) or low cardinality keys (Inactive/Active or Male/Female) are not candidates for a distribution key. \nThe system distributes rows with the same hash value to the same segment instance, therefore resulting in the data being located on only a few segment instances.  It is important to remember in an MPP environment, overall response time for a query is measured by the completion time for all segment instances. \n\nData skew is caused by uneven distribution of data because of the wrong selection of distribution keys. It is present at the table level, can be easily identified and avoided by selecting optimal distribution keys.\n\nComputational skew happens in flight when a query is executing and is not as easy to detect. It can happen for various operations like join, sort, aggregation, various OLAP operations, etc. with operations on columns that have low cardinality and non-uniform distribution. For example, if a row_number function is used on state column of customer table, it will result in more data flowing to segment that contains rows for ‘CA’, resulting in computational skew. Instead of 2 stage aggregation, one stage aggregation is picked by optimizer for columns with low cardinality.",
-                "data-distribution-slide-3": "For large tables a hash distribution that evenly distributes table rows across all segment instances is desired. While a random distribution will evenly distribute table rows across all segments, the significant performance gains of local joins, also called co-located joins is lost. ",
-                "data-distribution-slide-12": "The first query will return one row for each segment. The second query will return a single row for the table.\n",
-                "data-distribution-slide-2": "Every table in a GP database has a data distribution method.  The DISTRIBUTED clause specifies the distribution method for a table.\nThere are two distribution methods:\n  hash distribution - designated by specifying a column name in the DISTRIBUTED BY clause\n  random distribution - designated by specifying the DISTRIBUTED RANDOMLY clause. \n\nThe DISTRIBUTED BY (column name) clause will distribute the data across all segment instances using a hash algorithm.   \nThe DISTRIBUTED RANDOMLY clause will distribute the data across all segment instances using a random algorithm. \n",
-                "data-distribution-slide-4": "For large tables a hash distribution that evenly distributes table rows across all segment instances is desired. While a random distribution will evenly distribute table rows across all segments, the significant performance gains of local joins, also called co-located joins, is lost. \n",
-                "data-distribution-slide-5": "The DISTRIBUTED RANDOM clause will distribute the data across all segment instances using a random algorithm. For any table that uses a random distribution, either a redistribution or broadcast operation will be required to perform a table join. \nThere are performance implications when performing a redistribution or broadcast of very large tables.  Random distribution should be used for small tables and when a hash distribution method is not feasible due to significant data skew."
-            }
+            "upsizing_enabled": true
         }
     };
 
@@ -641,6 +678,8 @@ test=$ SELECT 'sales' as "Table Name",
         width: 960,
         height: 720,
         margin: 0.05,
+        // minScale: 0.2,
+        maxScale: 2.0,
 
 
         hash: true,

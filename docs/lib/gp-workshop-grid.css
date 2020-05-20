@@ -9,15 +9,25 @@ html, body {
     height: 100%;
     min-height: 100vh;
 }
-.grid-page {
-    height: 95%;
+.grid-page-old {
+    max-height: 100%;
     display: grid;
-    grid-template-columns: repeat(8, [col] 130px);
+    grid-template-columns: repeat(8, [col] 1fr);
     /*grid-template-rows: 130px repeat(auto-fit, [row] 60px) 150px;*/
-    grid-template-rows: [header-start] 130px [header-end] repeat(2, [row] 25%)  auto;
-    grid-gap: 10px;
+    grid-template-rows: [header-start] 130px [header-end] repeat(2, [row] 1fr)  100px ;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
 }
 
+.grid-page {
+    max-height: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, [col] 1fr);
+    /*grid-template-rows: 130px repeat(auto-fit, [row] 60px) 150px;*/
+    grid-template-rows: [header-start] 130px [header-end] repeat(2, [row] 1fr)  100px ;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
 
 .grid-page > div {
     display: flex;
@@ -26,10 +36,12 @@ html, body {
 }
 
 .header {
-    grid-column: col 1/col -1;
+    grid-column: col 1/ -1;
     grid-row: header;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    /*background-color: mediumpurple;*/
 }
 
 .header > div:nth-child(2) {
@@ -37,27 +49,24 @@ html, body {
 }
 
 .footer {
-    grid-column: col 1 / col -1;
+    grid-column: col 1 / -1;
     grid-row: -1;
-}
-
-.add-bg {
-    color: white;
-    background-color: var(--pivotal-green);
 }
 
 .justify-left {
     align-self: flex-start;
 }
 
+/*****************************************************************************/
+/* Full page layouts */
+
 .full-page {
-    grid-column: col 1 / col -1;
-    grid-row: row 1 / -1;
+    grid-area: row 1 / col 1 / -1/ -1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     /*background-color: red;*/
-    /*max-height: 100%;*/
+    max-height: 100%;
 }
 
 .full-page-row {
@@ -68,9 +77,8 @@ html, body {
     /*background-color: green;*/
 }
 
-.boxshadow {
-    box-shadow: 1px 2px 10px rgba(0,0,0,.3);
-}
+/*****************************************************************************/
+/* Images page layouts */
 
 .image-page {
     display: grid;
@@ -100,64 +108,138 @@ html, body {
     width: 100%;
 }
 
-.content-1of2-vertical {
-    grid-column: col 1 / span 4;
+/*****************************************************************************/
+/* Subgrid layouts */
+
+.stack-it {
+    display: flow;
+    flex-flow: column nowrap;
+}
+
+.side-by-side {
+    display: grid;
+    grid-column: span 2;
+    grid: inherit;
+    grid-gap: inherit;
+    grid-template-columns: auto 1fr;
+    /*grid-template-columns: subgrid;*/
+    align-items: center;
+}
+
+/*****************************************************************************/
+/* Split page (horizontal and vertical) layouts */
+
+.content-left-half {
+    grid-column: col 1 / span 6;
     grid-row: row 1 / -1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     /*background-color: red;*/
 }
 
-.content-2of2-vertical {
-    grid-column: col 5 / -1;
+.content-right-half {
+    grid-column: col 7 / span 6;
     grid-row: row 1 / -1;
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    /*background-color: green;*/
 }
 
-.content-1of2-horizontal {
-    grid-column: col 1 / col -1;
-    /*grid-row: row 1 / span 3;*/
+.content-top-half {
+    grid-column: col 1 / -1;
     grid-row: row 1;
     display: flex;
-    flex-direction: row;
+    flex-flow: row ;
     /*justify-content: flex-start;*/
     max-height: 100%;
 }
 
-.content-2of2-horizontal {
-    grid-column: col 1 / col -1;
+.content-bottom-half {
+    grid-column: col 1 / -1;
     /*grid-row: row 4 / span 3;*/
-    grid-row: row 2;
+    grid-row: row 2 ;
     display: flex;
-    flex-direction: row;
+    flex-flow: row ;
     /*justify-content: flex-start;*/
+    max-height: 100%;
 }
 
+/*****************************************************************************/
+/* Four quarters layout */
+
 .content-1quarter {
-    grid-column: col 1 / col 4;
-    grid-row: row 1 / row 2;
+    grid-column: col 1 / span 6;
+    grid-row: row 1 / span 1;
 }
 
 .content-2quarter {
-    grid-column: col 1 / col 4;
-    grid-row: row 3 / row 4;
+    grid-column: col 1 / span 6;
+    grid-row: row 2 / span 1;
 }
 
 .content-3quarter {
-    grid-column: col 5 / span 3;
-    grid-row: row 1 / row 2;
+    grid-column: col 7 / span 6;
+    grid-row: row 1 / span 1;
 }
 
 .content-4quarter {
-    grid-column: col 5 / span 3;
-    grid-row: row 3 / row 4;
+    grid-column: col 7 / span 6;
+    grid-row: row 2 / span 1;
 }
 
+/*****************************************************************************/
+/* Three (roughly) even vertical columns layout */
+
+.content-first-third {
+    grid-column: col 1 / span 4;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*background-color: red;*/
+}
+
+.content-second-third {
+    grid-column: col 5 / span 4;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*background-color: green;*/
+}
+
+.content-third-third {
+    grid-column: col 9 / span 4;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*background-color: blue;*/
+}
+
+/************************************
+  Combine columns 2 and 3
+*************************************/
+.content-two-third {
+    grid-column: col 5 / -1;
+    grid-row: row 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /*background-color: red;*/
+}
+
+/*********************************************
+  Place a text or image object onto an image.
+**********************************************/
 figure {
     margin: 0;
     position: relative;
@@ -166,51 +248,57 @@ figure {
 .position-text p {
     z-index: 100;
     position: absolute;
-    /* Use <p style="left: XXpx; top: ..."> to position the text instead of setting it here */
 }
 
-.content-first-third {
-    grid-column: col 1 / col 3;
-    grid-row: row 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.position-img img {
+    z-index: 105;
+    position: absolute;
 }
 
-.content-second-third {
-    grid-column: col 3 / span 3;
-    grid-row: row 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/*****************************************************************************/
+/* Element styling */
+
+.boxshadow {
+    box-shadow: 1px 2px 10px rgba(0,0,0,.3);
 }
 
-.content-third-third {
-    grid-column: col 5 / -1;
-    grid-row: row 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.boxshadow-best-practice {
+    box-shadow: 5px 5px 5px 5px var(--pivotal-green);
 }
 
-.content-two-third {
-    grid-column: col 3 / -1;
-    grid-row: row 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.boxshadow-best-practice p {
+    text-align: left;
+    color: var(--pivotal-green);
+    font-size: 110%;
+    font-weight: bold;
+    padding: 0.2em 1em;
+}
+
+.add-bg {
+    color: white;
+    background-color: var(--pivotal-green);
 }
 
 .image > img {
-    margins: auto;
+    margin: auto;
     object-fit: contain;
     max-width: 100%;
-    max-height: 100%;
 }
+
+.gp-arch {
+    grid-column: col 3 / -1;
+    grid-row: row 1 / -1;
+    /*background-color: red;*/
+}
+
+p.madlib-function-list {
+    width: 20em;
+    text-align:left;
+    font-size: 50%;
+    border: 1px solid black;
+    padding: 5px;
+}
+
 /* Example of an images page */
 /* ---------------------------------------------------------------
 .container {

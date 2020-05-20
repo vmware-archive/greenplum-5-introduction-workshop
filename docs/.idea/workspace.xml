@@ -2,25 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d30beb53-be8b-4d01-a9d8-22098b97356b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/images/disks-green-smashed.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/icons/line-double-arrow.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-ondark-small.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-onlight-small.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/gp-workshop-grid.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/images/icons/line-arrow.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greenplum-data-loading.html" beforeDir="false" afterPath="$PROJECT_DIR$/greenplum-data-loading.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/greenplum-distribution.html" beforeDir="false" afterPath="$PROJECT_DIR$/greenplum-distribution.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/greenplum-introduction.html" beforeDir="false" afterPath="$PROJECT_DIR$/greenplum-introduction.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-bs.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-bs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-horizontal-onlight.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-horizontal-onlight.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-ondark.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-ondark.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-onlight.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-gp-wkshop-vertical-onlight.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-scikit.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-scikit.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-statsmod.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-statsmod.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/logos/logo-tensorflow.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/logos/logo-tensorflow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greenplum-madlib.html" beforeDir="false" afterPath="$PROJECT_DIR$/greenplum-madlib.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/greenplum-partitioning.html" beforeDir="false" afterPath="$PROJECT_DIR$/greenplum-partitioning.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/3x3-grid.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/3x3-grid.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/balanced-names.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/balanced-names.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/madlib-functions.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/madlib-functions.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/performance-chart.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/performance-chart.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/rolling-data.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/rolling-data.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gp-workshop-grid.css" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gp-workshop-grid.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/gp-workshop.css" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gp-workshop.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/reveal-plugins/markdown/marked.js" beforeDir="false" afterPath="$PROJECT_DIR$/lib/reveal-plugins/markdown/marked.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +83,7 @@
       <workItem from="1588596766432" duration="5711000" />
       <workItem from="1588613929722" duration="27999000" />
       <workItem from="1588789943258" duration="29678000" />
-      <workItem from="1589219957929" duration="42883000" />
+      <workItem from="1589219957929" duration="127881000" />
     </task>
     <servers />
   </component>
@@ -116,25 +111,25 @@
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="1355" y="277" key="#Images/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588175453916" />
-    <state x="1519" y="277" width="800" height="717" key="#Intentions" timestamp="1588616487273">
+    <state x="1519" y="277" width="800" height="813" key="#Intentions" timestamp="1589822699171">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
-    <state x="1519" y="277" width="800" height="717" key="#Intentions/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588616487273" />
+    <state x="1519" y="277" width="800" height="813" key="#Intentions/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1589822699171" />
     <state x="1569" y="312" key="NewModule_or_Project.wizard" timestamp="1588602548502">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="1569" y="312" key="NewModule_or_Project.wizard/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588602548502" />
-    <state x="1428" y="250" key="SettingsEditor" timestamp="1588695787521">
+    <state x="1428" y="250" key="SettingsEditor" timestamp="1589461870345">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
-    <state x="1428" y="250" key="SettingsEditor/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588695787521" />
+    <state x="1428" y="250" key="SettingsEditor/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1589461870345" />
     <state x="1420" y="286" key="run.anything.popup" timestamp="1588186263897">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
     <state x="1420" y="286" key="run.anything.popup/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588186263897" />
-    <state x="1420" y="310" width="670" height="676" key="search.everywhere.popup" timestamp="1588967871578">
+    <state x="1420" y="310" width="670" height="676" key="search.everywhere.popup" timestamp="1589817751926">
       <screen x="0" y="23" width="2560" height="1417" />
     </state>
-    <state x="1420" y="310" width="670" height="676" key="search.everywhere.popup/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1588967871578" />
+    <state x="1420" y="310" width="670" height="676" key="search.everywhere.popup/2560.23.1440.877/0.23.2560.1417@0.23.2560.1417" timestamp="1589817751926" />
   </component>
 </project>

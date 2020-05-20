@@ -20,689 +20,259 @@ limitations under the License.
 
     <link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
     <link rel="stylesheet" type="text/css" href="lib/gp-workshop.css">
+    <link rel="stylesheet" type="text/css" href="lib/gp-workshop-grid.css">
 
 </head>
 <body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
 <div class="reveal">
     <div class="slides">
         <section class="title-slide" data-id="title-slide">
-            <div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 216px; height: auto;"
-                 data-block-id="ab3104e9b1e6bc4e8f0a6bd88df1dd65">
-                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text"
-                     style="z-index: 10;">
-                    <h1>Petabyte Scale Data Warehousing with Greenplum</h1>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 600px; left: 172px; top: 553px;"
-                 data-block-id="a259dfc26e26dd5009de6de7b5158e17">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 11; font-size: 150%;">
-                    <p>Partitioning</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 163px; top: 522px;"
-                 data-block-id="ce9537a5b9c5f2c35b49fd70e58e41f3">
-                <div class="sl-block-content" data-line-x1="-220" data-line-y1="170" data-line-x2="420"
-                     data-line-y2="170" data-line-color="#ffff00" data-line-start-type="none" data-line-end-type="none"
-                     style="z-index: 12;" data-line-width="10px">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="640"
-                         height="1" viewbox="-220 170 640 1">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" y1="170" x2="420" y2="170"></line>
-                        <line stroke="#ffff00" stroke-width="10" x1="-220" y1="170" x2="420" y2="170"></line>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="width: 300px; height: 124px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="c943609a1b7f52e1a5d8968927288efd">
-                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="1814"
-                                                                        data-natural-height="751" data-lazy-loaded=""
-                                                                        data-src="images/logos/logo-pivotal-on-dark.png">
+            <div class="grid-page">
+                <div class="full-page" id="title-slide">
+                    <div><h1>Petabyte Scale Data Warehousing with Greenplum</h1></div>
+                    <h2 class="subtitle">Partitioning</h2>
                 </div>
             </div>
         </section>
         <section class="agenda-slide" data-id="data-partitioning-slide-2">
-            <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
-                 data-block-id="7e2719aa089f4c3b21056aab57483e43">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: center; color: white;">
+            <div class="grid-page">
+                <div class="header">
+                    <div></div>
+                    <div class="logo-image"><img alt="" src=""></div>
+                </div>
+                <div class="content-first-third">
                     <h1>Agenda</h1>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; width: 560px; left: 400px; top: 134px;"
-                 data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 12; text-align: left; line-height: 1.625;" dir="ui" data-has-line-height="">
+                <div class="content-third-third">
                     <ul>
-                        <li><span style="font-size:1.4em">Why partition a table?</span></li>
-                        <li><span style="font-size:1.4em">Difference between data <em><strong>distribution</strong></em> and data <strong><em>partitioning</em></strong></span>
-                        </li>
-                        <li><span style="font-size:1.4em">Partitioning strategies</span></li>
-                        <li><span style="font-size:1.4em">Loading partitioned tables</span></li>
-                        <li><span style="font-size:1.4em">Partitioning summary</span></li>
+                        <li>Why partition a table?</li>
+                        <li>Difference between data <em><strong>distribution</strong></em>
+                            and data <strong><em>partitioning</em></strong></li>
+                        <li>Partitioning strategies</li>
+                        <li>Loading partitioned tables</li>
+                        <li>Partitioning summary</li>
                     </ul>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-3">
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="3e1770cd69658ee8a6c5031c7a0c2387">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partitioning in Greenplum</h2>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="012917792791e794c96cb5c27d814bba">
-                <a class="sl-block-style" style="z-index: 13;"
-                   href="https://www.postgresql.org/docs/9.1/static/ddl-partitioning.html" target="_blank">
-                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                         style="z-index: 13; text-align: left;">
-                        <ul>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>A mechanism for use in physical database design</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>Increase the available options for improving the performance of a certain class of
-                                    queries</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>Propagate data to the child tables</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>GP partitioning is different than PostgreSQL partitioning</p>
-
-                                <ul>
-                                    <li style="color:rgb(0, 37, 62)">
-                                        <p><span><span
-                                                style="color:rgb(0, 159, 223)">https://www.postgresql.org/docs/10/static/ddl-partitioning.html</span></span>
-                                        </p>
-                                    </li>
-                                    <li style="color:rgb(0, 37, 62)">
-                                        <p><span><span
-                                                style="color:rgb(0, 159, 223)">https://www.postgresql.org/docs/9.1/static/ddl-partitioning.html</span></span>
-                                        </p>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partitioning in Greenplum</h2>
                     </div>
-                </a>
+                    <div class="logo-image"><img alt="" src=""></div>
+                </div>
+                <div class="full-page">
+                    <ul>
+                        <li>A mechanism for use in physical database design</li>
+                        <li>Increase the available options for improving the performance of a certain class of queries</li>
+                        <li>Propagate data to the child tables</li>
+                        <li>GP partitioning DDL is different than PostgreSQL partitioning
+                            <ul>
+                                <li>
+                                    <a href="https://www.postgresql.org/docs/9.1/static/ddl-partitioning.html" target="_blank">
+                                        https://www.postgresql.org/docs/9.1/static/ddl-partitioning.html
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.postgresql.org/docs/10/static/ddl-partitioning.html" target="_blank">
+                                        https://www.postgresql.org/docs/10/static/ddl-partitioning.html
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-4">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="91521d190da564b72af8eba80eeb66a5">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Why Partition a Table?</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="6d04273d37791fd3ad14095c3b99409c">
-                <a class="sl-block-style" style="z-index: 12;"
-                   href="https://www.postgresql.org/docs/9.1/static/ddl-partitioning.html" target="_blank">
-                    <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                         style="z-index: 12; text-align: left;">
-                        <ul>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>To more efficiently query a subset of a large data set</p>
-
-                                <ul>
-                                    <li style="color:rgb(0, 37, 62)">
-                                        <p>decrease query times by avoiding full table scans</p>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>To avoid the overhead and maintenance costs of an index</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>To handle increasing volumes of data that the average query doesn't need</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>Allow near instantaneous dropping of older data and simple addition of newer data</p>
-                            </li>
-                            <li style="color:rgb(0, 37, 62)">
-                                <p>Supports a rolling <em>N</em> periods methodology for archiving data</p>
-                            </li>
-                        </ul>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Why Partition a Table?</h2>
                     </div>
-                </a>
+                    <div class="logo-image"><img alt="" src=""></div>
+                </div>
+                <div class="full-page">
+                    <ul>
+                        <li>To more efficiently query a subset of a large data set
+                            <ul>
+                                <li>decrease query times by avoiding full table scans</li>
+                            </ul>
+                        </li>
+                        <li>To avoid the overhead and maintenance costs of an index</li>
+                        <li>To handle increasing volumes of data that the average query doesn't need</li>
+                        <li>Allow near instantaneous dropping of older data and simple addition of newer data</li>
+                        <li>Supports a rolling <em>N</em> periods methodology for archiving data</li>
+                    </ul>
+                </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-5">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Why Partition a Table?</h2>
+                        <h3>A little more detail</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="0d3cf417baa1e5174f28fb1b41730744">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Why Partition a Table?</h2>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="8062041ec0dfa5491ec46faf2c48394d">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">A little more detail</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 844px; left: 9px; top: 139px;"
-                 data-block-id="a3fa2c4dc325d19a144448f8da3af1d6">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 14; text-align: left;">
+                <div class="content-top-half">
                     <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Partition elimination/pruning</p>
-
+                        <li>Partition elimination/pruning
                             <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Only scan relevant data</p>
-                                </li>
+                                <li>Only scan relevant data</li>
                             </ul>
                         </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62)">Partition types are RANGE and LIST</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62)">Distribution allocates rows to segments. In each segment,
-                                partitioning separates the rows into distinct files.</p>
-
+                        <li>Partition types are RANGE and LIST</li>
+                        <li>Distribution allocates rows to segments. In each segment, partitioning separates the rows into
+                            distinct files.
                             <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p style="color:rgb(0, 37, 62)">Distribution + Partitioning = "Plaiding" of
-                                        data </p>
-                                </li>
+                                <li>Distribution + Partitioning = "Plaiding" of data</li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="0d64dbee583201507a09f2b9bc0f3be5"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 871px; left: 45px; top: 530px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15; background-color: rgb(0, 135, 116); color: rgb(255, 255, 255);">
-                    <p style="text-align:left"><span style="font-size:1.0em"> Best Practice: Do not use multi-level partitioning</span>
-                    </p>
+                <div class="content-bottom-half">
+                    <div class="boxshadow-best-practice">
+                        <p>Best Practice: Do not use multi-level partitioning</p>
+                        <ul>
+                            <li>Sub-partitions often have little to no data</li>
+                            <li>Most queries cannot take advantage of partition pruning</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 871px; left: 45px; top: 568px;"
-                 data-block-id="ac642118566addb6826db8c99d1b51b1">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16; background-color: rgba(0, 0, 0, 0); color: rgb(0, 0, 0); border-style: solid; border-width: 2px; border-color: rgb(0, 135, 116);">
-                    <ul>
-                        <li style="text-align: left;"><span style="font-size:1.0em">Sub-partitions often have little to no data</span>
-                        </li>
-                        <li style="text-align: left;"><span style="font-size:1.0em">Most queries cannot take advantage of partition pruning</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 118px; height: 129px; left: 754px; top: 375px;"
-                 data-block-id="1e98167748d917be54d6e3031fc7cf14">
-                <div class="sl-block-content" style="z-index: 17;"><img
-                        style="left: -16px; top: -42px; width: 142px; height: 214px;" data-natural-width="1920"
-                        data-natural-height="2879" data-crop-x="0.115493" data-crop-y="0.195122"
-                        data-crop-width="0.828169" data-crop-height="0.602251" data-lazy-loaded="" alt="pic-plaiding"
-                        data-src="images/pic-plaiding.png"></div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-6">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partitioning Methods</h2>
+                        <h3>RANGE and LIST</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="c860059544677c1adef8ec161ba5e16c">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 17; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partitioning Methods</h2>
+                <div class="content-left-half"
+                     style="background-color: var(--pres-orange-opaque); margin-top:100px; border-radius: 20px;">
+                    <figure style="z-index: 50; margin-top: 30px">
+                        <img style="" alt="disk-blue" src="images/disk-blue.png">
+                        <p class="position-text" style="color: var(--pres-orange); margin: -55px 10px;">JAN 2011</p>
+                    </figure>
+                    <figure style="z-index: 40; margin-top: 30px">
+                        <img style="" alt="disk-blue" src="images/disk-blue.png">
+                        <p class="position-text" style="color: var(--pres-orange); margin: -55px 10px;">FEB 2011</p>
+                    </figure>
+                    <figure style="z-index: 30; margin-top: 30px">
+                        <img style="" alt="disk-blue" src="images/disk-blue.png">
+                        <p class="position-text" style="color: var(--pres-orange); margin: -55px 10px;">MAR 2011</p>
+                    </figure>
+                    <figure style="z-index: 20; margin-top: 30px">
+                        <img style="" alt="disk-blue" src="images/disk-blue.png">
+                        <p class="position-text" style="color: var(--pres-orange); margin: -55px 10px;">APR 2011</p>
+                    </figure>
+                    <div style="z-index: 50; color: var(--pres-blue); font-size: 200%; margin-top: 60px;">
+                        <p>RANGE</p>
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="c0971b9f8c7795d0e61b99febcefd1ad">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 19; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">RANGE and LIST</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 121px; top: 201px;"
-                 data-block-id="dceaaea550731cd0c3cbac9210ac592b">
-                <div class="sl-block-content" style="z-index: 20;"><img style="" data-natural-width="192"
-                                                                        data-natural-height="85" data-lazy-loaded=""
-                                                                        alt="disk-blue"
-                                                                        data-src="images/disk-blue.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 120px; top: 257px;"
-                 data-block-id="134b9a27abc1e9983011d4fd486109a4">
-                <div class="sl-block-content" style="z-index: 16;"><img style="" data-natural-width="192"
-                                                                        data-natural-height="85" data-lazy-loaded=""
-                                                                        alt="disk-blue"
-                                                                        data-src="images/disk-blue.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 120px; top: 313px;"
-                 data-block-id="866e9ac723497f33afe35d385fc481a8">
-                <div class="sl-block-content" style="z-index: 15;"><img style="" data-natural-width="192"
-                                                                        data-natural-height="85" data-lazy-loaded=""
-                                                                        alt="disk-blue"
-                                                                        data-src="images/disk-blue.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 120px; top: 368px;"
-                 data-block-id="e9e0588af876ce04b63724a6303ac1c3">
-                <div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="192"
-                                                                        data-natural-height="85" data-lazy-loaded=""
-                                                                        alt="disk-blue"
-                                                                        data-src="images/disk-blue.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 604px; top: 315px;"
-                 data-block-id="6551acf5f8fce482411d6023aaf35049">
-                <div class="sl-block-content" style="z-index: 21;"><img data-natural-width="192"
-                                                                        data-natural-height="85" style=""
-                                                                        data-lazy-loaded="" alt="disk-orange"
-                                                                        data-src="images/disk-orange.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 604px; top: 371px;"
-                 data-block-id="d157ee5181b253597adb659bcb24afa7">
-                <div class="sl-block-content" style="z-index: 13;"><img data-natural-width="192"
-                                                                        data-natural-height="85" style=""
-                                                                        data-lazy-loaded="" alt="disk-orange"
-                                                                        data-src="images/disk-orange.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 233px; height: 103px; left: 604px; top: 427px;"
-                 data-block-id="5f54c56fafc8f714661975a103f70df1">
-                <div class="sl-block-content" style="z-index: 12;"><img data-natural-width="192"
-                                                                        data-natural-height="85" style=""
-                                                                        data-lazy-loaded="" alt="disk-orange"
-                                                                        data-src="images/disk-orange.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="baa41823847445b3b6a6c60f75189f67"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 175px; left: 633px; top: 215px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 22; font-size: 200%; color: rgb(213, 141, 33);">
-                    <p>LIST</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 130px; top: 504px;"
-                 data-block-id="923f94e0fa7b3cd8208f90a894db69a6">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 23; color: rgb(60, 120, 216); font-size: 200%;">
-                    <p>RANGE</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 137px; top: 255px;"
-                 data-block-id="1c47c4fd523bcf47a7998fc0af6e442d">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 24; color: rgb(255, 255, 255);">
-                    <pre style="text-align: center;">JAN 2011</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 137px; top: 313px;"
-                 data-block-id="4186abaed1e0a8bbb3fcabbc17e72f99">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 25; color: rgb(255, 255, 255);">
-                    <pre style="text-align: center;">FEB 2011</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 137px; top: 368px;"
-                 data-block-id="386416858c5619363f7c48ba628857ed">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 26; color: rgb(255, 255, 255);">
-                    <pre style="text-align: center;">MAR 2011</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 137px; top: 420px;"
-                 data-block-id="c03938a670d4416276401046429acdb8">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 27; color: rgb(255, 255, 255);">
-                    <pre style="text-align:center">APR 2011</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape" data-block-id="bd3791d77c576bbdf1e76ee2b3c96ffb"
-                 style="min-width: 4px; min-height: 4px; width: 319px; height: 429px; left: 80px; top: 171px;">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgb(255, 242, 204)"
-                     data-shape-stretch="true" style="z-index: 11;" data-shape-stroke-color="#d58d21"
-                     data-shape-stroke-width="4px" data-shape-corner-radius="25px">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 319 429">
-                        <defs>
-                            <clippath id="shape-mask-4-1571244140690">
-                                <rect width="319" height="429" rx="25" ry="25"></rect>
-                            </clippath>
-                        </defs>
-                        <rect width="319" height="429" rx="25" ry="25" clip-path="url(#shape-mask-4-1571244140690)"
-                              class="shape-element" fill="rgb(255, 242, 204)" stroke="#d58d21" stroke-width="8"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape"
-                 style="min-width: 4px; min-height: 4px; width: 319px; height: 429px; left: 561px; top: 171px;"
-                 data-block-id="05351f080cc4ea6f4c661e15a26c25c9">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(60, 120, 216, 0.41)"
-                     data-shape-stretch="true" style="z-index: 10;" data-shape-stroke-color="#1c4587"
-                     data-shape-stroke-width="4px" data-shape-corner-radius="25px">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 319 429">
-                        <defs>
-                            <clippath id="shape-mask-5-1571244258752">
-                                <rect width="319" height="429" rx="25" ry="25"></rect>
-                            </clippath>
-                        </defs>
-                        <rect width="319" height="429" rx="25" ry="25" clip-path="url(#shape-mask-5-1571244258752)"
-                              class="shape-element" fill="rgba(60, 120, 216, 0.41)" stroke="#1c4587"
-                              stroke-width="8"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 620px; top: 371px;"
-                 data-block-id="35831f4beb59a53b5567334a75fc74ee">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 28; color: rgb(60, 120, 216);">
-                    <pre style="text-align:center">EMEA</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 620px; top: 427px;"
-                 data-block-id="1e30f53d4442d2161f97726d52325a8a">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 29; color: rgb(60, 120, 216);">
-                    <pre style="text-align:center">APAC</pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 201px; left: 620px; top: 479px;"
-                 data-block-id="8edd3c9c16d4e531e461d2288740862f">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 31; color: rgb(60, 120, 216);">
-                    <pre style="text-align:center">AMER</pre>
+                <div class="content-right-half"
+                     style="background-color: var(--pres-blue-opaque); margin-top:100px; border-radius: 20px;">
+                    <figure style="z-index: 50; margin-top: 30px;">
+                        <img alt="disk-orange" src="images/disk-orange.png">
+                        <p class="position-text" style="color: var(--pres-blue); margin: -55px 10px;">EMEA</p>
+                    </figure>
+                    <figure style="z-index: 40; margin-top: 30px">
+                        <img alt="disk-orange" src="images/disk-orange.png">
+                        <p class="position-text" style="color: var(--pres-blue); margin: -55px 10px;">APAC</p>
+                    </figure>
+                    <figure style="z-index: 30; margin-top: 30px">
+                        <img alt="disk-orange" src="images/disk-orange.png">
+                        <p class="position-text" style="color: var(--pres-blue); margin: -55px 10px;">AMER</p>
+                    </figure>
+                    <figure style="z-index: 20; margin-top: 30px">
+                        <img alt="disk-orange" src="images/disk-orange.png">
+                        <p class="position-text" style="color: var(--pres-blue); margin: -55px 10px;">AFRI</p>
+                    </figure>
+                    <div style="z-index: 50; font-size: 200%; color: var(--pres-orange); margin-top: 60px;">
+                        <p>LIST</p>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-7">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>When do you partition?</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="3251b5b1eb6101ef37b529b8437f8fcb">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 15; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>When do you partition?</h2>
-                </div>
-            </div>
 
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 163px; height: 161px; left: 29px; top: 144px;"
-                 data-block-id="66654d7319a9cae35569beaad7d1dda4">
-                <div class="sl-block-content" style="z-index: 17;"><img style="" data-natural-width="400"
-                                                                        data-natural-height="394" alt="table-ddl"
-                                                                        data-lazy-loaded=""
-                                                                        data-src="images/table-ddl.png">
+                <div class="content-top-half" style="align-items: flex-start">
+                    <div style="background-color: #ddd; margin: 5px; border-radius: 20px;">
+                        <p style="color: var(--pivotal-green);">Large fact table</p>
+                        <img style="width: 50%" alt="table-ddl" src="images/table-ddl.png">
+                    </div>
+                    <div style="background-color: #ddd; margin: 5px; border-radius: 20px;">
+                        <p style="color: var(--pivotal-green);">Maintaining rolling data</p>
+                        <img style="width: 100%" alt="rolling-data" src="images/rolling-data.png">
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="shape" data-block-id="eb6d88c375a920e04c1f6b50f65a261e"
-                 style="min-width: 4px; min-height: 4px; width: 327px; height: 209px; left: 10px; top: 124px;">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(213, 141, 33, 0.5)"
-                     data-shape-stretch="true" style="z-index: 14;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 327 209">
-                        <rect width="327" height="209" rx="0" ry="0" class="shape-element"
-                              fill="rgba(213, 141, 33, 0.5)"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="713728dd191593c4c4d4aa70ad27d262"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 126px; left: 205px; top: 166px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 18; color: rgb(0, 135, 116);">
-                    <p>Large fact table</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 174px; height: 137px; left: 418px; top: 237px;"
-                 data-block-id="28341664252adcb1353712809ff315e2">
-                <div class="sl-block-content" style="z-index: 19;"><img
-                        style="left: 0px; top: -37px; width: 174px; height: 174px;" data-natural-width="256"
-                        data-natural-height="256" alt="performance-chart" data-crop-x="0" data-crop-y="0.212644"
-                        data-crop-width="1" data-crop-height="0.787356" data-lazy-loaded=""
-                        data-src="images/performance-chart.png"></div>
-            </div>
-            <div class="sl-block" data-block-type="shape"
-                 style="min-width: 4px; min-height: 4px; width: 209px; height: 238px; left: 400px; top: 144px;"
-                 data-block-id="0559561f769d1cb962dc7542b93b9c97">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(213, 141, 33, 0.5)"
-                     data-shape-stretch="true" style="z-index: 13;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 209 238">
-                        <rect width="209" height="238" rx="0" ry="0" class="shape-element"
-                              fill="rgba(213, 141, 33, 0.5)"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 209px; left: 400px; top: 144px;"
-                 data-block-id="424afd7f8e8ccb4cd6c3ea1688d9b29e">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 20; color: rgb(0, 135, 116);">
-                    <p>Performance issues</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 181px; height: 168px; left: 192px; top: 399px;"
-                 data-block-id="62e8a31af8bf4d12c36c8b5a3c4ddeda">
-                <div class="sl-block-content" style="z-index: 21;"><img style="" data-natural-width="355"
-                                                                        data-natural-height="330" alt="3x3-grid"
-                                                                        data-lazy-loaded=""
-                                                                        data-src="images/3x3-grid.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape"
-                 style="min-width: 4px; min-height: 4px; width: 370px; height: 177px; left: 10px; top: 399px;"
-                 data-block-id="2fb05cfbcc7d9b18beebb1e09a7ba0d2">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(213, 141, 33, 0.5)"
-                     data-shape-stretch="true" style="z-index: 12;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 370 177">
-                        <rect width="370" height="177" rx="0" ry="0" class="shape-element"
-                              fill="rgba(213, 141, 33, 0.5)"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 182px; left: 10px; top: 424px;"
-                 data-block-id="9ff8c170696cc9f3964255b4d69d1323">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 22; color: rgb(0, 135, 116);">
-                    <p>Identifiable access patterns</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 183px; height: 191px; left: 729px; top: 200px;"
-                 data-block-id="5c0f8ad8866210d3483daeca31876643">
-                <div class="sl-block-content" style="z-index: 24;"><img style="" data-natural-width="244"
-                                                                        data-natural-height="254" data-lazy-loaded=""
-                                                                        alt="balanced-names-data"
-                                                                        data-src="images/balanced-names.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 158px; left: 742px; top: 399px;"
-                 data-block-id="f0a1842fd15c9562c32c6ad1e7a6ca64">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 25; color: rgb(0, 135, 116);">
-                    <p>Data divides evenly</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape"
-                 style="min-width: 4px; min-height: 4px; width: 209px; height: 341px; left: 716px; top: 186px;"
-                 data-block-id="485a7f60bd8120162913d3d12d6fab26">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(213, 141, 33, 0.5)"
-                     data-shape-stretch="true" style="z-index: 11;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 209 341">
-                        <rect width="209" height="341" rx="0" ry="0" class="shape-element"
-                              fill="rgba(213, 141, 33, 0.5)"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 224px; height: 104px; left: 437px; top: 423px;"
-                 data-block-id="bdfa5c455fc1df3f75042f9f48f3cc4a">
-                <div class="sl-block-content" style="z-index: 26;"><img data-natural-width="317"
-                                                                        data-natural-height="147" style=""
-                                                                        alt="rolling-data" data-lazy-loaded=""
-                                                                        data-src="images/rolling-data.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape"
-                 style="min-width: 4px; min-height: 4px; width: 263px; height: 235px; left: 418px; top: 413px;"
-                 data-block-id="30bf5591af3cc1228c74d746864d6287">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(213, 141, 33, 0.5)"
-                     data-shape-stretch="true" style="z-index: 10;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%"
-                         preserveaspectratio="none" viewbox="0 0 263 235">
-                        <rect width="263" height="235" rx="0" ry="0" class="shape-element"
-                              fill="rgba(213, 141, 33, 0.5)"></rect>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 231px; left: 434px; top: 554px;"
-                 data-block-id="d94ac8205067bcc8e0af2ebee78fc426">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 27; color: rgb(0, 135, 116);">
-                    <p>Maintaining rolling data</p>
+                <div class="content-bottom-half" style="align-items: flex-start">
+                    <div style="padding: 0px 3px; background-color: #ddd; margin: 5px; border-radius: 20px;">
+                        <p style="color: var(--pivotal-green);">Data divides evenly</p>
+                        <img style="height: 80%" alt="balanced-names-data" src="images/balanced-names.png">
+                    </div>
+                    <div style="padding: 0px 3px; background-color: #ddd; margin: 5px; border-radius: 20px;">
+                        <p style="color: var(--pivotal-green)">Performance issues</p>
+                        <img style="height: 80%" alt="performance-chart" src="images/performance-chart.png">
+                    </div>
+                    <div style="padding: 0px 3px; background-color: #ddd; margin: 5px; border-radius: 20px;">
+                        <p style="color: var(--pivotal-green);">Identifiable access patterns</p>
+                        <img style="height: 80%" alt="3x3-grid" src="images/3x3-grid.png">
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-8">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Historical Data Maintenance</h2>
+                        <h3>Partition Management</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="35099cdaf3e7eaa1260a073bebf2e148">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Historical Data Maintenance</h2>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="59e61f0091307d2042d5ae9220b7087b">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">Partition Management</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image"
-                 style="min-width: 4px; min-height: 4px; width: 764px; height: 480px; left: 98px; top: 199px;"
-                 data-block-id="c805f9cea05346b6e27863ec4d77fb2d">
-                <div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="870"
-                                                                        data-natural-height="547" alt="rolling-data"
-                                                                        data-lazy-loaded=""
-                                                                        data-src="images/rolling-data-large.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="d37c8d917ac1ebcec5635a63faaca284"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 250px; left: 70px; top: 199px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15;">
-                    <p>Previous Month</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 136px; left: 800px; top: 345px;"
-                 data-block-id="b6acbc965a2718945b187e3f6bcfdce8">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16;">
-                    <p>Deep History</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="67b205edc24ce4ec0629050b8f9068d9"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 204px; left: 387px; top: 373px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 17; background-color: rgba(0, 0, 0, 0); color: rgb(255, 255, 0);">
-                    <p>Rolling 13 months</p>
+                <div class="full-page">
+                    <figure>
+                        <img style="width: 90%" alt="rolling-data" src="images/rolling-data-large.png">
+                        <div class="position-text">
+                            <p style="width: 4em; left: 90px; top: 35px; color: white; font-size: 80%;">Previous Month</p>
+                        </div>
+                        <div class="position-text">
+                            <p style="width: 4em; right: 65px; top: 20px;background-color: white; ">Deep History</p>
+                        </div>
+                        <div class="position-text" style="z-index: 17; background-color: transparent; color: yellow;">
+                            <p style="width: 5em; left: 370px; top: 175px;">Rolling 13 months</p>
+                        </div>
+                    </figure>
                 </div>
             </div>
         </section>
         <section class="stack" data-id="data-partitioning-9-and-10">
             <section data-id="data-partitioning-slide-9">
-                <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                     style="width: 12%; height: auto; left: 900px; top: 10px;">
-                    <div class="sl-block-content" style="z-index: 12;">
-                        <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                <div class="grid-page">
+                    <div class="header">
+                        <div>
+                            <h2>Partitioned Table - DATE RANGE</h2>
+                            <h3>Naming each partition</h3>
+                        </div>
+                        <div class="logo-image"><img alt="" src=""></div>
                     </div>
-                </div>
-                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                     data-block-id="389bd0abc41407872ffb81c1c599985c">
-                    <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                         style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
-                        <h2>Partitioned Table - DATE RANGE</h2>
-                    </div>
-                </div>
-
-                <div class="sl-block" data-block-type="code" data-block-id="8c89ada186797993afd0d1844fe3f29d"
-                     style="min-width: 30px; min-height: 30px; width: 909px; height: 504px; left: 26px; top: 144px;">
-                    <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
-                         data-code-frame="none"
-                         style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
-                            data-line-numbers="7-13">CREATE TABLE sales(
+                    <div class="full-page notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
+                         style="margin-top: 40px; font-size: 90%; border: none; ">
+                        <pre><code data-line-numbers="7-13">CREATE TABLE sales(
     id int,
     sales_date date,
     amt decimal(10,2)
@@ -717,34 +287,20 @@ PARTITION BY RANGE (sales_date)
   END (date '2019-01-01') EXCLUSIVE );</code></pre>
                     </div>
                 </div>
-                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
-                     data-block-id="b53926897dade7178c367cf9b8c9335c">
-                    <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                         style="z-index: 14; text-align: left; color: rgb(0, 135, 116);">
-                        <h3><span style="color:#000000">Naming each partition</span></h3>
-                    </div>
-                </div>
             </section>
             <section data-id="data-paritioning-slide-10" data-transition="concave">
-                <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                     style="width: 12%; height: auto; left: 900px; top: 10px;">
-                    <div class="sl-block-content" style="z-index: 12;">
-                        <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                <div class="grid-page">
+                    <div class="header">
+                        <div>
+                            <h2>Partitioned Table - DATE RANGE</h2>
+                            <h3>Auto-naming with INTERVAL</h3>
+                        </div>
+                        <div class="logo-image"><img alt="" src=""></div>
                     </div>
-                </div>
-                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                     data-block-id="5b1e1d0594ed9b8326ff762aacf324e8">
-                    <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                         style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
-                        <h2>Partitioned Table - DATE RANGE</h2>
-                    </div>
-                </div>
-                <div class="sl-block" data-block-type="code" style="width: 960px; height: 504px; left: 0px; top: 144px;"
-                     data-block-id="588749109722a5dc0a51318b8302c81d">
-                    <div class="sl-block-content notranslate" data-highlight-theme="solarized-light"
+                    <div class="full-page notranslate" data-highlight-theme="solarized-light"
                          data-code-frame="none"
-                         style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
-                            data-line-numbers="7-13">CREATE TABLE sales(
+                         style="margin-top: 40px; font-size: 100%; border: none;">
+                        <pre><code data-line-numbers="7-13">CREATE TABLE sales(
     id int,
     sales_date date,
     amt decimal(10,2)
@@ -755,39 +311,35 @@ PARTITION BY RANGE (sales_date)
   PARTITION yearly START ('2000-01-01'::date)
                    END   ('2020-01-01')
                    EVERY ('1 year'::INTERVAL),
-  PARTITION post   START ('2020-01-01'::date)
-);</code></pre>
-                    </div>
-                </div>
-                <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
-                     data-block-id="c847c09465f175177dd681b57980abb7">
-                    <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                         style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
-                        <h3><span style="color:#000000">Auto-naming with INTERVAL</span></h3>
+  PARTITION post   START ('2020-01-01'::date));</code></pre>
                     </div>
                 </div>
             </section>
         </section>
         <section data-id="data-partitioning-slide-11">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Table - NUMERIC RANGE</h2>
+                        <h3>Auto-naming and DEFAULT PARTITION</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="8b8e889145906d0aecdc7ea0c48ad3d7">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
-                    <h2>Partition Table - NUMERIC RANGE</h2>
-                </div>
-            </div>
+                <div class="content-first-third" style="font-size: 80%; text-align: left; justify-content: space-around;">
+                    <div class="sl-block-content fragment" style=";" data-fragment-index="0">
+                        <p>How many partitions will be created on each segment?</p>
+                    </div>
+                    <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
+                         style="z-index: 16;" data-fragment-index="1">
+                        <p>Default Partition:</p>
 
-            <div class="sl-block" data-block-type="code" style="width: 589px; height: 504px; left: 51px; top: 144px;"
-                 data-block-id="34ad21c9cb24bbc1a8c92d52ff1fd437">
-                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 12; font-size: 196%; border-style: solid; border-width: 1px;"><pre><code
-                        data-line-numbers="9-11|12" data-fragment-index="1">CREATE TABLE ranking(
+                        <p>Good or bad idea?</p>
+                    </div>
+                </div>
+                <div class="content-two-third">
+                    <div class="notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
+                         style="margin-top: 40px; font-size: 100%; border: none;">
+                    <pre><code data-line-numbers="9-11|12" data-fragment-index="1">CREATE TABLE ranking(
     id     int,
     rank   int,
     yr     int,
@@ -798,55 +350,24 @@ PARTITION BY RANGE (yr)
 ( START (2011)
   END   (2021)
   EVERY 1,
-  DEFAULT PARTITION extra
-);</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
-                 data-block-id="439e992ec5f5bc69c85c4b22081a84e1">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">Auto-naming and DEFAULT PARTITION</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="7dda5793b18b4c6eac13b5cca16062c9"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 320px; left: 640px; top: 177px;">
-                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 14;" data-fragment-index="0">
-                    <p>How many partitions will be created on each segment?</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 320px; left: 640px; top: 504px;"
-                 data-block-id="9bc4c03eda99f32c54918ce6f750d7d7">
-                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16;" data-fragment-index="1">
-                    <p>DEFAULT PARTITION:</p>
-
-                    <p>Good or bad idea?</p>
+  DEFAULT PARTITION extra );</code></pre>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-12">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Table - LIST</h2>
+                        <h3>LIST Example with DEFAULT PARTITION</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="a0d417ffe8ede17e9d8efbb659933b1b">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116); font-size: 90%;">
-                    <h2>Partition Table - LIST</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="code" style="width: 960px; height: 432px; left: 0px; top: 144px;"
-                 data-block-id="730ccf090d066dbbe6f576d25cd8500b">
-                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 13; font-size: 150%; border-style: solid; border-width: 1px;"><pre><code
-                        data-fragment-index="0" data-line-numbers="8-13">CREATE TABLE widgits_staging (
+                <div class="full-page">
+                    <div class="notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
+                         style="margin: 40px 0px; font-size: 85%; border: none;">
+                    <pre><code data-fragment-index="0" data-line-numbers="8-13">CREATE TABLE widgits_staging (
     id int,
     w_name varchar,
     ...,
@@ -858,79 +379,34 @@ PARTITION BY LIST (state)
   PARTITION MidA VALUES ('NY','NJ','PA','DE','MD','DC'),
    ...
   PARTITION West VALUES ('CA','OR','WA','AK','HI'),
-  DEFAULT PARTITION
-);</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 66px; height: auto;"
-                 data-block-id="62b5e051dc9c32a267586dde7403a0ea">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 14; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">LIST Example with DEFAULT PARTITION</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" data-block-id="2bb93e01cacf5e711df5837f7a12b0cd"
-                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 290px; top: 528px;">
-                <div class="sl-block-content fragment" data-line-x1="-90" data-line-y1="268" data-line-x2="-16"
-                     data-line-y2="335" data-line-color="#000000" data-line-start-type="line-arrow"
-                     data-line-end-type="none" style="z-index: 15;" data-line-width="5px" data-fragment-index="0">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="74"
-                         height="67" viewbox="-90 268 74 67">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-86.5" y1="271.5" x2="-15.5"
-                              y2="335.5"></line>
-                        <line stroke="#000000" stroke-width="5" x1="-86.5" y1="271.5" x2="-15.5" y2="335.5"></line>
-                        <path style="fill: rgba(0,0,0,0);" stroke="#000000" stroke-width="5"
-                              transform="translate(-87,271) rotate(132.158)"
-                              d="M -11.25 -11.25 L 0 0 L 11.25 -11.25"></path>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="0607d6077ce835273be97b29cb49c34e"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 496px; left: 364px; top: 595px;">
-                <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16;" data-fragment-index="0">
-                    <p>Might be a good idea here. Why?</p>
+  DEFAULT PARTITION);</code></pre>
+                    </div>
+                    <p>Default Partition: Might be a good idea here. Why?</p>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-13">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partitioning an Existing Table</h2>
+                        <h3>How is it done?</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="d63456c50aeb7f30e5bffab2625dd3b5">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partitioning an Existing Table</h2>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="15c9cf3f6208d8c0d981ace899c1df1f">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 13; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">How is it done?</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="c148f0864dd8311097129bbe5810db2e"
-                 style="min-width: 30px; min-height: 30px; width: 282px; height: 138px; left: 11px; top: 193px;">
-                <div class="sl-block-content notranslate fragment" data-highlight-theme="solarized-light"
-                     data-code-frame="none" style="z-index: 14; border-style: solid; border-width: 1px;"
-                     data-fragment-index="0"><pre><code>orders TABLE:
+                <div class="content-top-half" style="align-items: flex-start; justify-content: space-around">
+                    <div class="notranslate fragment boxshadow" data-highlight-theme="solarized-light"
+                         data-code-frame="none" style="font-size: 70%; " data-fragment-index="0">
+                    <pre><code>orders TABLE:
 
 order_id    int,
 order_date  date,
 order_amt   numeric(8,2),
 ...</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="5fdb2733feaa172ebd973f8efee00709"
-                 style="min-width: 30px; min-height: 30px; width: 436px; height: 191px; left: 373px; top: 169px;">
-                <div class="sl-block-content notranslate fragment" data-highlight-theme="solarized-light"
-                     data-code-frame="none" style="z-index: 15; border-style: solid; border-width: 1px;"
-                     data-fragment-index="1"><pre><code data-line-numbers="">CREATE TABLE orders_partitioned (
+                    </div>
+                    <div class="notranslate fragment boxshadow" data-highlight-theme="solarized-light"
+                         data-code-frame="none" style="font-size: 70%; " data-fragment-index="1">
+                        <pre><code>CREATE TABLE orders_partitioned (
     LIKE orders
 )
 DISTRIBUTED BY (order_num)
@@ -940,12 +416,12 @@ PARTITION BY RANGE (order_date)
   EVERY 1 month
 );
 </code></pre>
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="5059eae7abd563dc33a1c35d9f761813"
-                 style="min-width: 30px; min-height: 30px; width: 533px; height: 210px; left: 373px; top: 399px;">
-                <div class="sl-block-content notranslate fragment" data-highlight-theme="obsidian"
-                     data-code-frame="none" style="z-index: 16;" data-fragment-index="2"><pre><code>INSERT INTO orders_partitioned SELECT * FROM orders;
+                <div class="content-bottom-half">
+                    <div class="notranslate fragment boxshadow" data-highlight-theme="obsidian"
+                         data-code-frame="none" style="font-size: 90%;" data-fragment-index="2">
+                    <pre><code>INSERT INTO orders_partitioned SELECT * FROM orders;
 
 ALTER TABLE orders RENAME to orders_old;
 ALTER TABLE orders_partitioned RENAME to orders;
@@ -954,89 +430,61 @@ ALTER TABLE orders_partitioned RENAME to orders;
 
 GRANT ... TO orders;
 ...</code></pre>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-paritioning-slide-14">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Maintenance</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="a218dbca61c4044d3a6b4d103707fa9c">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partition Maintenance</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="9a50db76cb6ede90f0381c711e1e68f8">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13; text-align: left;" dir="ui">
-                    <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Add, Rename, Truncate, Remove</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Exchange</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="cd2f32fcde05ba44f25d3279a1f0e8bd"
-                 style="min-width: 30px; min-height: 30px; width: 861px; height: 129px; left: 38px; top: 296px;">
-                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
-                     style="z-index: 14;"><pre><code data-line-numbers="6">/* Table 'sales_cm' contains sales data for the current month */
+                <div class="full-page" style="align-items: flex-start;">
+                    <div>
+                        <ul>
+                            <li>Add, Rename, Truncate, Remove</li>
+                            <li>Exchange</li>
+                        </ul>
+                    </div>
+                    <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                         style="font-size: 70%;">
+                    <pre><code data-line-numbers="6-7">/* Table 'sales_cm' contains sales data for the current month */
 /* At the end of the month, add it to sales_history table */
 ALTER TABLE sales_cm RENAME to jan18;
 CREATE TABLE sales_cm (like sales_history) DISTRIBUTED BY ...;
 
-ALTER TABLE sales_history EXCHANGE PARTITION FOR ('2018-01-01') WITH TABLE jan18;</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 432px;"
-                 data-block-id="b6072b14382c5915019c579c227f429f">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15; text-align: left;" dir="ui">
-                    <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Split existing partition</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="56aa2525c712768f7707faca4dda7488"
-                 style="min-width: 30px; min-height: 30px; width: 842px; height: 71px; left: 38px; top: 479px;">
-                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
-                     style="z-index: 16;"><pre><code data-line-numbers="">ALTER TABLE sales_history SPLIT PARTITION FOR ('2018-01-01')
-AT ('2018-01-16')
-INTO (PARTITION jan181to15, PARTITION jan1816to31);</code></pre>
+ALTER TABLE sales_history EXCHANGE PARTITION
+            FOR ('2018-01-01') WITH TABLE jan18;</code></pre>
+                    </div>
+                    <div>
+                        <ul>
+                            <li>Split existing partition</li>
+                        </ul>
+                    </div>
+                    <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                         style="font-size: 70%;">
+                    <pre><code data-line-numbers="">ALTER TABLE sales_history SPLIT PARTITION
+            FOR ('2018-01-01') AT ('2018-01-16')
+            INTO (PARTITION jan181to15, PARTITION jan1816to31);</code></pre>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-15">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Table Details</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="d04a04cbc3275a12195ae6042f125d64">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partition Table Details</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="code" style="width: 575px; height: 269px; left: 0px; top: 105px;"
-                 data-block-id="3850539a88580383b927cf75510323f2">
-                <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
-                     style="z-index: 13; font-size: 90%; border-style: solid; border-width: 1px;"><pre><code
-                        data-line-numbers="1,10-12,15">\d+ rankings
+                <div class="content-top-half" style="align-items: flex-start;">
+                    <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
+                         style="z-index: 13; font-size: 50%; border: 1px solid black; ">
+                        <pre><code data-line-numbers="1,10-12,15">\d+ rankings
                     Table "public.rankings"
  Column |     Type     | Modifiers | Storage  | Description
 --------+--------------+-----------+----------+-------------
@@ -1051,13 +499,21 @@ Child tables: rankings_1_prt_boys,
 Has OIDs: no
 Distributed by: (id)
 Partition by: (gender)</code></pre>
+                    </div>
+                    <div style="z-index: 15; width: 6em; font-size: 80%; border: 1px solid black;">
+                        <p>Parent-child details</p>
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="152ef6989667175ada8a0ecfb88c0b38"
-                 style="min-width: 30px; min-height: 30px; width: 783px; height: 287px; left: 177px; top: 383px;">
-                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 14; font-size: 90%; border-style: solid; border-width: 1px;"><pre><code
-                        data-line-numbers="3,7-9,12,15">select partitiontablename as "Table", partitionboundary as "Boundaries",
+                <div class="content-bottom-half" style="align-items: flex-start;">
+                    <div style="z-index: 15; width: 12em; font-size: 80%; border: 1px solid black;">
+                        <p>
+                            Further details from <em><strong>pg_partitions</strong></em> and
+                            <em><strong>pg_partition_columns</strong></em> catalog views
+                        </p>
+                    </div>
+                    <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
+                         style="z-index: 14; font-size: 43%; border: 1px solid black;">
+                        <pre><code data-line-numbers="3,7-9,12,15">select partitiontablename as "Table", partitionboundary as "Boundaries",
        partitiontype as "PartType", partitionlistvalues as "PartValues"
 from pg_partitions where tablename = 'rankings';
 
@@ -1073,130 +529,62 @@ select * from pg_partition_columns where tablename = 'rankings';
 ------------+-----------+------------+----------------+---------------------------
  public     | rankings  | gender     |              0 |                         1
 (1 row)</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="6f429bc70b9eb5d444fc7b7ebcd0707d"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 193px; left: 575px; top: 104px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15; border-style: solid; border-width: 1px;">
-                    <p><span style="font-size:0.9em">Parent-child details</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 334px; left: 626px; top: 228px;"
-                 data-block-id="0820c8c7075131c3e40255f8b4f867f6">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16; border-style: solid; border-width: 1px;">
-                    <p><span
-                            style="font-size:0.9em">Further details from <em><strong>pg_partitions</strong></em> and <em><strong>pg_partition_columns</strong></em> catalog views</span>
-                    </p>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="data-paritioning-slide-16">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Table Loading</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="00af5b2a7cecffc8176bdf0973116e06">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partition Table Loading</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="da6033ed7b4fdc5cb920eca9c2717c65">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13; text-align: left;">
+                <div class="full-page" style="margin-top: 40px; ">
                     <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Top level, parent tables are empty</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Data is loaded into child partitions</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>COPY or INSERT automatically load data to the correct partition</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Load a staging table and swap the table in place of an existing partition</p>
-                        </li>
+                        <li>Top level, parent tables are empty</li>
+                        <li>Data is loaded into child partitions</li>
+                        <li>COPY or INSERT automatically load data to the correct partition</li>
+                        <li>Load a staging table and swap the table in place of an existing partition</li>
                     </ul>
                 </div>
             </div>
         </section>
         <section data-id="data-partitioning-slide-17">
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Partition Table Summary</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="b5cf88b809861859bf2c86159db0e739">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Partition Table Summary</h2>
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 17px; top: 144px;"
-                 data-block-id="a93e141e2ad5f8e7ce1f621689f9d270">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 12; text-align: left;">
+                <div class="full-page">
                     <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p><strong><span
-                                    style="color:#FF0000">Never distribute and partition on the same column!</span></strong>
-                            </p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Do not use multi-level partitioning (sub-partitions) unless absolutely necessary</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>Use partitioning on large tables to improve performance</p>
-
+                        <li style="color: red; font-weight: bold">Never distribute and partition on the same column!</li>
+                        <li>Do not use multi-level partitioning (sub-partitions) unless absolutely necessary</li>
+                        <li>Use partitioning on large tables to improve performance
                             <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Used in addition to, not in place of, distribution</p>
-                                </li>
+                                <li>Used in addition to, not in place of, distribution</li>
                             </ul>
                         </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62)">Use if the table can be divided into roughly equal parts
-                                based on the partitioning key</p>
-
+                        <li>Use if the table can be divided into roughly equal parts based on the partitioning key
                             <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p style="color:rgb(0, 37, 62)">RANGE partitioning on DATE</p>
-                                </li>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p style="color:rgb(0, 37, 62)">No overlapping ranges or duplicate values</p>
-                                </li>
+                                <li>RANGE partitioning on DATE</li>
+                                <li>No overlapping ranges or duplicate values</li>
                             </ul>
                         </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62)">Partitioning benefits filtering (WHERE clause)</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62)">Avoid DEFAULT PARTITION if possible</p>
-                        </li>
+                        <li>Partitioning benefits filtering (WHERE clause)</li>
+                        <li>Avoid DEFAULT PARTITION if possible</li>
                     </ul>
                 </div>
             </div>
         </section>
-        <section data-background-color="#008774"
-                 data-background-position="0% 0%" data-id="data-partitioning-closing-slide"
-                 data-menu-title="End">
-            <div class="sl-block" data-block-type="image"
-                 style="width: 100%; height: auto; left: 10px; top: 250px;"
-                 data-block-id="footer-logo">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-src="images/logos/logo-gp-horizontal-ondark.png">
+        <section data-background-color=var(--pivotal-green)
+                 class="last-slide" data-menu-title="End">
+            <div class="grid-page">
+                <div class="full-page">
+                    <img alt="Greenplum Database" src="images/logos/logo-gp-horizontal-ondark.png">
                 </div>
             </div>
         </section>

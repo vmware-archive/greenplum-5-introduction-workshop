@@ -29,10 +29,9 @@ limitations under the License.
     <div class="slides">
         <section class="title-slide" data-id="data-distribution-title-slide">
             <div class="grid-page">
-                <div class="full-page">
+                <div class="full-page" id="title-slide">
                     <div><h1>Petabyte Scale Data Warehousing with Greenplum</h1></div>
-                    <br>
-                    <div><h2 style="font-size: 200%; color: yellow;">Introduction</h2></div>
+                    <h2 class="subtitle">Introduction</h2>
                 </div>
             </div>
         </section>
@@ -40,9 +39,9 @@ limitations under the License.
             <div class="grid-page">
                 <div class="header">
                     <h2>Workshop Agenda</h2>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical" style="font-size: 85%">
+                <div style="align-self: flex-start; font-size: 75%" class="content-left-half">
                     <ul>
                         <li>Introduction to MPP and Greenplum</li>
                         <li>Differences Between PostgreSQL and Greenplum</li>
@@ -57,21 +56,19 @@ limitations under the License.
                         <li>PL/Container: running PL/Python and PL/R as Trusted Languages</li>
                     </ul>
                 </div>
-                <div class="content-2of2-vertical image">
-                    <img alt="pic-sticky-notes-board" src="images/pic-sticky-notes-board.jpg">
+                <div class="content-right-half">
+                    <img class="image" style="width: 95%; "
+                         alt="pic-sticky-notes-board" src="images/pic-sticky-notes-board.jpg">
                 </div>
             </div>
         </section>
         <section data-id="intro-overview-slide-4">
             <div class="grid-page">
                 <div class="header">
-                    <div>
-                        <h2>Topics not covered</h2>
-                    </div>
-                    <div class="logo-image"><img></div>
+                    <h2>Topics not covered</h2>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-
-                <div class="content-1of2-vertical">
+                <div style="align-self: flex-start" class="content-left-half">
                     <ul>
                         <li>Installation</li>
                         <li>Updates</li>
@@ -86,8 +83,8 @@ limitations under the License.
                         <li>Security</li>
                     </ul>
                 </div>
-                <div class="content-2of2-vertical image">
-                    <img alt="little-ducky" src="images/little-ducky.png">
+                <div class="content-right-half">
+                    <img class="image" style="width: 70%" alt="little-ducky" src="images/little-ducky.png">
                 </div>
             </div>
         </section>
@@ -104,7 +101,7 @@ limitations under the License.
             <div class="grid-page">
                 <div class="header">
                     <div><h2>But first, a little history</h2></div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
 
                 <div class="content-first-third fragment current-visible" data-fragment-index="1">
@@ -135,16 +132,18 @@ limitations under the License.
                         <h2>Massively Parallel Processing</h2>
                         <h3>Scaling out, not up</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-second-third fragment current-visible" data-fragment-index="1">
-                    <img alt="servers-1pair" data-src="images/servers-1pair.jpg">
-                </div>
-                <div class="content-second-third fragment current-visible" data-fragment-index="2">
-                    <img alt="servers-2pairs" data-src="images/servers-2pairs.jpg">
-                </div>
-                <div class="content-second-third fragment current-visible" data-fragment-index="3">
-                    <img alt="servers-3pairs.jpg" data-src="images/servers-3pairs.jpg">
+                <div class="full-page">
+                    <div class="fragment current-visible" data-fragment-index="1">
+                        <img alt="servers-1pair" data-src="images/servers-1pair.jpg">
+                    </div>
+                    <div class="fragment current-visible" data-fragment-index="2">
+                        <img alt="servers-2pairs" data-src="images/servers-2pairs.jpg">
+                    </div>
+                    <div class="fragment current-visible" data-fragment-index="3">
+                        <img alt="servers-3pairs.jpg" data-src="images/servers-3pairs.jpg">
+                    </div>
                 </div>
             </div>
         </section>
@@ -164,12 +163,12 @@ limitations under the License.
                     <div>
                         <h2>A brief analogy</h2>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-first-third image">
-                    <img alt="business-card" data-src="images/business-card.png">
+                <div class="content-1quarter image">
+                    <img style="width: 70%" alt="business-card" data-src="images/business-card.png">
                 </div>
-                <div class="content-two-third image">
+                <div class="content-4quarter " style="width: 100%; align-self: flex-end">
                     <img alt="business-card-container" data-src="images/business-card-drawer.png">
                 </div>
             </div>
@@ -194,13 +193,13 @@ limitations under the License.
                     <div>
                         <h2>A brief analogy</h2>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical image ">
+                <div class="content-left-half image ">
                     <img alt="interns" data-src="images/interns.png">
                 </div>
-                <div class="content-2of2-vertical image ">
-                    <img alt="business-card-stacks" data-src="images/business-card-stacks.jpg">
+                <div class="content-right-half image">
+                    <img style="width: 100%" alt="business-card-stacks" data-src="images/business-card-stacks.jpg">
                 </div>
             </div>
         </section>
@@ -209,23 +208,28 @@ limitations under the License.
                 <div class="header">
                     <div>
                         <h2>Greenplum Architecture</h2>
-                        <h3>Massively Parallel PostgreSQL for Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-first-third">
-                    <div><strong>Master Servers</strong></div>
-                    <div><p style="font-size: .8em; color: #555">Query planning and dispatch</p></div>
+                <div class="content-first-third" style="font-size: .9em">
                     <br>
-                    <div><strong>Interconnect</strong></div>
+                    <div>
+                        <strong>Master Servers</strong>
+                        <p style="font-size: .75em; color: #555">Query planning and dispatch</p>
+                    </div>
                     <br>
-                    <div><strong>Segment Servers</strong></div>
-                    <div><p style="font-size: .8em; color: #555">Query execution and data storage</p></div>
+                    <div style=""><strong>Interconnect</strong></div>
+                    <br>
+                    <br>
+                    <div>
+                        <strong>Segment Servers</strong>
+                        <p style="font-size: .75em; color: #555">Query execution and data storage</p>
+                    </div>
                     <br>
                     <div><strong>External Sources and Pipelines</strong></div>
                 </div>
-                <div class="content-two-third image">
-                    <img alt="gp-arch" data-src="images/gp-arch.png">
+                <div class="gp-arch image">
+                    <img class="image" style="" alt="gp-arch" data-src="images/gp-arch.png">
                 </div>
             </div>
         </section>
@@ -236,7 +240,7 @@ limitations under the License.
                         <h2>Greenplum Environment</h2>
                         <h3>Massively Parallel PostgreSQL for Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page image">
                     <img alt="gp-next-gen-data-platform" data-src="images/gp-next-gen-data-platform.png">
@@ -258,9 +262,8 @@ limitations under the License.
                 <div class="header">
                     <div class="title">
                         <h2>Greenplum Deployment</h2>
-                        <h3>Run your analytics anywhere you need it</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page image">
                     <img alt="infrastructure-agnostic" data-src="images/infrastructure-agnostic.png">
@@ -287,10 +290,10 @@ limitations under the License.
                         <h2>Integrated Analytics</h2>
                         <h3>Traditional and Advanced In-database Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page image">
-                    <img alt="gp-integrated-analytics" data-src="images/gp-integrated-analytics.png">
+                    <img style="width: 65%" alt="gp-integrated-analytics" data-src="images/gp-integrated-analytics.png">
                 </div>
             </div>
         </section>
@@ -314,11 +317,11 @@ limitations under the License.
                         <h3>Integrated Analytics</h3>
                     </div>
                     <div><img alt="logo-madlib" data-src="images/logos/logo-madlib.png"></div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical">
+                <div class="content-left-half">
                     <div>
-                        <ul style="font-size: 0.8em;">
+                        <ul style="font-size: 0.9em;">
                             <li>Designed for very large graphs (billions of vertices/edges</li>
                             <li>No need to move and transform data for an external graph engine</li>
                             <li>Support for most popular graph algorithms</li>
@@ -329,7 +332,7 @@ limitations under the License.
                     <div>
                         <div class="sl-block-content notranslate"
                              data-highlight-theme="xcode" data-code-frame="none"
-                             style="border-style: solid; border-width: 1px; font-size: 40%;">
+                             style="padding: 2px; border-style: solid; border-width: 1px; font-size: 50%;">
         <pre class="sql"><code> SELECT madlib.pagerank (
    'vertex',             -- Vertex table
    'id',                 -- Vertix id column
@@ -344,13 +347,13 @@ limitations under the License.
                         </div>
                     </div>
                 </div>
-                <div class="content-2of2-vertical">
+                <div class="content-right-half">
                     <div class="image">
-                        <img style="width: 80%; height: auto;" alt="graph-diagram" data-src="images/graph-diagram.png">
+                        <img style="width: 90%;" alt="graph-diagram" data-src="images/graph-diagram.png">
                     </div>
                     <br>
                     <div class="image">
-                        <img alt="graph-tables" data-src="images/graph-tables.png">
+                        <img style="width: 90%" alt="graph-tables" data-src="images/graph-tables.png">
                     </div>
                 </div>
             </div>
@@ -358,14 +361,13 @@ limitations under the License.
         <section data-id="intro-overview-slide-14">
             <div class="grid-page">
                 <div class="header">
-                    <div>
+                    <div style="line-height: .7em">
                         <h2>Advanced Text Analytics</h2>
                         <h3>Integrated Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical">
-                    <br>
+                <div class="content-left-half">
                     <div class="justify-left"><strong>Use Cases</strong></div>
                     <ul style="font-size: 85%">
                         <li>Communications compliance and monitoring</li>
@@ -373,7 +375,6 @@ limitations under the License.
                         <li>Document search and query</li>
                         <li>Social media processing, etc</li>
                     </ul>
-                    <br>
                     <div class="justify-left"><strong>GPText</strong></div>
                     <ul style="font-size: 85%">
                         <li>Leverages Apache Solr and Greenplum</li>
@@ -381,10 +382,9 @@ limitations under the License.
                         <li>Apache MADlib integration for machine learning on textual data</li>
                     </ul>
                 </div>
-                <div class="content-2of2-vertical">
-                    <img style="width: 60%" alt="logo-solr" data-src="images/logos/logo-solr.png">
-                    <br>
+                <div class="content-right-half">
                     <img style="width: 50%" alt="logo-madlib" data-src="images/logos/logo-madlib.png">
+                    <img style="width: 50%" alt="logo-solr" data-src="images/logos/logo-solr.png">
                 </div>
             </div>
         </section>
@@ -402,26 +402,26 @@ limitations under the License.
                         <h2>Geospatial</h2>
                         <h3>Integrated Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-horizontal">
+                <div class="content-top-half">
                     <ul>
                         <li>Points, Lines, Polygons, Perimeter, Area</li>
                         <li>Intersection, Contains, Distance, Longitude/Latitude</li>
                     </ul>
                 </div>
-                <div class="content-2of2-horizontal">
+                <div class="content-bottom-half">
                     <div>
                         <p><span style="color: var(--pivotal-green); font-size:0.9em">Round earth calculations</span></p>
-                        <img style="width: 80%" alt="gis-round-earth-calculations" data-src="images/gis-round-earth-calculations.png">
+                        <img style="width: 90%" alt="gis-round-earth-calculations" data-src="images/gis-round-earth-calculations.png">
                     </div>
                     <div>
-                        <p><span style="color: var(--pivotal-green); font-size:0.9em">Spatial indexes &amp; bounding boxes</span></p>
                         <img style="" alt="gis-spatial-bounding-boxes" data-src="images/gis-spatial-bounding-boxes.png">
+                        <p><span style="color: var(--pivotal-green); font-size:0.9em">Spatial indexes &amp; bounding boxes</span></p>
                     </div>
                     <div>
                         <p><span style="color: var(--pivotal-green); font-size:0.9em">Raster support</span></p>
-                        <img style="width: 70%" alt="gis-raster-image" data-src="images/gis-raster-image.png">
+                        <img style="width: 80%" alt="gis-raster-image" data-src="images/gis-raster-image.png">
                     </div>
                 </div>
                 <div class="footer">
@@ -450,7 +450,7 @@ limitations under the License.
                     <h2>Python &amp; R Libraries</h2>
                     <h3>Integrated Analytics</h3>
                 </div>
-                <div class="logo-image"><img></div>
+                <div class="logo-image"><img alt="" src=""></div>
             </div>
             <div class="image-page">
                 <div>
@@ -523,18 +523,18 @@ limitations under the License.
                         <h2>Spark Integration</h2>
                         <h3>Integrated Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-2of2-horizontal image">
-                    <img style="" alt="diagram-spark-gp-data-flow" data-src="images/diagram-spark-gp-data-flow.png">
-                </div>
-                <div class="content-1of2-horizontal">
+                <div class="content-top-half">
                     <ul>
                         <li>Provide Spark access to Greenplum data</li>
                         <li>Leverage Spark skill set of data scientists</li>
                         <li>Leverage off-cluster compute resources to do computations</li>
                         <li>Push result sets back into Greenplum for storage</li>
                     </ul>
+                </div>
+                <div class="content-bottom-half image">
+                    <img style="" alt="diagram-spark-gp-data-flow" data-src="images/diagram-spark-gp-data-flow.png">
                 </div>
             </div>
         </section>
@@ -545,12 +545,12 @@ limitations under the License.
                         <h2>UDFs - Language Agnostic</h2>
                         <h3>Integrated Analytics</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical image">
+                <div class="content-left-half image">
                     <img alt="gp-udf-languages" data-src="images/gp-udf-languages.png">
                 </div>
-                <div class="content-2of2-vertical">
+                <div class="content-right-half">
                     <div class="justify-left"><strong>Interfaces</strong></div>
                     <ul class="justify-left">
                         <li>User Defined Types</li>
@@ -568,9 +568,9 @@ limitations under the License.
                         <h2>PL/Container</h2>
                         <h3>Python/R Containerization on Greenplum</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-horizontal">
+                <div class="content-top-half">
                     <a href="https://gpdb.docs.pivotal.io/6-7/analytics/pl_container.html" target="_blank">
                         <img style="width: 90%;" alt="diagram-plc-docker-r" data-src="images/diagram-plc-docker-r.png">
                     </a>
@@ -578,7 +578,7 @@ limitations under the License.
                         <img style="width: 90%;" alt="diagram-plc-docker-py" data-src="images/diagram-plc-docker-py.png">
                     </a>
                 </div>
-                <div class="content-2of2-horizontal">
+                <div class="content-bottom-half">
                     <ul>
                         <li>Deploy custom R &amp; Python developer environment(s) to cluster</li>
                         <li>Execute functions in isolated secure containers</li>
@@ -606,22 +606,17 @@ limitations under the License.
                         <h2>Linux Resource Groups</h2>
                         <h3>SQL Containerization</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-horizontal">
-                    <span style="color:rgb(0, 37, 62)">
+                <div class="content-top-half">
                     <ul>
                         <li>Resource isolation for multi-tenancy and mixed analytical SQL workloads</li>
                         <li>Enhances stability and manageability</li>
                         <li>Leverages Linux Cgroups</li>
                     </ul>
-                    </span>
                 </div>
-                <div class="content-2of2-horizontal">
-                    <a style="" href="https://gpdb.docs.pivotal.io/6-0/admin_guide/workload_mgmt_resgroups.html"
-                       target="_blank">
-                        <img alt="pic-shipping-containers" data-src="images/pic-shipping-containers.png">
-                    </a>
+                <div class="content-4quarter ">
+                    <img alt="pic-shipping-containers" data-src="images/pic-shipping-containers.png">
                 </div>
             </div>
         </section>
@@ -633,24 +628,27 @@ limitations under the License.
                         <h2>Open Source Agility</h2>
                         <h3>Analytical Innovation</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-                <div class="content-1of2-vertical">
-                    <ul>
+                <div class="content-left-half boxshadow" style="justify-content: flex-start">
+                    <ul style="font-size: 1.2em;">
                         <li>100% based on PostgreSQL innovation
-                            <ul>
+                            <ul style="font-size: 1.0em">
                                 <li>the most advanced analytical database for PostgreSQL users</li>
                             </ul>
                         </li>
-                        <li>Agile development</li>
-                        <li>A new VMWare Greenplum release every month</li>
+                        <li>Agile development
+                            <ul style="font-size: 1.0em">
+                                <li>A new VMWare Greenplum release every month</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
-                <div class="content-2of2-vertical">
+                <div class="content-right-half" style="align-items: flex-end">
                     <a href="https://www.postgresql.org/" target="_blank">
                         <img style="width: 80%" alt="logo-postgresql" data-src="images/logos/logo-postgresql.png">
                     </a>
-                    <img alt="pic-pair-programming" data-src="images/pic-pair-programming.png">
+                    <img style="width: 80%" alt="pic-pair-programming" data-src="images/pic-pair-programming.png">
                 </div>
             </div>
         </section>
@@ -661,7 +659,7 @@ limitations under the License.
                         <h2>Open Source Community</h2>
                         <h3><a href="https://greenplum.org/">greenplum.org</a></h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page">
                     <a href="https://greenplum.org/download/" target="_blank">
@@ -677,7 +675,7 @@ limitations under the License.
                         <h2>VMware Subscription Offering</h2>
                         <h3>VMware Greenplum</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page">
                     <span style="line-height:1.6em; color:rgb(0, 37, 62)">
@@ -700,11 +698,11 @@ limitations under the License.
                         <h2>VMware Subscription Offering</h2>
                         <h3>Greenplum - Additional Tools</h3>
                     </div>
-                    <div class="logo-image"><img></div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
                 <div class="full-page">
-                    <table style="font-size: 80%;">
-                        <caption style="color: red; padding-bottom: 15px;">VMWare Greenplum Proprietary Modules</caption>
+                    <table style="font-size: 85%;">
+                        <caption style="font-weight: bold; color: red; padding-bottom: 25px;">VMWare Greenplum Proprietary Modules</caption>
                         <tbody>
                         <tr>
                             <td>GP Command Center</td>
@@ -831,7 +829,14 @@ limitations under the License.
         width: 960,
         height: 720,
         margin: 0.05,
+        // minScale: 0.2,
+        maxScale: 2.0,
 
+        // width: "100%",
+        // height: "100%",
+        // margin: 0.0,
+        // minScale: 1,
+        // maxScale: 1,
 
         hash: true,
         controls: true,

@@ -20,57 +20,30 @@ limitations under the License.
 
     <link rel="stylesheet" type="text/css" href="lib/offline-v2.css">
     <link href="lib/gp-workshop.css" rel="stylesheet" type="text/css"/>
+    <link href="lib/gp-workshop-grid.css" rel="stylesheet" type="text/css"/>
 
 </head>
 <body class="reveal-viewport theme-font-montserrat theme-color-white-blue">
 <div class="reveal">
     <div class="slides">
-        <section class="title-slide" data-id="gp-madlib-title-slide">
-            <div class="sl-block" data-block-type="text" style="width: 806px; left: 80px; top: 216px; height: auto;"
-                 data-block-id="e084e6e2da7761270dc2bda36ac913f8">
-                <div class="sl-block-content" data-placeholder-tag="h1" data-placeholder-text="Title Text" style="z-index: 11;">
-                    <h1>Petabyte Scale Data Warehousing with Greenplum</h1>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="2d2695d7ccb3f4a29881b1ff002fa9ed"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 600px; left: 172px; top: 553px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 12; font-size: 150%;">
-                    <p>MADlib</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" data-block-id="c38aee5b210584c66487b4226e710eb6"
-                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 163px; top: 522px;">
-                <div class="sl-block-content" data-line-x1="-220" data-line-y1="170" data-line-x2="420" data-line-y2="170" data-line-color="#ffff00"
-                     data-line-start-type="none" data-line-end-type="none" style="z-index: 13;" data-line-width="10px">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="640" height="1"
-                         viewbox="-220 170 640 1">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-220" y1="170" x2="420" y2="170"></line>
-                        <line stroke="#ffff00" stroke-width="10" x1="-220" y1="170" x2="420" y2="170"></line>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="min-width: 4px; min-height: 4px; width: 300px; height: 124px; left: 0px; top: 0px;"
-                 data-block-id="f99612684b72408925b015d6a5125d78">
-                <div class="sl-block-content" style="z-index: 15;"><img style="" data-natural-width="1814" data-natural-height="751"
-                                                                        data-lazy-loaded="" alt="pivotal-logo-dark-bkground"
-                                                                        data-src="images/logos/logo-pivotal-on-dark.png">
+        <section class="title-slide" data-id="title-slide">
+            <div class="grid-page">
+                <div class="full-page" id="title-slide">
+                    <div><h1>Petabyte Scale Data Warehousing with Greenplum</h1></div>
+                    <h2 class="subtitle">Apache MADlib</h2>
                 </div>
             </div>
         </section>
-        <section data-id="gp-madlib-agenda-slide" class="agenda-slide" id="gp-madlib-agenda-slide">
-            <div class="sl-block" data-block-type="text" style="width: auto; left: 0px; top: 288px; height: auto;"
-                 data-block-id="7e2719aa089f4c3b21056aab57483e43">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: center; color: white;">
+        <section class="agenda-slide" data-id="gp-madlib-slide-2">
+            <div class="grid-page">
+                <div class="header">
+                    <div></div>
+                    <div class="logo-image"><img alt="" src=""></div>
+                </div>
+                <div class="content-first-third">
                     <h1>Agenda</h1>
                 </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 560px; left: 400px; top: 180px;"
-                 data-block-id="6508e52291e487b6fb5ed1a146d8dcb4">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 12; text-align: left; line-height: 1.8;font-size:1.3em" dir="ui" data-has-line-height="">
+                <div class="content-two-third">
                     <ul>
                         <li>Why MADlib?</li>
                         <li>What is MADlib?</li>
@@ -79,147 +52,88 @@ limitations under the License.
                     </ul>
                 </div>
             </div>
-
-            <div class="sl-block" data-block-type="image" data-block-id="top-right-logo"
-                 style="width: 12%; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight"
-                         data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
         </section>
         <section data-id="gp-madlib-slide-3" id="gp-madlib-slide-3">
-            <div class="sl-block" data-block-type="text" style="width: 900px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="3e1770cd69658ee8a6c5031c7a0c2387">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Why MADlib?</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Why MADlib?</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="dcea895ac7ed1e3223c6545ef231bcad">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="012917792791e794c96cb5c27d814bba">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13; text-align: left; font-size: 130%;">
-                    <ul>
-                        <li>
-                            <span style="font-size:1.0em">Most analytics is done by pulling the data to the analytic engine</span>
+                <div class="full-page">
+                    <ul style="font-size: 1.3em; margin-top: 40px;">
+                        <li>Most analytics is done by pulling the data to the analytic engine
                             <ul>
-                                <li><span style="font-size:1.0em">Some engines only accommodate in memory data</span></li>
-                                <li><span style="font-size:1.0em">Sample data is the fall back - often not satisfactory</span></li>
+                                <li style="font-size: 0.9em; ">Some engines only accommodate in memory data</li>
+                                <li style="font-size: 0.9em; ">Sample data is the fall back - often not satisfactory</li>
                             </ul>
                         </li>
-                        <li><span style="font-size:1.0em">Developers sometimes write their own code</span></li>
-                        <li><span style="font-size:1.0em">There is a better way</span></li>
+                        <li>Developers sometimes write their own code</li>
+                        <li>There is a better way</li>
                     </ul>
                 </div>
             </div>
         </section>
         <section data-id="gp-madlib-slide-4" id="gp-madlib-slide-4">
-            <div class="sl-block" data-block-type="text" style="width: 726px; left: 160px; top: 0px; height: auto;"
-                 data-block-id="b0765e5c9a609e0ae8aae40485125140">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Scalable, In-Database Machine Learning</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div class="side-by-side">
+                        <h2>Scalable, In-database Machine Learning</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="6bee705c16f6f6fdb40646d8728eb69d">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 960px; left: 0px; top: 547px;"
-                 data-block-id="280917f699ea095be8541d7dbbe16f17">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13; text-align: left; border-style: solid; border-width: 1px; border-color: rgb(255, 0, 0);">
-                    <p style="text-align:center"><strong>Apache MADlib : Magnetic - Agile - Deep library</strong></p>
-
-                    <ul>
-                        <li>Open source: <a href="https://github.com/apache/madlib" target="_blank">https://github.com/apache/madlib</a>
-                        </li>
-                        <li>Downloads and Docs: <a href="http://madlib.apache.org" target="_blank">http://madlib.apache.org/</a>
-                        </li>
-                        <li>Wiki: <a href="https://cwiki.apache.org/confluence/display/MADLIB/" target="_blank">https://cwiki.apache.org/confluence/display/MADLIB/</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="bdef58212135b24edd7fa0b53c9ced76">
-                <div class="sl-block-content" style="z-index: 14;"><img style="" data-natural-width="202" data-natural-height="150"
-                                                                        data-lazy-loaded="" alt="madlib-logo"
-                                                                        data-src="images/logos/logo-madlib.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="min-width: 4px; min-height: 4px; width: 958px; height: 263px; left: 0px; top: 216px;"
-                 data-block-id="21c2e9bb2e2f20d711478ea78f1b5960">
-                <div class="sl-block-content" style="z-index: 15;" data-maintain-ar="false">
-                    <img data-natural-width="1468" data-natural-height="366"
-                         style="" data-lazy-loaded="" alt="madlib-info"
-                         data-src="images/madlib-info.png">
+                <div class="full-page">
+                    <img style="width: 110%; margin-top: 60px; " alt="madlib-info" src="images/madlib-info.png">
+                    <div style="text-align: left; border: 1px solid red; margin-top: 20px;">
+                        <p style="text-align:center; font-weight: bold">Apache MADlib : Magnetic - Agile - Deep library</p>
+                        <ul>
+                            <li>Open source: <a href="https://github.com/apache/madlib" target="_blank">https://github.com/apache/madlib</a>
+                            </li>
+                            <li>Downloads and Docs: <a href="http://madlib.apache.org" target="_blank">http://madlib.apache.org/</a>
+                            </li>
+                            <li>Wiki: <a href="https://cwiki.apache.org/confluence/display/MADLIB/" target="_blank">https://cwiki.apache.org/confluence/display/MADLIB/</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="gp-madlib-slide-5" id="gp-madlib-slide-5">
-            <div class="sl-block" data-block-type="text" style="width: 740px; left: 160px; top: 0px; height: auto;"
-                 data-block-id="698173f6a4d2eb3188b87b15c8bf68f9">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>MADlib Advantages</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div class="side-by-side">
+                        <h2>Advantages</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
 
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="f99955369712f1d3eee4e24e7c59d437">
-                <div class="sl-block-content" style="z-index: 11;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
+                <div class="sl-block" data-block-type="image"
+                     style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
+                     data-block-id="7a029bb459070087b67fe54b8bf35eee">
+                    <div class="sl-block-content" style="z-index: 12;">
+                    </div>
                 </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="image" style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="7a029bb459070087b67fe54b8bf35eee">
-                <div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="202" data-natural-height="150"
-                                                                        data-lazy-loaded="" alt="madlib-logo"
-                                                                        data-src="images/logos/logo-madlib.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 943px; left: 9px; top: 178px;"
-                 data-block-id="dd6a80faf7a7dcaabe6218b972469e62">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 14; text-align: left;">
+                <div class="full-page">
                     <ul>
-                        <li>
-                            <span style="font-size:1.0em">Better parallelism</span>
+                        <li>Better parallelism
                             <ul>
-                                <li><span style="font-size:1.0em">Algorithms designed to leverage MPP and Hadoop architecture</span></li>
+                                <li>Algorithms designed to leverage MPP and Hadoop architecture</li>
                             </ul>
                         </li>
-                        <li>
-                            <span style="font-size:1.0em">Better scalability</span>
+                        <li>Better scalability
                             <ul>
-                                <li><span style="font-size:1.0em">Algorithms scale as your data scales</span></li>
+                                <li>Algorithms scale as your data scales</li>
                             </ul>
                         </li>
-                        <li>
-                            <span style="font-size:1.0em">Better predictive accuracy</span>
+                        <li>Better predictive accuracy
                             <ul>
-                                <li><span style="font-size:1.0em">Can use all data, not a sample</span></li>
+                                <li>Can use all data, not a sample</li>
                             </ul>
                         </li>
-                        <li>
-                            <span style="font-size:1.0em">Open source</span>
+                        <li>Open source
                             <ul>
-                                <li><span style="font-size:1.0em">Available for customization and optimization by the user if desired</span></li>
+                                <li>Available for customization and optimization by the user if desired</li>
                             </ul>
                         </li>
                     </ul>
@@ -227,84 +141,34 @@ limitations under the License.
             </div>
         </section>
         <section data-id="gp-madlib-slide-6" id="gp-madlib-slide-6">
-            <div class="sl-block" data-block-type="text" style="width: 740px; left: 160px; top: 0px; height: auto;"
-                 data-block-id="8ca68e91f8200c2368402f26745b3e5f">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>SVM Scale with Data Size</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div class="side-by-side">
+                        <h2>SVM Scale with Data Size</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="f4c8d578ccae20f286c0f3d62f7afd7f">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="image" style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="899d67fda2efaf6ac10e72a8bec7a044">
-                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="202" data-natural-height="150"
-                                                                        data-lazy-loaded="" alt="madlib-logo"
-                                                                        data-src="images/logos/logo-madlib.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="min-width: 4px; min-height: 4px; width: 806px; height: 490px; left: 0px; top: 144px;"
-                 data-block-id="b26efc5656b8ae12e4efbe80e1a4f3a3">
-                <div class="sl-block-content" style="z-index: 14;"><img data-natural-width="1016" data-natural-height="618" style=""
-                                                                        data-lazy-loaded="" alt="madlib-performance-graph"
-                                                                        data-src="images/madlib-performance.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="1b9841a2757fe003461d4fc4ca1912c1"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 240px; left: 718px; top: 606px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15; font-size: 67%;">
-                    <p style="text-align: left;"><span style="font-size:1.0em">Greenplum cluster:</span></p>
-
-                    <ul>
-                        <li style="text-align: left;"><span style="font-size:1.0em">1 master</span></li>
-                        <li style="text-align: left;"><span style="font-size:1.0em">4 segment hosts with 6 segments per host</span></li>
-                    </ul>
+                <div class="full-page">
+                    <img style="height: 80%" alt="madlib-performance-graph" src="images/madlib-performance.png">
+                    <div style="border: 1px solid black; padding: 0px 20px; font-size: 0.7em;">
+                        <ul>
+                            <li class="nobullet" style="margin-left:-40px; ">Greenplum cluster:</li>
+                            <li style="">1 master</li>
+                            <li style="">4 segment hosts with 6 segments per host</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="gp-madlib-slide-7" id="gp-madlib-slide-7">
-            <div class="sl-block" data-block-type="text" style="width: 740px; left: 160px; top: 6px; height: auto;"
-                 data-block-id="4cd7e08ebf545c5d57e77890bb50979e">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Functions</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div><h2>Functions</h2></div>
+                    <div><img style="width: 60%;" alt="madlib-functions" src="images/madlib-functions.png"></div>
                 </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="image" style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="dc9ced61ade5cd9010756ef5848345e4">
-                <div class="sl-block-content" style="z-index: 12;"><img style="" data-natural-width="202" data-natural-height="150"
-                                                                        data-lazy-loaded="" alt="madlib-logo"
-                                                                        data-src="images/logos/logo-madlib.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="min-width: 4px; min-height: 4px; width: 163px; height: 25px; left: 8px; top: 688px;"
-                 data-block-id="486878a8eb2d12d904a38d9173127e06">
-                <div class="sl-block-content" style="z-index: 13;"><img style="" data-natural-width="1155" data-natural-height="175"
-                                                                        data-lazy-loaded="" alt="logo-gp-wkshop-horizontal-onlight"
-                                                                        data-src="images/logos/logo-gp-wkshop-horizontal-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="min-width: 4px; min-height: 4px; width: 518px; height: 54px; left: 437px; top: 6px;"
-                 data-block-id="b4bc594c80c7a7312b24d3d83bf7bdab">
-                <div class="sl-block-content" style="z-index: 14;"><img data-natural-width="822" data-natural-height="85" style="" data-lazy-loaded=""
-                                                                        alt="madlib-functions"
-                                                                        data-src="images/madlib-functions.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="0636b60676d1c2d1dcf93a48d4353b20"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 263px; left: 20px; top: 107px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px;" dir="ui">
-                    <p style="text-align:left"><strong>Supervised Learning</strong><br>
+                <div class="content-first-third" style="justify-content: space-between;">
+                    <p class="madlib-function-list">
+                        <b>Supervised Learning</b><br>
                         Neural Networks<br>
                         Support Vector Machines (SVM)<br>
                         Conditional Random Field (CRF)<br>
@@ -324,27 +188,17 @@ limitations under the License.
                         - Decision Tree<br>
                         - Random Forest
                     </p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 263px; left: 20px; top: 534px;"
-                 data-block-id="ab63be9dd299cb92ea4519d26857c0a3">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px;" dir="ui">
-                    <p style="text-align:left"><b>Unsupervised Learning</b><br>
+                    <p class="madlib-function-list">
+                        <b>Unsupervised Learning</b><br>
                         Association Rules (Apriori)<br>
                         Clustering (k-Means)<br>
                         Principal Component Analysis (PCA)<br>
                         Topic Modelling (Latent Dirichlet Allocation)
                     </p>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 291px; left: 297px; top: 107px;"
-                 data-block-id="de2e72f964012a55d57ed4d619c79a9f">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 17; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>Graph</strong><br>
+                <div class="content-second-third" style="justify-content: space-between;">
+                    <p class="madlib-function-list">
+                        <b>Graph</b><br>
                         All Pairs Shortest Path (APSP)<br>
                         Breadth-First Search<br>
                         Hyperlink-Induced Topic Search (HITS)<br>
@@ -356,15 +210,9 @@ limitations under the License.
                         Single Source Shortest Path (SSSP)<br>
                         Weakly Connected Components
                     </p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 291px; left: 297px; top: 342px;"
-                 data-block-id="c0c1d65284fc609a93c5bb8d791d0ae8">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 18; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><b>Utility Functions</b></p>
-                    <p style="text-align:left">Columns to Vector<br>
+                    <p class="madlib-function-list">
+                        <b>Utility Functions</b>
+                        Columns to Vector<br>
                         Conjugate Gradient<br>
                         Linear Solvers<br>
                         Dense Linear Systems<br>
@@ -372,25 +220,18 @@ limitations under the License.
                         Mini-Batching<br>
                         PMML Export<br>
                         Term Frequency for Text<br>
-                        Vector to Columns</p>
+                        Vector to Columns
+                    </p>
+                    <p class="madlib-function-list">
+                        <b>Model Selection</b><br>
+                        Cross Validation<br>
+                        Prediction Metrics<br>
+                        Train-Test Split
+                    </p>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 291px; left: 297px; top: 559px;"
-                 data-block-id="018fc9dfb562b8122fc40d8e772cffbf">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 19; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>Sampling</strong></p>
-
-                    <p style="text-align:left">Balanced, Random, Stratified</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 329px; left: 602px; top: 107px;"
-                 data-block-id="000a009bdfba9d92613fa616ecf31a2b">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 20; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>Data Types and Transformations</strong><br>
+                <div class="content-third-third" style="justify-content: space-between;">
+                    <p class="madlib-function-list">
+                        <b>Data Types and Transformations</b><br>
                         Array and Matrix Operations<br>
                         Matrix Factorization<br>
                         - Low Rank<br>
@@ -401,644 +242,233 @@ limitations under the License.
                         Path Functions<br>
                         Pivot<br>
                         Sessionize<br>
-                        Stemming</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 291px; left: 297px; top: 629px;"
-                 data-block-id="cbfc55088f8606b95d8099ba4411cdf0">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 21; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>ARIMA - </strong>Time Series Analysis</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 329px; left: 602px; top: 359px;"
-                 data-block-id="cceb234b2030681a206765935d9886d7">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 22; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>Statistics</strong><br>
+                        Stemming
+                    </p>
+                    <p class="madlib-function-list">
+                        <b>Statistics</b><br>
                         Descriptive Statistics<br>
                         - Cardinality Estimations<br>
                         - Correlation and Covariance<br>
                         - Summary<br>
                         Inferential Statistics<br>
                         - Hypothesis Tests<br>
-                        Probability Functions</p>
+                        Probability Functions
+                    </p>
+                    <p class="madlib-function-list">
+                        <b>Sampling</b>
+                        Balanced, Random, Stratified</p>
+                    <p class="madlib-function-list">
+                        <b>ARIMA</b> - Time Series Analysis
+                    </p>
+                    <p class="madlib-function-list">
+                        <b>K-Nearest Neighbors</b>
+                    </p>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 329px; left: 602px; top: 534px;"
-                 data-block-id="14352261b11c0a4cca656f9458403bb3">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 23; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px;" dir="ui">
-                    <p style="text-align:left"><b>Model Selection</b><br>
-                        Cross Validation<br>
-                        Prediction Metrics<br>
-                        Train-Test Split</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 329px; left: 602px; top: 629px;"
-                 data-block-id="837efc39b4da5d66bd668085a0bd8b03">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 24; font-size: 50%; border-style: solid; border-width: 1px; padding: 5px; color: rgb(0, 0, 0);" dir="ui">
-                    <p style="text-align:left"><strong>K-Nearest Neighbors</strong></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape" data-block-id="5e55ed1835f93cca79234a68ac696fee"
-                 style="min-width: 4px; min-height: 4px; width: 941px; height: 589px; left: 8px; top: 92px;">
-                <div class="sl-block-content" data-shape-type="rect" data-shape-fill-color="rgba(0, 0, 0, 0)" data-shape-stretch="true"
-                     style="z-index: 25;" data-shape-stroke-color="#008774" data-shape-stroke-width="3px">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 941 589">
-                        <defs>
-                            <clippath id="shape-mask-1-1575472441949">
-                                <rect width="941" height="589" rx="0" ry="0"></rect>
-                            </clippath>
-                        </defs>
-                        <rect width="941" height="589" rx="0" ry="0" clip-path="url(#shape-mask-1-1575472441949)" class="shape-element"
-                              fill="rgba(0, 0, 0, 0)" stroke="#008774" stroke-width="6"></rect>
-                    </svg>
+                <div class="footer">
+                    <span style="font-size:0.7em"><em>Apache MADlib 1.15.1</em></span>
                 </div>
             </div>
             <div class="sl-block" data-block-type="text" data-block-id="88457bf012187c834c7b2487b4d5c66b"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 784px; left: 87px; top: 265px;">
+                 style="height: auto; min-width: 30px; min-height: 30px; width: 780px; left: 85px; top: 265px;">
                 <div class="sl-block-content fragment" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 26; background-color: rgb(255, 255, 255); border-style: solid; border-width: 1px; border-color: rgb(0, 135, 116); color: rgb(0, 135, 116); font-size: 177%; padding: 45px;"
+                     style="z-index: 26; border: 1px solid var(--pivotal-green); color: var(--pivotal-green); background-color: white;
+                     font-size: 175%; padding: 30px;"
                      data-fragment-index="0">
                     <p>Comprehensive and Mature</p>
 
                     <p>data science library</p>
                 </div>
             </div>
-            <div class="sl-block" data-block-type="text" data-block-id="1d9687e163635049a1a4d90b1f6878dd"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 229px; left: 720px; top: 681px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 27;">
-                    <p><span style="font-size:0.7em"><em>Apache MADlib 1.15.1</em></span></p>
-                </div>
-            </div>
         </section>
         <section data-id="gp-madlib-slide-8" id="gp-madlib-slide-8">
-            <div class="sl-block" data-block-type="text" style="width: 740px; left: 160px; top: 6px; height: auto;"
-                 data-block-id="efe404033a5307145c8074d477bdd996">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Architecture</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Architecture</h2>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="image" style="width: 125px; height: 92px; left: 0px; top: 0px; min-width: 4px; min-height: 4px;"
-                 data-block-id="71c9ae41f5e2cbeae78f1c11bf369c23">
-                <div class="sl-block-content" style="z-index: 11;"><img style="" data-natural-width="202" data-natural-height="150"
-                                                                        data-lazy-loaded="" alt="madlib-logo"
-                                                                        data-src="images/logos/logo-madlib.png">
-                </div>
-            </div>
-
-
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="cb2d73f4148427d34d02c839b2e1d77c">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="0f04327804ceab96a630bd5d2c218977"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 671px; left: 80px; top: 144px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 13; background-color: rgb(103, 78, 167); color: rgb(255, 255, 255); padding: 10px;">
-                    <p>User Interface</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 671px; left: 80px; top: 216px;"
-                 data-block-id="1d0b8442732056030129aa40d511b852">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 14; background-color: rgb(106, 168, 79); color: rgb(32, 18, 77); padding: 10px;">
-                    <p>High-level Abstraction Layer</p>
-
-                    <p>(iteration controller, ...)</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="f9d81563600421525dae53c0dd74b482"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 498px; left: 253px; top: 337px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 15; background-color: rgb(61, 133, 198); padding: 5px; color: rgb(255, 255, 255);">
-                    <p>Functions for Inner Loops</p>
-
-                    <p>(implements convex optimization)</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 498px; left: 253px; top: 440px;"
-                 data-block-id="e2720151bd7cd39f96e467d479b27456">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16; background-color: rgb(61, 133, 198); color: rgb(255, 255, 255); padding: 5px;">
-                    <p>Low-level Abstration Layer</p>
-
-                    <p>(matrix operations,</p>
-
-                    <p>C++ to DB type bridge, ...)</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="bd2606e0f7c9aba94990d16ec09e67dc"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 164px; left: 80px; top: 337px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 17; padding: 10px; background-color: rgb(170, 170, 170);">
-                    <p> </p>
-
-                    <p>RDBMS</p>
-
-                    <p>Built-in</p>
-
-                    <p>Functions</p>
-
-                    <p> </p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 671px; left: 80px; top: 592px;"
-                 data-block-id="927ae44bd690c0effd17734f8567e2fc">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 18; background-color: rgb(170, 170, 170);">
-                    <p>RDBMS Query Processing</p>
-
-                    <p>(Greenplum, PostgreSQL)</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="6aeee56a5869ec11a66e3a4ac3724f3d"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 121px; left: 770px; top: 154px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 19; text-align: left;">
-                    <p>SQL</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 121px; left: 770px; top: 250px;"
-                 data-block-id="d87685386e686e0da1f4eba8015500e3">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 21; text-align: left;">
-                    <p>Python</p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="shape" data-block-id="cf6720af233ab076e3d4e20fd4a72d81"
-                 style="min-width: 4px; min-height: 4px; width: 52px; height: 245px; left: 779px; top: 337px;">
-                <div class="sl-block-content" data-shape-type="triangle-right" data-shape-fill-color="rgb(194, 212, 224)" data-shape-stretch="true"
-                     style="z-index: 22;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100%" preserveaspectratio="none" viewbox="0 0 52 245">
-                        <polygon points="52,122.5 0,245 0,0" class="shape-element" fill="rgb(194, 212, 224)"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 81px; left: 851px; top: 440px;"
-                 data-block-id="9078cc8959257a4aaba7a74cf5948b8c">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 23; text-align: left;">
-                    <p>C++</p>
+                <div class="full-page" style="align-items: flex-start; margin-left: 3em;">
+                    <div class="side-by-side">
+                        <p style="width: 22em; margin-right: 1em; background-color: var(--pres-purple); color: white">
+                            User Interface
+                        </p>
+                        <p style="color: var(--pres-purple)">SQL</p>
+                    </div>
+                    <div class="side-by-side">
+                        <p style="width: 22em; margin-right: 1em; background-color: var(--pivotal-green); color: white">
+                            High-level Abstraction Layer<br>
+                            (iteration controller, ...)</p>
+                        <p style="color: var(--pivotal-green)">Python</p>
+                    </div>
+                    <div class="side-by-side">
+                        <div style="justify-content: center">
+                            <p style="width: 6em; height: 9.6em; margin-right: 0.5em; padding-top: 2.5em; background-color: #aaa; ">
+                                RDBMS<br>
+                                Built-in<br>
+                                Functions<br>
+                                (C++)
+                            </p>
+                        </div>
+                        <div>
+                            <div>
+                                <p style="width: 15.5em; margin-right: 0px; padding: 0.4em 0em; background-color: var(--pres-blue); color: white">
+                                    Functions for Inner Loops<br>
+                                    (implements convex optimization)
+                                </p>
+                            </div>
+                            <div>
+                                <p style="width: 15.5em; padding: 0.4em 0em; background-color: var(--pres-blue); color: white">
+                                    Low-level Abstration Layer<br>
+                                    (matrix operations,<br>
+                                    C++ to DB type bridge, ...)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="width: 22em; background-color: #aaa; ">
+                            RDBMS Query Processing<br>
+                            (Greenplum, PostgreSQL)
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
+
         <section data-id="gp-madlib-slide-9" id="gp-madlib-slide-9">
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="eeab28bf207b79a2ffd6225cc77ca213">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Calling MADlib Functions</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Calling MADlib Functions</h2>
+                        <h3>Fast Training and Scoring</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="35c2ab4b3d6b5327186aa2a95f5903ed">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">Fast Training and Scoring</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 942px; left: 0px; top: 178px;"
-                 data-block-id="39ff4497f37a060fa91c05f90cd274ef">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 12; text-align: left; font-size: 75%;">
-                    <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>MADlib allows users to easily create models without moving data out of the database</p>
-
-                            <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Model generation</p>
-                                </li>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Model validation</p>
-                                </li>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Scoring (evaluation of) new data</p>
-                                </li>
-                            </ul>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">All the data is available</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">Built-in functionality to create multiple smaller models (e.g. classification grouped by
-                                feature)</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">Open-source lets you tweak and extend methods or build your own</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="b9d4a984038e19780043e77455c240ad">
-                <div class="sl-block-content" style="z-index: 13;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" data-block-id="785c0b460e5ce042fbf8c32a771b1be1"
-                 style="min-width: 30px; min-height: 30px; width: 422px; height: 155px; left: 29px; top: 526px;">
-                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 14; border-width: 1px; font-size: 120%;"><pre><code>SELECT madlib.linregr_train(
-                        'houses',
-                 'house_linregr',
-                         'price',
-      'ARRAY[1, tax, bath, size]'
-);</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" data-block-id="67a156b9a4b59ce250ed03cc3fb3f8ac"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 333px; left: 8px; top: 459px;">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
-                    <p><span style="font-size:0.7em">MADlib model function</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" data-block-id="fdbcefa4b0bcd55e097a898772b94418"
-                 style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 240px; top: 498px;">
-                <div class="sl-block-content" data-line-x1="-140" data-line-y1="238" data-line-x2="-128" data-line-y2="273" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 16;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="12" height="35"
-                         viewbox="-140 238 12 35">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-140" y1="238" x2="-129" y2="269"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-140" y1="238" x2="-129" y2="269"></line>
-                        <polygon fill="#000000" transform="translate(-129,269) rotate(161.075)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 333px; left: 480px; top: 511px;"
-                 data-block-id="88dfb666ca38976da372cfbc6aac559a">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 17; text-align: left;">
-                    <p><span style="font-size:0.7em">Table containing training data</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 333px; left: 480px; top: 554px;"
-                 data-block-id="3714ee9a83c884eef6eb70b7b097fc21">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 18; text-align: left;">
-                    <p><span style="font-size:0.7em">Table in which to save results</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 420px; left: 480px; top: 596px;"
-                 data-block-id="900ded88a8baf5862ae95f86371a68d1">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 19; text-align: left;">
-                    <p><span style="font-size:0.7em">Column containing dependent variable</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text"
-                 style="height: auto; min-width: 30px; min-height: 30px; width: 333px; left: 114px; top: 681px;"
-                 data-block-id="379de4833fe3fc586c349ce535e5ba9e">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 20; text-align: left;">
-                    <p><span style="font-size:0.7em">Features included in the model</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 422px; top: 542px;"
-                 data-block-id="9a7ff0e3731edd8689cf842119ec97b6">
-                <div class="sl-block-content" data-line-x1="-39" data-line-y1="282" data-line-x2="-88" data-line-y2="299" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 21;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="49" height="17"
-                         viewbox="-88 282 49 17">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-39" y1="282" x2="-84" y2="298"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-39" y1="282" x2="-84" y2="298"></line>
-                        <polygon fill="#000000" transform="translate(-84,298) rotate(250.866)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 430px; top: 576px;"
-                 data-block-id="860a4a380e7918cc4e11ddba51b1bb12">
-                <div class="sl-block-content" data-line-x1="-49" data-line-y1="309" data-line-x2="-90" data-line-y2="319" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 22;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="41" height="10"
-                         viewbox="-90 309 41 10">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-49" y1="309" x2="-86" y2="318"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-49" y1="309" x2="-86" y2="318"></line>
-                        <polygon fill="#000000" transform="translate(-86,318) rotate(256.293)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 430px; top: 615px;"
-                 data-block-id="c3c405b4fe739c2056b670c9da038061">
-                <div class="sl-block-content" data-line-x1="-49" data-line-y1="346" data-line-x2="-90" data-line-y2="345" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 23;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="41" height="1" viewbox="-90 345 41 1">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <polygon fill="#000000" transform="translate(-86,345) rotate(-88.603)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; min-width: 1px; min-height: 1px; left: 246px; top: 648px;"
-                 data-block-id="25b8b39715e39a82c9512b653360779f">
-                <div class="sl-block-content" data-line-x1="-284" data-line-y1="408" data-line-x2="-278" data-line-y2="368" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 25;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="6" height="40"
-                         viewbox="-284 368 6 40">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-284" y1="408" x2="-279" y2="372"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-284" y1="408" x2="-279" y2="372"></line>
-                        <polygon fill="#000000" transform="translate(-279,372) rotate(8.531)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
+                <div class="full-page">
+                    <div>
+                        <ul style="font-size: 0.9em">
+                            <li>MADlib allows users to easily create models without moving data out of the database
+                                <ul>
+                                    <li>Model generation</li>
+                                    <li>Model validation</li>
+                                    <li>Scoring (evaluation of) new data</li>
+                                </ul>
+                            </li>
+                            <li>All the data is available</li>
+                            <li>Built-in functionality to create multiple smaller models (e.g. classification grouped by feature)</li>
+                            <li>Open-source lets you tweak and extend methods or build your own</li>
+                        </ul>
+                    </div>
+                    <div class="side-by-side boxshadow" style="margin-top: 1em;">
+                        <div class="sl-block-content notranslate"
+                             data-highlight-theme="solarized-light" data-code-frame="none"
+                             style="align-self: start; font-size: 0.8em; margin-right: 1em">
+                        <pre><code>SELECT madlib.linregr_train(
+                     'houses',
+              'house_linregr',
+                      'price',
+  'ARRAY[1, tax, bath, size]');</code></pre>
+                        </div>
+                        <div>
+                            <p style="font-size:0.7em; text-align: start; line-height: 1.5em; padding-right: 1em">
+                                MADlib model function<br>
+                                Table containing training data<br>
+                                Table in which to save results<br>
+                                Column containing dependent variable<br>
+                                Features included in the model
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="gp-madlib-slide-10" id="gp-madlib-slide-10">
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="fa5a9fcaf255b97ade1aa8a9cbe6e84e">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 10; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Calling MADlib Functions</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Calling MADlib Functions</h2>
+                        <h3>Creating multiple output models</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
+                <div class="full-page">
 
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="c8be2486a4b01954a0d3a7a83a824ffe">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">Creating multiple output models</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 942px; left: 0px; top: 178px;"
-                 data-block-id="c77dc1ef2c0bcd56f1e478f009fca1ae">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 12; text-align: left; font-size: 75%;">
-                    <ul>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p>MADlib allows users to easily create models without moving data out of the database</p>
-
-                            <ul>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Model generation</p>
-                                </li>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Model validation</p>
-                                </li>
-                                <li style="color:rgb(0, 37, 62)">
-                                    <p>Scoring (evaluation of) new data</p>
-                                </li>
-                            </ul>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">All the data is available</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">Built-in functionality to create multiple smaller models (e.g. classification grouped by
-                                feature)</p>
-                        </li>
-                        <li style="color:rgb(0, 37, 62)">
-                            <p style="color:rgb(0, 37, 62);">Open-source lets you tweak and extend methods or build your own</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="4cc3cc8f0b3383e82ae7aa155acb96d6">
-                <div class="sl-block-content" style="z-index: 13;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" style="width: auto; height: auto; left: 29px; top: 526px;"
-                 data-block-id="50b358ee43ca0d36d1f740982f90b3eb">
-                <div class="sl-block-content notranslate" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 14; border-width: 1px; font-size: 120%;"><pre><code>SELECT madlib.linregr_train(
-                        'houses',
-                 'house_linregr',
-                         'price',
-     'ARRAY[1, tax, bath, size]',
-                         'style');</code></pre>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 333px; left: 8px; top: 459px;"
-                 data-block-id="490c9358369398d1df8327057c5c06f0">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
-                    <p><span style="font-size:0.7em">MADlib model function</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 240px; top: 498px;"
-                 data-block-id="736098e0fed4530affc10cdbc8d7c5ca">
-                <div class="sl-block-content" data-line-x1="-140" data-line-y1="238" data-line-x2="-128" data-line-y2="273" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 16;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="12" height="35"
-                         viewbox="-140 238 12 35">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-140" y1="238" x2="-129" y2="269"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-140" y1="238" x2="-129" y2="269"></line>
-                        <polygon fill="#000000" transform="translate(-129,269) rotate(161.075)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 333px; left: 480px; top: 511px;"
-                 data-block-id="67041159488445b2115c3cec7a3a3d52">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 17; text-align: left;">
-                    <p><span style="font-size:0.7em">Table containing training data</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 333px; left: 480px; top: 554px;"
-                 data-block-id="f9462ad2695a1ebb3021586f43754118">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 18; text-align: left;">
-                    <p><span style="font-size:0.7em">Table in which to save results</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 420px; left: 480px; top: 594px;"
-                 data-block-id="97863bdf4e99523942294f816ae77cdc">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 19; text-align: left;">
-                    <p><span style="font-size:0.7em">Column containing dependent variable</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 333px; left: 114px; top: 681px;"
-                 data-block-id="bc91c3060373aeaedb2d8823a80e6246">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 20; text-align: left;">
-                    <p><span style="font-size:0.7em">Features included in the model</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 422px; top: 542px;"
-                 data-block-id="a922d9f66e34f0295c793dd77fc0449f">
-                <div class="sl-block-content" data-line-x1="-39" data-line-y1="282" data-line-x2="-88" data-line-y2="299" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 21;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="49" height="17"
-                         viewbox="-88 282 49 17">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-39" y1="282" x2="-84" y2="298"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-39" y1="282" x2="-84" y2="298"></line>
-                        <polygon fill="#000000" transform="translate(-84,298) rotate(250.866)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 430px; top: 576px;"
-                 data-block-id="24fada6f07e20888899e568a1ba962b0">
-                <div class="sl-block-content" data-line-x1="-49" data-line-y1="309" data-line-x2="-90" data-line-y2="319" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 22;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="41" height="10"
-                         viewbox="-90 309 41 10">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-49" y1="309" x2="-86" y2="318"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-49" y1="309" x2="-86" y2="318"></line>
-                        <polygon fill="#000000" transform="translate(-86,318) rotate(256.293)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 430px; top: 615px;"
-                 data-block-id="40b458fd081c875ca35b3970ad9cb384">
-                <div class="sl-block-content" data-line-x1="-49" data-line-y1="346" data-line-x2="-90" data-line-y2="345" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 23;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="41" height="1" viewbox="-90 345 41 1">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <polygon fill="#000000" transform="translate(-86,345) rotate(-88.603)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 246px; top: 648px;"
-                 data-block-id="3b6eeaa8967ad2d6284fedb6c7f43bb1">
-                <div class="sl-block-content" data-line-x1="-284" data-line-y1="408" data-line-x2="-278" data-line-y2="368" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 25;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="6" height="40"
-                         viewbox="-284 368 6 40">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-284" y1="408" x2="-279" y2="372"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-284" y1="408" x2="-279" y2="372"></line>
-                        <polygon fill="#000000" transform="translate(-279,372) rotate(8.531)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 462px; left: 480px; top: 642px;"
-                 data-block-id="d0e73af5bfccd92ea4fb2da4b9124834">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 26; text-align: left; line-height: 0.845;" data-has-line-height="">
-                    <p><span style="font-size:0.7em">Create multiple output models (one for each value of house style)</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 434px; top: 663px;"
-                 data-block-id="9e3ed91b5349edeb1c3495b5964136e6">
-                <div class="sl-block-content" data-line-x1="-49" data-line-y1="346" data-line-x2="-90" data-line-y2="345" data-line-color="#000000"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 27;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="41" height="1" viewbox="-90 345 41 1">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <line stroke="#000000" stroke-width="2" x1="-49" y1="346" x2="-86" y2="345"></line>
-                        <polygon fill="#000000" transform="translate(-86,345) rotate(-88.603)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
+                    <div class="side-by-side boxshadow" style="margin-top: 1em;">
+                        <div class="sl-block-content notranslate"
+                             data-highlight-theme="solarized-light" data-code-frame="none"
+                             style="align-self: start; font-size: 0.8em; margin-right: 1em">
+                        <pre><code>SELECT madlib.linregr_train(
+                     'houses',
+              'house_linregr',
+                      'price',
+  'ARRAY[1, tax, bath, size]',
+                      'style');</code></pre>
+                        </div>
+                        <div>
+                            <p style="font-size:0.7em; text-align: start; line-height: 1.5em; padding-right: 1em">
+                                MADlib model function<br>
+                                Table containing training data<br>
+                                Table in which to save results<br>
+                                Column containing dependent variable<br>
+                                Features included in the model<br>
+                                Create multiple output models (one for each value of house style)
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         <section data-id="gp-madlib-slide-11" id="gp-madlib-slide-11">
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 0px; height: auto;"
-                 data-block-id="28fed7110d2ddd153ae0e002d47fba9b">
-                <div class="sl-block-content" data-placeholder-tag="h2" data-placeholder-text="Title Text"
-                     style="z-index: 11; text-align: left; color: rgb(0, 135, 116);">
-                    <h2>Calling MADlib Functions</h2>
+            <div class="grid-page">
+                <div class="header">
+                    <div>
+                        <h2>Calling MADlib Functions</h2>
+                        <h3>Testing your model</h3>
+                    </div>
+                    <div class="logo-image"><img alt="" src=""></div>
                 </div>
-            </div>
-
-            <div class="sl-block" data-block-type="text" style="width: 960px; left: 0px; top: 74px; height: auto;"
-                 data-block-id="322fbc6acac19905be0fda3b94b41262">
-                <div class="sl-block-content" data-placeholder-tag="h3" data-placeholder-text="Subtitle"
-                     style="z-index: 12; text-align: left; color: rgb(0, 135, 116);">
-                    <h3><span style="color:#000000">Testing your model</span></h3>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="image" style="width: 115px; height: auto; left: 900px; top: 10px; min-width: 4px; min-height: 4px;"
-                 data-block-id="e7c0056ecfc77fe4f0f81795ae3a1cc3">
-                <div class="sl-block-content" style="z-index: 13;">
-                    <img data-lazy-loaded="" data-natural-width="619" data-natural-height="487" alt="logo-gp-wkshop-vertical-onlight" data-src="images/logos/logo-gp-wkshop-vertical-onlight.png">
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" style="width: 420px; height: 150px; left: 125px; top: 170px;"
-                 data-block-id="b4bb45d61048d876017bfd3670bd25c0">
-                <div class="sl-block-content notranslate fragment semi-fade-out" data-highlight-theme="solarized-light" data-code-frame="none"
-                     style="z-index: 14; border-width: 1px; font-size: 120%;" data-fragment-index="0">
+                <div class="content-top-half" style="justify-content: flex-start">
+                    <div class="sl-block-content notranslate fragment semi-fade-out"
+                         data-highlight-theme="solarized-light" data-code-frame="none"
+                         style="z-index: 14; border-width: 1px; font-size: 90%;" data-fragment-index="0">
                      <pre><code>SELECT madlib.linregr_train(
                         'houses',
                  'house_linregr',
                          'price',
-       'ARRAY[1, tax, bath, size]'
+       'ARRAY[1, tax, bath, hsize]'
 );</code></pre>
+                    </div>
                 </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 328px; left: 593px; top: 384px;"
-                 data-block-id="045b949ddf809e9554c0a44e50d0cacf">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 15;">
-                    <p><span style="font-size:0.7em">MADlib model scoring function</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 397px; top: 410px;"
-                 data-block-id="445b5566cebd9c5939fba484a5479a94">
-                <div class="sl-block-content" data-line-x1="202" data-line-y1="322" data-line-x2="6" data-line-y2="385" data-line-color="#cccccc"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 20;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="196" height="63"
-                         viewbox="6 322 196 63">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="202" y1="322" x2="10" y2="384"></line>
-                        <line stroke="#cccccc" stroke-width="2" x1="202" y1="322" x2="10" y2="384"></line>
-                        <polygon fill="#cccccc" transform="translate(10,384) rotate(252.181)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 175px; left: 48px; top: 648px;"
-                 data-block-id="c5fc2a382f3cf822b32dc243a3c12e7b">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text"
-                     style="z-index: 16; text-align: left; line-height: 1.04;" data-has-line-height="">
-                    <p><span style="font-size:0.7em">Table with data to be scored</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="text" style="height: auto; width: 333px; left: 345px; top: 631px;"
-                 data-block-id="d3e2db7a29dbb1df01a1e80d35590f7e">
-                <div class="sl-block-content" data-placeholder-tag="p" data-placeholder-text="Text" style="z-index: 17; text-align: left;">
-                    <p><span style="font-size:0.7em">Table containing model</span></p>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 337px; top: 588px;"
-                 data-block-id="c62aed407e8f7a58fb39411cd5a8dafa">
-                <div class="sl-block-content" data-line-x1="-58" data-line-y1="291" data-line-x2="-82" data-line-y2="238" data-line-color="#aaaaaa"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 18;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="24" height="53"
-                         viewbox="-82 238 24 53">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-58" y1="291" x2="-80" y2="242"></line>
-                        <line stroke="#aaaaaa" stroke-width="2" x1="-58" y1="291" x2="-80" y2="242"></line>
-                        <polygon fill="#aaaaaa" transform="translate(-80,242) rotate(-24.362)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="line" style="width: auto; height: auto; left: 135px; top: 588px;"
-                 data-block-id="8f1381b133d635c4e5a35212afce0656">
-                <div class="sl-block-content" data-line-x1="-278" data-line-y1="404" data-line-x2="-277" data-line-y2="344" data-line-color="#aaaaaa"
-                     data-line-start-type="none" data-line-end-type="arrow" style="z-index: 21;">
-                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" preserveaspectratio="xMidYMid" width="1" height="60"
-                         viewbox="-278 344 1 60">
-                        <line stroke="rgba(0,0,0,0)" stroke-width="15" x1="-278" y1="404" x2="-277" y2="348"></line>
-                        <line stroke="#aaaaaa" stroke-width="2" x1="-278" y1="404" x2="-277" y2="348"></line>
-                        <polygon fill="#aaaaaa" transform="translate(-277,348) rotate(0.955)" points="0,-4 4,4 -4,4"></polygon>
-                    </svg>
-                </div>
-            </div>
-            <div class="sl-block" data-block-type="code" style="width: 760px; height: 170px; left: 15px; top: 432px;"
-                 data-block-id="627a733452379dbfbf2462b8e50f7ee9">
-                <div class="sl-block-content notranslate" data-highlight-theme="monokai" data-code-frame="none"
-                     style="z-index: 10; border-width: 1px; font-size: 150%;">
-                     <pre><code style="padding: 15px;">SELECT houses.*,
-   madlib.linregr_predict(ARRAY[1,tax,bath,size],
-   m.coef
-  )as predict
-FROM houses, houses_linregr m;</code></pre>
+                <div class="content-bottom-half">
+                    <div class="side-by-side ">
+                        <div class="sl-block-content notranslate" data-highlight-theme="monokai" data-code-frame="none"
+                             style="z-index: 10; font-size: 0.7em; margin-right: 0.5em">
+                             <pre><code style="padding: 0.5em;">SELECT houses.*,
+
+   madlib.linregr_predict(ARRAY[1,tax,bath,hsize],
+                          m.coef) as predict
+
+
+FROM houses,
+     houses_linregr m;</code></pre>
+                        </div>
+                        <div>
+                            <p style="font-size:0.7em; text-align: start; line-height: 1.5em; padding-right: 0.3em">
+                                <br><br>MADlib model scoring function<br><br>
+                                Table with data to be scored<br>
+                                Table containing model
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-        <section data-background-color="#008774"
-                 data-background-position="0% 0%" data-id="madlib-closing-slide"
-                 data-menu-title="End">
-            <div class="sl-block" data-block-type="image"
-                 style="width: 100%; height: auto; left: 10px; top: 250px;"
-                 data-block-id="footer-logo">
-                <div class="sl-block-content" style="z-index: 12;">
-                    <img data-src="images/logos/logo-gp-horizontal-ondark.png">
+        <section data-background-color=var(--pivotal-green)
+                 class="last-slide" data-menu-title="End">
+            <div class="grid-page">
+                <div class="full-page">
+                    <img alt="Greenplum Database" src="images/logos/logo-gp-horizontal-ondark.png">
                 </div>
             </div>
         </section>
