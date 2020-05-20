@@ -242,7 +242,7 @@ FORMAT 'CSV' ( HEADER );</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-8">
+        <section data-id="data-loading-slide-7">
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -275,7 +275,7 @@ FORMAT 'CSV' ( HEADER );</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-9">
+        <section data-id="data-loading-slide-8">
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -311,7 +311,7 @@ gpfdist -d /var/load_files/expenses2 -p 8082 &gt;&gt; gpfdist.log 2&gt;&amp;1 &a
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-10">
+        <section data-id="data-loading-slide-9">
             <aside class="notes">
                 In this example, the YAML control file, load_faadata.yaml, defines how data from several source files is
                 to be loaded into the faa2 database.
@@ -348,7 +348,7 @@ gpfdist -d /var/load_files/expenses2 -p 8082 &gt;&gt; gpfdist.log 2&gt;&amp;1 &a
                 </div>
                 <div class="content-two-third">
                     <div class="sl-block-content notranslate" data-highlight-theme="github-gist" data-code-frame="none"
-                         style="padding: 6px; font-size: 50%; border-style: solid; border-width: 3px;"><pre><code>VERSION: 1.0.0.1
+                         style="padding: 3px; font-size: 50%; border-style: solid; border-width: 2px;"><pre><code>VERSION: 1.0.0.1
 DATABASE: faa2
 USER: gpadmin
 HOST: smdw
@@ -380,7 +380,7 @@ GPLOAD:
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-11">
+        <section data-id="data-loading-slide-10">
             <aside class="notes">
                 The gpload utility is executed with the following syntax:<br>
                 gpload –f control_name<br>
@@ -434,9 +434,9 @@ $</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slides-12-thru-15">
+        <section data-id="data-loading-slides-11-thru-14">
 
-            <section data-id="data-loading-slide-12">
+            <section data-id="data-loading-slide-11">
                 <aside class="notes">
                     In the first example shown on the slide, an external web table is defined using the HTTP protocol.
                     Three different URLs are associated with the external table, all using the CSV format.<br><br>
@@ -489,7 +489,7 @@ EXECUTE 'df -k' ON ALL FORMAT 'TEXT';</code></pre>
                     </div>
                 </div>
             </section>
-            <section data-id="data-loading-slide-13">
+            <section data-id="data-loading-slide-12">
                 <aside class="notes">
                     When an external table command is executed, that command is executed from within the database and
                     not from a login shell. If you rely on environment variables in external web table commands, such
@@ -537,7 +537,7 @@ SELECT * FROM test;
                     </div>
                 </div>
             </section>
-            <section data-id="data-loading-slide-14">
+            <section data-id="data-loading-slide-13">
                 <aside class="notes">
                     The Greenplum Database variables shown in the table are available to operating system commands
                     executed by an external table.
@@ -598,7 +598,7 @@ SELECT * FROM test;
                     </div>
                 </div>
             </section>
-            <section data-id="data-loading-slide-15">
+            <section data-id="data-loading-slide-14">
                 <div class="grid-page">
                     <div class="header">
                         <div>
@@ -654,7 +654,7 @@ SELECT * FROM test;
                 </div>
             </section>
         </section>
-        <section data-id="data-loading-slide-16">
+        <section data-id="data-loading-slide-15">
             <aside class="notes">
                 The most common use of external tables is to facilitate loading of data. This is typically done by issuing a
                 CREATE TABLE AS SELECT or INSERT INTO SELECT command, where the SELECT statement triggers the flow of data.
@@ -707,7 +707,7 @@ SELECT  *  FROM gp_read_error_log ('table_name');</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-17">
+        <section data-id="data-loading-slide-16">
             <aside class="notes">
                 Query planning of complex queries involving external tables is not optimal because:<br>
                 There are no statistics to help the query planner choose a good plan.<br>
@@ -739,7 +739,7 @@ SELECT  *  FROM gp_read_error_log ('table_name');</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-18">
+        <section data-id="data-loading-slide-17">
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -760,7 +760,7 @@ SELECT  *  FROM gp_read_error_log ('table_name');</code></pre>
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-19">
+        <section data-id="data-loading-slide-18">
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -793,7 +793,7 @@ SELECT  *  FROM gp_read_error_log ('table_name');</code></pre>
             </div>
         </section>
 
-        <section data-id="data-loading-slide-20">
+        <section data-id="data-loading-slide-19">
             <div class="grid-page">
                 <div class="header">
                     <div>
@@ -840,7 +840,7 @@ SELECT COUNT(*) FROM wiki_pages;
                 </div>
             </div>
         </section>
-        <section data-id="data-loading-slide-21">
+        <section data-id="data-loading-slide-20">
             <div class="grid-page">
                 <div class="header">
                     <div>
