@@ -1,4 +1,4 @@
-# Greenplum 5 Workshop
+<h1> VMware has ended active development of this project, this repository will no longer be updated.</h1><br># Greenplum 5 Workshop
 
 The slides for this workshop can be presented from this web site:  
     https://pivotal-data-engineering.github.io/greenplum-5-introduction-workshop/
